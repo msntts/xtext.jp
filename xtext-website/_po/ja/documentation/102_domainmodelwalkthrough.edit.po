@@ -25,20 +25,27 @@ msgid ""
 "part: Getting Started\n"
 "---"
 msgstr ""
+"---\n"
+"layout: documentation\n"
+"title: 15分チュートリアル\n"
+"part: はじめよう\n"
+"---"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:7
 msgid "# {{page.title}} {#domain-model-walkthrough}"
-msgstr ""
+msgstr "# {{page.title}} {#domain-model-walkthrough}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:9
 msgid "In this tutorial we will implement a small domain-specific language to model entities and properties similar to what you may know from Rails, Grails or Spring Roo. The syntax is very suggestive:"
-msgstr ""
+msgstr "このチュートリアルでは、Rails、GrailsやSpring Rooのように、エンティティとプロパティをモデル化するための小さなドメイン固有言語を実装します。この構文はとても示唆に富んでいます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:11
 msgid ""
 "```domainexample\n"
 "datatype String"
 msgstr ""
+"```domainexample\n"
+"datatype String"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:14
 msgid ""
@@ -47,6 +54,10 @@ msgid ""
 "    many posts: Post\n"
 "}"
 msgstr ""
+"entity Blog {\n"
+"    title: String\n"
+"    many posts: Post\n"
+"}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:19
 msgid ""
@@ -54,6 +65,9 @@ msgid ""
 "    author: String\n"
 "}"
 msgstr ""
+"entity HasAuthor {\n"
+"    author: String\n"
+"}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:23
 msgid ""
@@ -63,6 +77,11 @@ msgid ""
 "    many comments: Comment\n"
 "}"
 msgstr ""
+"entity Post extends HasAuthor {\n"
+"    title: String\n"
+"    content: String\n"
+"    many comments: Comment\n"
+"}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:29
 msgid ""
@@ -71,26 +90,30 @@ msgid ""
 "}\n"
 "```"
 msgstr ""
+"entity Comment extends HasAuthor {\n"
+"    content: String\n"
+"}\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:34
 msgid "After you have installed Xtext on your machine, start Eclipse and set up a fresh workspace."
-msgstr ""
+msgstr "あなたのマシーンにXtextをインストールした後、Eclipseを起動し、新規workspaceをセットアップします。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:36
 msgid "## Create A New Xtext Project"
-msgstr ""
+msgstr "## 新規Xtextプロジェクトの作成"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:38
 msgid "In order to get started we first need to create some Eclipse projects. Use the Eclipse wizard to do so:"
-msgstr ""
+msgstr "まず初めに、Eclipseプロジェクトを作る必要があります。Eclipseウィザードから以下の操作を行います。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:40
 msgid "*File &rarr; New &rarr; Project... &rarr; Xtext &rarr; Xtext project*"
-msgstr ""
+msgstr "*File &rarr; New &rarr; Project... &rarr; Xtext &rarr; Xtext project*"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:42
 msgid "Choose a meaningful project name, language name and file extension, e.g."
-msgstr ""
+msgstr "意味のあるプロジェクト名、言語名、そしてファイル拡張子を選びます。例えば"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:44
 msgid ""
@@ -99,18 +122,22 @@ msgid ""
 "|**Language name:**|org.example.domainmodel.Domainmodel|\n"
 "|**DSL-File extensions:**|dmodel|"
 msgstr ""
+"|:---|:---|\n"
+"|**プロジェクト名:**|org.example.domainmodel|\n"
+"|**言語名:**|org.example.domainmodel.Domainmodel|\n"
+"|**DSL-ファイル拡張子:**|dmodel|"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:49
 msgid "Click on *Finish* to create the projects."
-msgstr ""
+msgstr "プロジェクトを作成するため *Finish* を押してください。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:51
 msgid "![](images/30min_wizard.png)"
-msgstr ""
+msgstr "![](images/30min_wizard.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:53
 msgid "After you have successfully finished the wizard, you will find five new projects in your workspace."
-msgstr ""
+msgstr "ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:55
 msgid ""
@@ -121,18 +148,24 @@ msgid ""
 "|org.example.domainmodel.ui|The Eclipse editor and other workbench related functionality|\n"
 "|org.example.domainmodel.ui.tests|UI tests for the Eclipse editor|"
 msgstr ""
+"|:---|:---|\n"
+"|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサ、字句解析器、リンカー、バリデーションなど)|\n"
+"|org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|\n"
+"|org.example.domainmodel.tests| 言語のユニットテスト|\n"
+"|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|\n"
+"|org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:62
 msgid "![](images/30min_initialprojectlayout.png)"
-msgstr ""
+msgstr "![](images/30min_initialprojectlayout.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:64
 msgid "## Write The Grammar"
-msgstr ""
+msgstr "## 文法を書く"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:66
 msgid "The wizard will automatically open the grammar file *Domainmodel.xtext* in the editor. As you can see it already contains a simple *Hello World* grammar:"
-msgstr ""
+msgstr "エディターで 文法ファイル*Domainmodel.xtext* を開くと、ウィザードが自動的に開きます。文法ファイルにはシンプルな *Hello World* 文法が含まれています。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:68 ../../../documentation/102_domainmodelwalkthrough.md:83 ../../../documentation/102_domainmodelwalkthrough.md:270
 msgid ""
@@ -140,16 +173,21 @@ msgid ""
 "grammar org.example.domainmodel.Domainmodel with\n"
 "                                      org.eclipse.xtext.common.Terminals"
 msgstr ""
+"```xtext\n"
+"grammar org.example.domainmodel.Domainmodel with\n"
+"                                      org.eclipse.xtext.common.Terminals"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:72 ../../../documentation/102_domainmodelwalkthrough.md:87 ../../../documentation/102_domainmodelwalkthrough.md:274
 msgid "generate domainmodel \"http://www.example.org/domainmodel/Domainmodel\""
-msgstr ""
+msgstr "generate domainmodel \"http://www.example.org/domainmodel/Domainmodel\""
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:74
 msgid ""
 "Model:\n"
 "    greetings+=Greeting*;"
 msgstr ""
+"Model:\n"
+"    greetings+=Greeting*;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:77
 msgid ""
@@ -157,28 +195,37 @@ msgid ""
 "    'Hello' name=ID '!';\n"
 "```"
 msgstr ""
+"Greeting:\n"
+"    'Hello' name=ID '!';\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:81
 msgid "Let's now just replace that grammar definition with the one for our entities language:"
-msgstr ""
+msgstr "さっそく、文法定義をエンティティ言語で置き換えてみましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:89
 msgid ""
 "Domainmodel:\n"
 "    (elements+=Type)*;"
 msgstr ""
+"Domainmodel:\n"
+"    (elements+=Type)*;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:92 ../../../documentation/102_domainmodelwalkthrough.md:296
 msgid ""
 "Type:\n"
 "    DataType | Entity;"
 msgstr ""
+"Type:\n"
+"    DataType | Entity;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:95 ../../../documentation/102_domainmodelwalkthrough.md:299
 msgid ""
 "DataType:\n"
 "    'datatype' name=ID;"
 msgstr ""
+"DataType:\n"
+"    'datatype' name=ID;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:98
 msgid ""
@@ -187,6 +234,10 @@ msgid ""
 "        (features+=Feature)*\n"
 "    '}';"
 msgstr ""
+"Entity:\n"
+"    'entity' name=ID ('extends' superType=[Entity])? '{'\n"
+"        (features+=Feature)*\n"
+"    '}';"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:103
 msgid ""
@@ -194,14 +245,17 @@ msgid ""
 "    (many?='many')? name=ID ':' type=[Type];\n"
 "```"
 msgstr ""
+"Feature:\n"
+"    (many?='many')? name=ID ':' type=[Type];\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:107
 msgid "Let's have a more detailed look at what the different grammar rules mean:"
-msgstr ""
+msgstr "文法ルールの意味を詳しく見ていきましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:109
 msgid "1.  The first rule in a grammar is always used as the start rule."
-msgstr ""
+msgstr "1.  文法の最初のルールは常にスタートルールとして使用されます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:111
 msgid ""
@@ -210,12 +264,18 @@ msgid ""
 "        (elements+=Type)*;\n"
 "    ```"
 msgstr ""
+"    ```xtext\n"
+"    Domainmodel:\n"
+"        (elements+=Type)*;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:116
 msgid ""
 "    It says that a *Domainmodel* contains an arbitrary number (`*`) of *Type*s which are added (`+=`) to a feature called `elements`.\n"
 "1.  The rule *Type* delegates to either the rule *DataType* or (`|`) the rule *Entity*."
 msgstr ""
+"    これは、*Domainmodel* が任意の数の*Type*を持ち、それらを `elements`と呼ばれる特性に追加 (`+=`) することを表しています。\n"
+"1.  *Type* ルールは*DataType* ルール もしくは (`|`) *Entity* ルールに委任します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:119
 msgid ""
@@ -224,10 +284,14 @@ msgid ""
 "        DataType | Entity;\n"
 "    ```"
 msgstr ""
+"    ```xtext\n"
+"    Type:\n"
+"        DataType | Entity;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:124
 msgid "1.  The rule *DataType* starts with a keyword `'datatype'`, followed by an identifier which is parsed by a rule called *ID*. The rule *ID* is defined in the super grammar *org.eclipse.xtext.common.Terminals* and parses a single word, a.k.a identifier. You can navigate to the declaration by using *F3* on the rule call. The value returned by the call to *ID* is assigned (`=`) to the feature `name`."
-msgstr ""
+msgstr "1.  *DataType* ルールは `'datatype'`キーワードから始まり、*ID* と呼ばれるルールによってパースされる識別子が続きます。*ID* ルールは上位文法 *org.eclipse.xtext.common.Terminals* で定義され、一つの単語(識別子)をパースします。 ルールの呼び出し箇所で *F3* を押すことで、宣言箇所にジャンプできます。*ID* の戻り値は 特性`name`に割り当てられます(`=`)。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:126
 msgid ""
@@ -236,10 +300,14 @@ msgid ""
 "        'datatype' name=ID;\n"
 "    ```"
 msgstr ""
+"    ```xtext\n"
+"    DataType:\n"
+"        'datatype' name=ID;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:131
 msgid "1.  The rule *Entity* again starts with the definition of a keyword followed by a name."
-msgstr ""
+msgstr "1.  *Entity* ルールもキーワードの定義から始まり、次に名前が続きます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:133
 msgid ""
@@ -250,12 +318,20 @@ msgid ""
 "        '}';\n"
 "    ```"
 msgstr ""
+"    ```xtext\n"
+"    Entity :\n"
+"        'entity' name=ID ('extends' superType=[Entity])? '{'\n"
+"            (features+=Feature)*\n"
+"        '}';\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:140
 msgid ""
 "    Next up there is the `extends` clause which is parenthesized and optional (`?`). Since the feature named `superType` is a cross reference (note the square brackets), the parser rule *Entity* is not called here, but only a single identifier (the *ID*-rule) is parsed. The actual *Entity* to assign to the `superType` reference is resolved during the linking phase. Finally between curly braces there can be any number of *Features*, which invokes the next rule.\n"
 "1.  Last but not least, the rule *Feature* is defined as follows:"
 msgstr ""
+"    次に かっこで囲まれたオプション (`?`) の`extends` 句があります。 特性 `superType` は クロスリファレンス ( 角かっこに注意 )なので、 パーサールール *Entity* はここでは呼び出されず、一つの識別子だけが (*ID* ルール) がパースされます。`superType` で参照する実際の *Entity* 割り付けは、リンクフェーズにて解決されます。 最後に、 中かっこの中には、次のルールで呼び出される任意の数の *Feature* を含めることができます。\n"
+"1.  最後に、 *Feature* ルール定義は次のとおり:"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:143
 msgid ""
@@ -264,80 +340,90 @@ msgid ""
 "        (many?='many')? name=ID ':' type=[Type];\n"
 "    ```"
 msgstr ""
+"    ```xtext\n"
+"    Feature:\n"
+"        (many?='many')? name=ID ':' type=[Type];\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:148
 msgid "    The keyword `many` shall be used to model a multi-valued feature in this DSL. The assignment operator (`?=`) implies that the feature `many` is of type *boolean*. You are already familiar with the other syntax elements in this parser rule."
-msgstr ""
+msgstr "    `many` キーワードは、複数の値を持つ特性をモデル化するのに使われます。 代入演算子 (`?=`) は、`many` の型が *boolean*であることを意味しています。 その他のパーサールールは既知のものです。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:150
 msgid "This entities grammar already uses the most important concepts of Xtext's grammar language. You have learned that keywords are written as string literals and a simple assignment uses a plain equal sign (`=`), whereas a multi-value assignment uses a plus-equals (`+=`). We have also seen the boolean assignment operator (`?=`). Furthermore the example contains syntax elements with different cardinalities (`?` = optional, `*` = any number, `+` = at least once) and demonstrates how cross-references can be declared. Please consult the [Grammar Language Reference](301_grammarlanguage.html) for more details. Let's now have a look what you can do with such a language description."
-msgstr ""
+msgstr "このエンティティ文法はすでにXtextの文法言語の最も重要な概念を使用しています。 キーワードは文字列リテラルとして記述され、単純な割り当てではイコール (`=`) が用いられるが、複数値の割り付けにはプラスイコール (`+=`) が用いられます。 また、真偽値の割り当て符号 (`?=`) についても確認しました。 さらに、この例では様々な構文要素 (`?` = オプション, `*` = 任意の数, `+` = 少なくとも1つ) を含んでおり、さらにクロスリファレンスのデモを示しています。 詳細は、[文法言語リファレンス](301_grammarlanguage.html) を参照してください。 では、これらの言語記述で何ができるのかを見ていきましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:152
 msgid "## Generate Language Artifacts"
-msgstr ""
+msgstr "## 言語アーティファクトの生成"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:154
 msgid "Now that we have the grammar in place we need to execute the code generator that will derive the various language components. To do so, right-click into the grammar editor and select"
-msgstr ""
+msgstr "文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:156
 msgid "*Run As &rarr; Generate Xtext Artifacts*."
-msgstr ""
+msgstr "*Run As &rarr; Generate Xtext Artifacts*."
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:158
 msgid "This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View."
-msgstr ""
+msgstr "この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:160
 msgid "![](images/30min_rungenerator.png)"
-msgstr ""
+msgstr "![](images/30min_rungenerator.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:162
 msgid "## Run the Generated Eclipse Plug-in {#run-generated-plugin}"
-msgstr ""
+msgstr "## 生成されたEclipseプラグインの実行 {#run-generated-plugin}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:164
 msgid "We are now able to test the Eclipse IDE integration. If you right-click the project `org.example.domainmodel` in the Package Explorer and select *Run As &rarr; Eclipse Application*, a new run configuration is created and launched that starts a second instance of Eclipse including your new language plug-ins. In the new instance, create a new project of your choice, e.g. *File &rarr; New &rarr; Project... &rarr; Java Project* and therein a new file with the file extension you chose in the beginning (*\\*.dmodel*). This will open the generated entity editor. Try it and discover the default functionality for code completion, syntax highlighting, syntactic validation, linking errors, formatting, (quick) outline view, hyperlinking, find references, folding, rename refactoring etc."
-msgstr ""
+msgstr "Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディタが開きます。では、コード補間、シンタックスハイライティング、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:166
 msgid "![](images/30min_editor.png)"
-msgstr ""
+msgstr "![](images/30min_editor.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:168
 msgid "## Second Iteration: Adding Packages and Imports {#add-imports}"
-msgstr ""
+msgstr "## 第2イテレーション: パッケージの追加とインポート {#add-imports}"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:170
 msgid "After you have created your first DSL and had a look at the editor, the language should be refined and incrementally enhanced. The domainmodel language should support the notion of *Packages* in order to avoid name clashes and to better fit with the target environment Java. A *Package* may contain *Types* and other packages. In order to allow for names in references, we will also add a way to declare imports."
-msgstr ""
+msgstr "最初のDSLを生成しエディタの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:172
 msgid "In the end we want to be able to split the previously used model into distinct files:"
-msgstr ""
+msgstr "最後に、これまで使っていたモデルを異なるファイルに分割します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:174
 msgid ""
 "```domainexample\n"
 "// datatypes.dmodel"
 msgstr ""
+"```domainexample\n"
+"// datatypes.dmodel"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:177
 msgid ""
 "datatype String\n"
 "```"
 msgstr ""
+"datatype String\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:180
 msgid ""
 "```domainexample\n"
 "// commons.dmodel"
 msgstr ""
+"```domainexample\n"
+"// commons.dmodel"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:183
 msgid "package my.company.common {"
-msgstr ""
+msgstr "package my.company.common {"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:185
 msgid ""
@@ -347,20 +433,27 @@ msgid ""
 "}\n"
 "```"
 msgstr ""
+"    entity HasAuthor {\n"
+"        author: String\n"
+"    }\n"
+"}\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:191
 msgid ""
 "```domainexample\n"
 "// blogs.dmodel"
 msgstr ""
+"```domainexample\n"
+"// blogs.dmodel"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:194
 msgid "package my.company.blog {"
-msgstr ""
+msgstr "package my.company.blog {"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:196
 msgid "    import my.company.common.*"
-msgstr ""
+msgstr "    import my.company.common.*"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:198
 msgid ""
@@ -369,6 +462,10 @@ msgid ""
 "        many posts: Post\n"
 "    }"
 msgstr ""
+"    entity Blog {\n"
+"        title: String\n"
+"        many posts: Post\n"
+"    }"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:203
 msgid ""
@@ -378,6 +475,11 @@ msgid ""
 "        many comments: Comment\n"
 "    }"
 msgstr ""
+"    entity Post extends my.company.common.HasAuthor {\n"
+"        title: String\n"
+"        content: String\n"
+"        many comments: Comment\n"
+"    }"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:209
 msgid ""
@@ -387,14 +489,19 @@ msgid ""
 "}\n"
 "```"
 msgstr ""
+"    entity Comment extends HasAuthor {\n"
+"        content: String\n"
+"    }\n"
+"}\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:215
 msgid "Let's start enhancing the grammar."
-msgstr ""
+msgstr "文法を改良しましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:217
 msgid "1.  Since a *Domainmodel* no longer contains types but also packages, the entry rule has to be modified. Furthermore, a common super type for *PackageDeclarations* and *Types* should be introduced: the *AbstractElement*."
-msgstr ""
+msgstr "1.  *Domainmodel* は型とパッケージは含まれているので、エントリールールを変更する必要があります。さらに、*PackageDeclarations* と *Types* に対する上位の共通型(*AbstractElement*)も導入する必要があります。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:219
 msgid ""
@@ -402,6 +509,9 @@ msgid ""
 "    Domainmodel:\n"
 "        (elements+=AbstractElement)*;"
 msgstr ""
+"    ```xtext\n"
+"    Domainmodel:\n"
+"        (elements+=AbstractElement)*;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:223
 msgid ""
@@ -409,10 +519,13 @@ msgid ""
 "        PackageDeclaration | Type;\n"
 "    ```"
 msgstr ""
+"    AbstractElement:\n"
+"        PackageDeclaration | Type;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:227
 msgid "1.  A `PackageDeclaration` in turn looks pretty much as expected. It contains a number of *Imports* and *AbstractElements*. Since *Imports* should be allowed for the root-Domainmodel, too, we add them as an alternative to the rule `AbstractElement`."
-msgstr ""
+msgstr "1.  `PackageDeclaration`は期待通りに見えます。これは、複数の *Imports* と *AbstractElements* を含みます。*Imports* もまたルートドメインモデルに含まれる必要があるため、`AbstractElement` のルールに追加します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:229
 msgid ""
@@ -422,12 +535,19 @@ msgid ""
 "            (elements+=AbstractElement)*\n"
 "        '}';"
 msgstr ""
+"    ```xtext\n"
+"    PackageDeclaration:\n"
+"        'package' name=QualifiedName '{'\n"
+"            (elements+=AbstractElement)*\n"
+"        '}';"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:235
 msgid ""
 "    AbstractElement:\n"
 "        PackageDeclaration | Type | Import;"
 msgstr ""
+"    AbstractElement:\n"
+"        PackageDeclaration | Type | Import;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:238
 msgid ""
@@ -435,12 +555,17 @@ msgid ""
 "        ID ('.' ID)*;\n"
 "    ```"
 msgstr ""
+"    QualifiedName:\n"
+"        ID ('.' ID)*;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:242
 msgid ""
 "    The `QualifiedName` is a little special. It does not contain any assignments. Therefore it serves as a data type rule that returns a String. Hence the feature `name` of a *Package* is still of type [String]({{site.javadoc.java}}/java/lang/String.html).\n"
 "1.  Imports can be defined in a very convenient way with Xtext. If you use the name `importedNamespace` in a parser rule, the framework will treat the value as an import. It even supports wildcards and handles them as expected:"
 msgstr ""
+"    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。"
+"1.  ImportsはXtextによってとても簡単に定義することができます。パーサルールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:245
 msgid ""
@@ -448,6 +573,9 @@ msgid ""
 "    Import:\n"
 "        'import' importedNamespace=QualifiedNameWithWildcard;"
 msgstr ""
+"    ```xtext\n"
+"    Import:\n"
+"        'import' importedNamespace=QualifiedNameWithWildcard;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:249
 msgid ""
@@ -455,12 +583,17 @@ msgid ""
 "        QualifiedName '.*'?;\n"
 "    ```"
 msgstr ""
+"    QualifiedNameWithWildcard:\n"
+"        QualifiedName '.*'?;\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:253
 msgid ""
 "    Similar to the rule `QualifiedName`, `QualifiedNameWithWildcard` returns a plain string.\n"
 "1.  The last step is to allow fully qualified names in cross-references, too. Otherwise one could not refer to an entity without adding an import statement."
 msgstr ""
+"    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。"
+"1.  最後のステップでは、完全修飾名をクロスリファレンスでも使用できるようにします。これがないと、importを常に記載しないとエンティティの参照ができなくなります。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:256
 msgid ""
@@ -470,6 +603,11 @@ msgid ""
 "            (features+=Feature)*\n"
 "        '}';"
 msgstr ""
+"    ```xtext\n"
+"    Entity:\n"
+"        'entity' name=ID ('extends' superType=[Entity|QualifiedName])? '{'\n"
+"            (features+=Feature)*\n"
+"        '}';"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:262
 msgid ""
@@ -477,20 +615,25 @@ msgid ""
 "        (many?='many')? name=ID ':' type=[Type|QualifiedName];\n"
 "    ```"
 msgstr ""
+"    Feature:\n"
+"        (many?='many')? name=ID ':' type=[Type|QualifiedName];\n"
+"    ```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:266
 msgid "    Please note that the bar (`|`) is not an alternative in the context of a cross-reference, but used to specify the syntax of the parsed string."
-msgstr ""
+msgstr "    (`|`)はクロスリファレンスの対象ではなく、パースされた文字列の構文を指定するために用いられることに注意してください。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:268
 msgid "That's all for the grammar. It should now read as"
-msgstr ""
+msgstr "文法は以上です。最終的に以下のようになります。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:276
 msgid ""
 "Domainmodel:\n"
 "    (elements+=AbstractElement)*;"
 msgstr ""
+"Domainmodel:\n"
+"    (elements+=AbstractElement)*;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:279
 msgid ""
@@ -499,30 +642,42 @@ msgid ""
 "        (elements+=AbstractElement)*\n"
 "    '}';"
 msgstr ""
+"PackageDeclaration:\n"
+"    'package' name=QualifiedName '{'\n"
+"        (elements+=AbstractElement)*\n"
+"    '}';"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:284
 msgid ""
 "AbstractElement:\n"
 "    PackageDeclaration | Type | Import;"
 msgstr ""
+"AbstractElement:\n"
+"    PackageDeclaration | Type | Import;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:287
 msgid ""
 "QualifiedName:\n"
 "    ID ('.' ID)*;"
 msgstr ""
+"QualifiedName:\n"
+"    ID ('.' ID)*;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:290
 msgid ""
 "Import:\n"
 "    'import' importedNamespace=QualifiedNameWithWildcard;"
 msgstr ""
+"Import:\n"
+"    'import' importedNamespace=QualifiedNameWithWildcard;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:293
 msgid ""
 "QualifiedNameWithWildcard:\n"
 "    QualifiedName '.*'?;"
 msgstr ""
+"QualifiedNameWithWildcard:\n"
+"    QualifiedName '.*'?;"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:302
 msgid ""
@@ -531,6 +686,10 @@ msgid ""
 "        (features+=Feature)*\n"
 "    '}';"
 msgstr ""
+"Entity:\n"
+"    'entity' name=ID ('extends' superType=[Entity|QualifiedName])? '{'\n"
+"        (features+=Feature)*\n"
+"    '}';"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:307
 msgid ""
@@ -538,19 +697,22 @@ msgid ""
 "    (many?='many')? name=ID ':' type=[Type|QualifiedName];\n"
 "```"
 msgstr ""
+"Feature:\n"
+"    (many?='many')? name=ID ':' type=[Type|QualifiedName];\n"
+"```"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:311
 msgid "You should regenerate the language infrastructure as described in the previous section, and give the editor another try. You can even split up your model into smaller parts and have cross-references across file boundaries."
-msgstr ""
+msgstr "上記の変更をエディタに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:313
 msgid "![](images/30min_multipleeditors.png)"
-msgstr ""
+msgstr "![](images/30min_multipleeditors.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:315
 msgid "---"
-msgstr ""
+msgstr "---"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:317
 msgid "**[Next Chapter: 15 Minutes Tutorial - Extended](103_domainmodelnextsteps.html)**"
-msgstr ""
+msgstr "**[次章: 15分チュートリアル - 拡張](103_domainmodelnextsteps.html)**"

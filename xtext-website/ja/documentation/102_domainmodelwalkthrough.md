@@ -1,12 +1,12 @@
 ---
 layout: documentation
-title: 15 Minutes Tutorial
-part: Getting Started
+title: 15分チュートリアル
+part: はじめよう
 ---
 
 # {{page.title}} {#domain-model-walkthrough}
 
-In this tutorial we will implement a small domain-specific language to model entities and properties similar to what you may know from Rails, Grails or Spring Roo. The syntax is very suggestive:
+このチュートリアルでは、Rails、GrailsやSpring Rooのように、エンティティとプロパティをモデル化するための小さなドメイン固有言語を実装します。この構文はとても示唆に富んでいます。
 
 ```domainexample
 datatype String
@@ -31,39 +31,39 @@ entity Comment extends HasAuthor {
 }
 ```
 
-After you have installed Xtext on your machine, start Eclipse and set up a fresh workspace.
+あなたのマシーンにXtextをインストールした後、Eclipseを起動し、新規workspaceをセットアップします。
 
-## Create A New Xtext Project
+## 新規Xtextプロジェクトの作成
 
-In order to get started we first need to create some Eclipse projects. Use the Eclipse wizard to do so:
+まず初めに、Eclipseプロジェクトを作る必要があります。Eclipseウィザードから以下の操作を行います。
 
 *File &rarr; New &rarr; Project... &rarr; Xtext &rarr; Xtext project*
 
-Choose a meaningful project name, language name and file extension, e.g.
+意味のあるプロジェクト名、言語名、そしてファイル拡張子を選びます。例えば
 
 |:---|:---|
-|**Project name:**|org.example.domainmodel|
-|**Language name:**|org.example.domainmodel.Domainmodel|
-|**DSL-File extensions:**|dmodel|
+|**プロジェクト名:**|org.example.domainmodel|
+|**言語名:**|org.example.domainmodel.Domainmodel|
+|**DSL-ファイル拡張子:**|dmodel|
 
-Click on *Finish* to create the projects.
+プロジェクトを作成するため *Finish* を押してください。
 
 ![](images/30min_wizard.png)
 
-After you have successfully finished the wizard, you will find five new projects in your workspace.
+ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。
 
 |:---|:---|
-|org.example.domainmodel|The grammar definition and all language-specific components (parser, lexer, linker, validation, etc.)|
-|org.example.domainmodel.ide|Platform-independent IDE functionality (e.g. services for content assist)|
-|org.example.domainmodel.tests|Unit tests for the language|
-|org.example.domainmodel.ui|The Eclipse editor and other workbench related functionality|
-|org.example.domainmodel.ui.tests|UI tests for the Eclipse editor|
+|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサ、字句解析器、リンカー、バリデーションなど)|
+|org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|
+|org.example.domainmodel.tests| 言語のユニットテスト|
+|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|
+|org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|
 
 ![](images/30min_initialprojectlayout.png)
 
-## Write The Grammar
+## 文法を書く
 
-The wizard will automatically open the grammar file *Domainmodel.xtext* in the editor. As you can see it already contains a simple *Hello World* grammar:
+エディターで 文法ファイル*Domainmodel.xtext* を開くと、ウィザードが自動的に開きます。文法ファイルにはシンプルな *Hello World* 文法が含まれています。
 
 ```xtext
 grammar org.example.domainmodel.Domainmodel with
@@ -78,7 +78,7 @@ Greeting:
     'Hello' name=ID '!';
 ```
 
-Let's now just replace that grammar definition with the one for our entities language:
+さっそく、文法定義をエンティティ言語で置き換えてみましょう。
 
 ```xtext
 grammar org.example.domainmodel.Domainmodel with
@@ -104,31 +104,31 @@ Feature:
     (many?='many')? name=ID ':' type=[Type];
 ```
 
-Let's have a more detailed look at what the different grammar rules mean:
+文法ルールの意味を詳しく見ていきましょう。
 
-1.  The first rule in a grammar is always used as the start rule.
+1.  文法の最初のルールは常にスタートルールとして使用されます。
     
     ```xtext
     Domainmodel:
         (elements+=Type)*;
     ```
 
-    It says that a *Domainmodel* contains an arbitrary number (`*`) of *Type*s which are added (`+=`) to a feature called `elements`.
-1.  The rule *Type* delegates to either the rule *DataType* or (`|`) the rule *Entity*.
+    これは、*Domainmodel* が任意の数の*Type*を持ち、それらを `elements`と呼ばれる特性に追加 (`+=`) することを表しています。
+1.  *Type* ルールは*DataType* ルール もしくは (`|`) *Entity* ルールに委任します。
 
     ```xtext
     Type:
         DataType | Entity;
     ```
 
-1.  The rule *DataType* starts with a keyword `'datatype'`, followed by an identifier which is parsed by a rule called *ID*. The rule *ID* is defined in the super grammar *org.eclipse.xtext.common.Terminals* and parses a single word, a.k.a identifier. You can navigate to the declaration by using *F3* on the rule call. The value returned by the call to *ID* is assigned (`=`) to the feature `name`.
+1.  *DataType* ルールは `'datatype'`キーワードから始まり、*ID* と呼ばれるルールによってパースされる識別子が続きます。*ID* ルールは上位文法 *org.eclipse.xtext.common.Terminals* で定義され、一つの単語(識別子)をパースします。 ルールの呼び出し箇所で *F3* を押すことで、宣言箇所にジャンプできます。*ID* の戻り値は 特性`name`に割り当てられます(`=`)。
 
     ```xtext
     DataType:
         'datatype' name=ID;
     ```
 
-1.  The rule *Entity* again starts with the definition of a keyword followed by a name.
+1.  *Entity* ルールもキーワードの定義から始まり、次に名前が続きます。
 
     ```xtext
     Entity :
@@ -137,39 +137,39 @@ Let's have a more detailed look at what the different grammar rules mean:
         '}';
     ```
 
-    Next up there is the `extends` clause which is parenthesized and optional (`?`). Since the feature named `superType` is a cross reference (note the square brackets), the parser rule *Entity* is not called here, but only a single identifier (the *ID*-rule) is parsed. The actual *Entity* to assign to the `superType` reference is resolved during the linking phase. Finally between curly braces there can be any number of *Features*, which invokes the next rule.
-1.  Last but not least, the rule *Feature* is defined as follows:
+    次に かっこで囲まれたオプション (`?`) の`extends` 句があります。 特性 `superType` は クロスリファレンス ( 角かっこに注意 )なので、 パーサールール *Entity* はここでは呼び出されず、一つの識別子だけが (*ID* ルール) がパースされます。`superType` で参照する実際の *Entity* 割り付けは、リンクフェーズにて解決されます。 最後に、 中かっこの中には、次のルールで呼び出される任意の数の *Feature* を含めることができます。
+1.  最後に、 *Feature* ルール定義は次のとおり:
 
     ```xtext
     Feature:
         (many?='many')? name=ID ':' type=[Type];
     ```
 
-    The keyword `many` shall be used to model a multi-valued feature in this DSL. The assignment operator (`?=`) implies that the feature `many` is of type *boolean*. You are already familiar with the other syntax elements in this parser rule.
+    `many` キーワードは、複数の値を持つ特性をモデル化するのに使われます。 代入演算子 (`?=`) は、`many` の型が *boolean*であることを意味しています。 その他のパーサールールは既知のものです。
 
-This entities grammar already uses the most important concepts of Xtext's grammar language. You have learned that keywords are written as string literals and a simple assignment uses a plain equal sign (`=`), whereas a multi-value assignment uses a plus-equals (`+=`). We have also seen the boolean assignment operator (`?=`). Furthermore the example contains syntax elements with different cardinalities (`?` = optional, `*` = any number, `+` = at least once) and demonstrates how cross-references can be declared. Please consult the [Grammar Language Reference](301_grammarlanguage.html) for more details. Let's now have a look what you can do with such a language description.
+このエンティティ文法はすでにXtextの文法言語の最も重要な概念を使用しています。 キーワードは文字列リテラルとして記述され、単純な割り当てではイコール (`=`) が用いられるが、複数値の割り付けにはプラスイコール (`+=`) が用いられます。 また、真偽値の割り当て符号 (`?=`) についても確認しました。 さらに、この例では様々な構文要素 (`?` = オプション, `*` = 任意の数, `+` = 少なくとも1つ) を含んでおり、さらにクロスリファレンスのデモを示しています。 詳細は、[文法言語リファレンス](301_grammarlanguage.html) を参照してください。 では、これらの言語記述で何ができるのかを見ていきましょう。
 
-## Generate Language Artifacts
+## 言語アーティファクトの生成
 
-Now that we have the grammar in place we need to execute the code generator that will derive the various language components. To do so, right-click into the grammar editor and select
+文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View.
+この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](images/30min_rungenerator.png)
 
-## Run the Generated Eclipse Plug-in {#run-generated-plugin}
+## 生成されたEclipseプラグインの実行 {#run-generated-plugin}
 
-We are now able to test the Eclipse IDE integration. If you right-click the project `org.example.domainmodel` in the Package Explorer and select *Run As &rarr; Eclipse Application*, a new run configuration is created and launched that starts a second instance of Eclipse including your new language plug-ins. In the new instance, create a new project of your choice, e.g. *File &rarr; New &rarr; Project... &rarr; Java Project* and therein a new file with the file extension you chose in the beginning (*\*.dmodel*). This will open the generated entity editor. Try it and discover the default functionality for code completion, syntax highlighting, syntactic validation, linking errors, formatting, (quick) outline view, hyperlinking, find references, folding, rename refactoring etc.
+Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディタが開きます。では、コード補間、シンタックスハイライティング、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。
 
 ![](images/30min_editor.png)
 
-## Second Iteration: Adding Packages and Imports {#add-imports}
+## 第2イテレーション: パッケージの追加とインポート {#add-imports}
 
-After you have created your first DSL and had a look at the editor, the language should be refined and incrementally enhanced. The domainmodel language should support the notion of *Packages* in order to avoid name clashes and to better fit with the target environment Java. A *Package* may contain *Types* and other packages. In order to allow for names in references, we will also add a way to declare imports.
+最初のDSLを生成しエディタの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。
 
-In the end we want to be able to split the previously used model into distinct files:
+最後に、これまで使っていたモデルを異なるファイルに分割します。
 
 ```domainexample
 // datatypes.dmodel
@@ -212,9 +212,9 @@ package my.company.blog {
 }
 ```
 
-Let's start enhancing the grammar.
+文法を改良しましょう。
 
-1.  Since a *Domainmodel* no longer contains types but also packages, the entry rule has to be modified. Furthermore, a common super type for *PackageDeclarations* and *Types* should be introduced: the *AbstractElement*.
+1.  *Domainmodel* は型とパッケージは含まれているので、エントリールールを変更する必要があります。さらに、*PackageDeclarations* と *Types* に対する上位の共通型(*AbstractElement*)も導入する必要があります。
 
     ```xtext
     Domainmodel:
@@ -224,7 +224,7 @@ Let's start enhancing the grammar.
         PackageDeclaration | Type;
     ```
 
-1.  A `PackageDeclaration` in turn looks pretty much as expected. It contains a number of *Imports* and *AbstractElements*. Since *Imports* should be allowed for the root-Domainmodel, too, we add them as an alternative to the rule `AbstractElement`.
+1.  `PackageDeclaration`は期待通りに見えます。これは、複数の *Imports* と *AbstractElements* を含みます。*Imports* もまたルートドメインモデルに含まれる必要があるため、`AbstractElement` のルールに追加します。
 
     ```xtext
     PackageDeclaration:
@@ -239,8 +239,7 @@ Let's start enhancing the grammar.
         ID ('.' ID)*;
     ```
 
-    The `QualifiedName` is a little special. It does not contain any assignments. Therefore it serves as a data type rule that returns a String. Hence the feature `name` of a *Package* is still of type [String]({{site.javadoc.java}}/java/lang/String.html).
-1.  Imports can be defined in a very convenient way with Xtext. If you use the name `importedNamespace` in a parser rule, the framework will treat the value as an import. It even supports wildcards and handles them as expected:
+    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。1.  ImportsはXtextによってとても簡単に定義することができます。パーサルールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。
 
     ```xtext
     Import:
@@ -250,8 +249,7 @@ Let's start enhancing the grammar.
         QualifiedName '.*'?;
     ```
 
-    Similar to the rule `QualifiedName`, `QualifiedNameWithWildcard` returns a plain string.
-1.  The last step is to allow fully qualified names in cross-references, too. Otherwise one could not refer to an entity without adding an import statement.
+    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。1.  最後のステップでは、完全修飾名をクロスリファレンスでも使用できるようにします。これがないと、importを常に記載しないとエンティティの参照ができなくなります。
 
     ```xtext
     Entity:
@@ -263,9 +261,9 @@ Let's start enhancing the grammar.
         (many?='many')? name=ID ':' type=[Type|QualifiedName];
     ```
 
-    Please note that the bar (`|`) is not an alternative in the context of a cross-reference, but used to specify the syntax of the parsed string.
+    (`|`)はクロスリファレンスの対象ではなく、パースされた文字列の構文を指定するために用いられることに注意してください。
 
-That's all for the grammar. It should now read as
+文法は以上です。最終的に以下のようになります。
 
 ```xtext
 grammar org.example.domainmodel.Domainmodel with
@@ -308,10 +306,10 @@ Feature:
     (many?='many')? name=ID ':' type=[Type|QualifiedName];
 ```
 
-You should regenerate the language infrastructure as described in the previous section, and give the editor another try. You can even split up your model into smaller parts and have cross-references across file boundaries.
+上記の変更をエディタに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。
 
 ![](images/30min_multipleeditors.png)
 
 ---
 
-**[Next Chapter: 15 Minutes Tutorial - Extended](103_domainmodelnextsteps.html)**
+**[次章: 15分チュートリアル - 拡張](103_domainmodelnextsteps.html)**

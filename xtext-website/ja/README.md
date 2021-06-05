@@ -1,28 +1,28 @@
-How to Test the Website
+Websiteをテストする方法
 =======================
 
-The website is generated with [Jekyll](http://jekyllrb.com).
+このwebsiteは[Jekyll](http://jekyllrb.com)を用いて生成しています。
 ```
 gem install bundler jekyll jekyll-markdown-block
 ```
-To generate the website, run
+websiteを生成するには以下を実行してください。
 ```
   jekyll build --unpublished
 ```
-You will find the result in the `_site` folder. You can test it locally with
+実行後、`_site`フォルダにwebsiteが生成されます。websiteは以下のコマンドを実行することで、ローカルでテスト可能です。
 ```
   jekyll serve --unpublished
 ```
-which will start a [server](http://127.0.0.1:4000) displaying the site. The server also listens for file changes and
-automatically rebuilds the website.
+websiteは[server](http://127.0.0.1:4000) で確認できます。websiteはファイルを更新すると自動的に変更が反映されます。
 
-Ruby Troubleshooting
+
+Ruby トラブルシューティング
 --------------------
 
-- On Linux/Mac OS we recommend using [RVM](https://rvm.io/) to manage your Ruby installations
-- On Windows you will have to install the [development kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit)
+- Linux/Mac OSの場合、Rubyのインストール管理は[RVM](https://rvm.io/) を使用することを推奨しています。
+- Windowsの場合、[development kit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit)をインストールしてください。
 
-### For hudson:
+### hudson用設定:
 
 ```
 rvm autolibs disable

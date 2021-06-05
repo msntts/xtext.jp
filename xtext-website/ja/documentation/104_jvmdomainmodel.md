@@ -41,15 +41,15 @@ As you can see, it supports all kinds of advanced features such as Java generics
 
 We will now walk through the five little steps needed to get this language fully working including its compiler. The first three steps are very similar to those in the [15 Minutes Tutorial](102_domainmodelwalkthrough.html).
 
-After you have installed Xtext on your machine, start Eclipse and set up a fresh workspace.
+あなたのマシーンにXtextをインストールした後、Eclipseを起動し、新規workspaceをセットアップします。
 
 ## Step One: Create A New Xtext Project {#domain-model-step1}
 
-In order to get started we first need to create some Eclipse projects. Use the Eclipse wizard to do so:
+まず初めに、Eclipseプロジェクトを作る必要があります。Eclipseウィザードから以下の操作を行います。
 
 *File &rarr; New &rarr; Project... &rarr; Xtext &rarr; Xtext Project*
 
-Choose a meaningful project name, language name and file extension, e.g.
+意味のあるプロジェクト名、言語名、そしてファイル拡張子を選びます。例えば
 
 |:---|:---|
 |**Project name:**|org.example.domainmodel|
@@ -60,7 +60,7 @@ Click on *Finish* to create the projects
 
 ![](images/30min_wizard.png)
 
-After you have successfully finished the wizard, you will find five new projects in your workspace.
+ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。
 
 |:---|:---|
 |org.example.domainmodel|The grammar definition and all language-specific components (parser, lexer, linker, validation, etc.)|
@@ -200,11 +200,11 @@ Some parts of this grammar are equal to the one in the [15 Minutes Tutorial](102
 
 ## Step Three: Generate Language Artifacts {#domain-model-step3}
 
-Now that we have the grammar in place we need to execute the code generator that will derive the various language components. To do so, right-click into the grammar editor and select
+文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View.
+この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](images/JvmTutorial_RunGenerator.png)
 
