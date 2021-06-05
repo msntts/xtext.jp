@@ -1,0 +1,547 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-05 02:33-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../documentation/104_jvmdomainmodel.md:1
+msgid "---\n"
+"layout: documentation\n"
+"title: Five simple steps to your JVM language\n"
+"part: Getting Started\n"
+"---"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:7
+msgid "# {{page.title}} {#jvm-domain-model}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:9
+msgid "In this tutorial we will basically implement the [domain model language](https://www.eclipse.org/Xtext/documentation/103_domainmodelnextsteps.html) again, but this time we will make use of the special JVM support shipped with Xtext. This kind of language is really a sweet spot for DSLs, so feel free to use this as a blueprint and add your project specific features later on."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:11
+msgid "The revised domain model language supports expressions and cross-links to Java types. It is directly translated to Java source code. The syntax should look very familiar. Here is an example:"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:13
+msgid "```domainexample\n"
+"import java.util.List"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:16
+msgid "package my.model {"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:18
+msgid "    entity Person {\n"
+"        name: String\n"
+"        firstName: String\n"
+"        friends: List<Person>\n"
+"        address : Address\n"
+"        op getFullName() : String {\n"
+"            return firstName + \" \" + name;\n"
+"        }"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:27
+msgid "        op getFriendsSortedByFullName() : List<Person> {\n"
+"            return friends.sortBy[ f | f.fullName ]\n"
+"        }\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:32
+msgid "    entity Address {\n"
+"        street: String\n"
+"        zip: String\n"
+"        city: String\n"
+"    }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:40
+msgid "As you can see, it supports all kinds of advanced features such as Java generics and full expressions, even including lambda expressions. Don't panic, you will not have to implement these concepts on your own but will reuse a lot of helpful infrastructure to build the language."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:42
+msgid "We will now walk through the five little steps needed to get this language fully working including its compiler. The first three steps are very similar to those in the [15 Minutes Tutorial](102_domainmodelwalkthrough.html)."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:44
+msgid "After you have installed Xtext on your machine, start Eclipse and set up a fresh workspace."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:46
+msgid "## Step One: Create A New Xtext Project {#domain-model-step1}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:48
+msgid "In order to get started we first need to create some Eclipse projects. Use the Eclipse wizard to do so:"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:50
+msgid "*File &rarr; New &rarr; Project... &rarr; Xtext &rarr; Xtext Project*"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:52
+msgid "Choose a meaningful project name, language name and file extension, e.g."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:54
+msgid "|:---|:---|\n"
+"|**Project name:**|org.example.domainmodel|\n"
+"|**Language name:**|org.example.domainmodel.Domainmodel|\n"
+"|**File extension:**|dmodel|"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:59
+msgid "Click on *Finish* to create the projects"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:61
+msgid "![](images/30min_wizard.png)"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:63
+msgid "After you have successfully finished the wizard, you will find five new projects in your workspace."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:65
+msgid "|:---|:---|\n"
+"|org.example.domainmodel|The grammar definition and all language-specific components (parser, lexer, linker, validation, etc.)|\n"
+"|org.example.domainmodel.tests|Unit tests for the language|\n"
+"|org.example.domainmodel.ide|Platform-independent IDE functionality (e.g. services for content assist)|\n"
+"|org.example.domainmodel.ui|The Eclipse editor and other workbench related functionality|\n"
+"|org.example.domainmodel.ui.tests|Unit tests for the Eclipse editor|"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:72
+msgid "![](images/30min_initialprojectlayout.png)"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:74
+msgid "## Step Two: Write the Grammar {#domain-model-step2}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:76
+msgid "The wizard will automatically open the grammar file *Domainmodel.xtext* in the editor. As you can see it already contains a simple *Hello World* grammar. Replace that grammar definition with the one for our language:"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:78
+msgid "```xtext\n"
+"grammar org.example.domainmodel.Domainmodel with\n"
+"                                      org.eclipse.xtext.xbase.Xbase"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:82
+msgid "generate domainmodel \"http://www.example.org/domainmodel/Domainmodel\""
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:84
+msgid "Domainmodel:\n"
+"    importSection=XImportSection?\n"
+"    elements+=AbstractElement*;"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:88
+msgid "AbstractElement:\n"
+"    PackageDeclaration | Entity;"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:91
+msgid "PackageDeclaration:\n"
+"    'package' name=QualifiedName '{'\n"
+"        elements+=AbstractElement*\n"
+"    '}';"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:96
+msgid "Entity:\n"
+"    'entity' name=ValidID ('extends' superType=JvmTypeReference)? '{'\n"
+"        features+=Feature*\n"
+"    '}';"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:101
+msgid "Feature:\n"
+"    Property | Operation;"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:104
+msgid "Property:\n"
+"    name=ValidID ':' type=JvmTypeReference;"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:107
+msgid "Operation:\n"
+"    'op' name=ValidID \n"
+"        '('(params+=FullJvmFormalParameter \n"
+"        (',' params+=FullJvmFormalParameter)*)?')'\n"
+"        ':' type=JvmTypeReference \n"
+"    body=XBlockExpression;"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:114
+msgid "```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:116
+msgid "Some parts of this grammar are equal to the one in the [15 Minutes Tutorial](102_domainmodelwalkthrough.html), but other parts are different."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:118
+#: ../../../documentation/104_jvmdomainmodel.md:127
+msgid "1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:120
+msgid "    ```xtext\n"
+"    grammar org.example.domainmodel.Domainmodel with\n"
+"                  org.eclipse.xtext.xbase.Xbase\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:125
+msgid "    The first thing to note is that instead of inheriting from the usual *org.eclipse.xtext.common.Terminals* grammar, we make use of *org.eclipse.xtext.xbase.Xbase*. Xbase allows us to easily reuse and embed modern, statically typed expressions as well as Java type signatures in our language."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:129
+msgid "    ```xtext\n"
+"    Domainmodel:\n"
+"        importSection=XImportSection?\n"
+"        elements+=AbstractElement*;\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:135
+msgid "    A *Domainmodel* contains an optional import section and an arbitrary number of *AbstractElements*. The concept of *XImportSection* is part of *org.eclipse.xtext.xbase.Xbase* and comes with tool support and syntax like you know it from Java.\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:138
+msgid "    ```xtext\n"
+"    AbstractElement:\n"
+"        PackageDeclaration | Entity;\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:143
+msgid "    The rule *AbstractElement* delegates to either the rule *PackageDeclaration* or the rule *Entity*.\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:146
+msgid "    ```xtext\n"
+"    PackageDeclaration:\n"
+"        'package' name=QualifiedName '{'\n"
+"            elements+=AbstractElement*\n"
+"        '}';\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:153
+msgid "    A *PackageDeclaration* is used to declare a name space which can again contain any number of *AbstractElement*s. Xtext has built-in support for qualified names and scoping based on the hierarchy of the produced model. The default implementation will add the package names as the prefix to contained entities and nested packages. The qualified name of an *Entity* 'Baz' which is contained in a *PackageDeclaration* 'foo.bar' will be 'foo.bar.Baz'. In case you do not like the default behavior you will need to use a different implementation of [IQualifiedNameProvider]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/naming/IQualifiedNameProvider.java).\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:156
+msgid "    ```xtext\n"
+"    Entity:\n"
+"        'entity' name=ValidID ('extends' superType=JvmTypeReference)? '{'\n"
+"            features+=Feature*\n"
+"        '}';\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:163
+msgid "    The rule *Entity* starts with the definition of a keyword followed by a name. The *extends* clause makes use of the rule *JvmTypeReference* which is defined in the super grammar. *JvmTypeReference* defines the syntax for full Java-like type names. That is everything from simple names, over fully qualified names to fully-fledged generics, including wildcards, lower bounds and upper bounds. Finally between curly braces there can be any number of *Features*, which leads us to the next rule.\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:166
+msgid "    ```xtext\n"
+"    Feature:\n"
+"        Property | Operation;\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:171
+msgid "    The rule *Feature* delegates to either a *Property* or an *Operation*.\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:174
+msgid "    ```xtext\n"
+"    Property:\n"
+"        name=ValidID ':' type=JvmTypeReference;\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:179
+msgid "    A *Property* has a name and makes again use of the inherited rule *JvmTypeReference*.\n"
+"1."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:182
+msgid "    ```xtext\n"
+"    Operation:\n"
+"        'op' name=ValidID \n"
+"            '('(params+=FullJvmFormalParameter \n"
+"            (',' params+=FullJvmFormalParameter)*)?')'\n"
+"            ':' type=JvmTypeReference \n"
+"        body=XBlockExpression;\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:191
+msgid "    *Operation*s also have a signature as expected. Note that also for formal parameters we can reuse a rule from the super grammar."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:193
+msgid "    The body of the *Operation* is the actual implementation and is defined by the rule *XBlockExpression*, which is one of the most often used entry rules from Xbase. A block consist of any number of expressions between curly braces such as:"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:195
+msgid "    ```xbase\n"
+"    {\n"
+"        return \"Hello World\" + \"!\"\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:201
+msgid "## Step Three: Generate Language Artifacts {#domain-model-step3}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:203
+msgid "Now that we have the grammar in place we need to execute the code generator that will derive the various language components. To do so, right-click into the grammar editor and select"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:205
+msgid "*Run As &rarr; Generate Xtext Artifacts*."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:207
+msgid "This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:209
+msgid "![](images/JvmTutorial_RunGenerator.png)"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:211
+msgid "## Step Four: Define the Mapping to JVM Concepts {#domain-model-step4}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:213
+msgid "The syntax alone is not enough to make the language work. We need to map the domain-specific concepts to some other language in order to instruct Xtext how it is executed. Usually you define a code generator or an interpreter for that matter, but languages using Xbase can omit this step and make use of the [IJvmModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelInferrer.java)."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:215
+msgid "The idea is that you translate your language concepts to any number of Java types ([JvmDeclaredType]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmDeclaredType.java)). Such a type can be a Java class, Java interface, Java annotation type or a Java enum and may contain any valid members. In the end you as a language developer are responsible to create a correct model according to the Java language."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:217
+msgid "By mapping your language concepts to Java elements, you implicitly tell Xtext in what kind of scopes the various expressions live and what return types are expected from them. Xtext also comes with a code generator which can translate that Java model into readable Java code, including the expressions."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:219
+msgid "If you have already triggered the 'Generate Xtext Artifacts' action, you should find a stub called *org/example/domainmodel/jvmmodel/DomainmodelJvmModelInferrer.xtend* in the src folder. Please replace its contents with the following :"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:221
+msgid "```xtend\n"
+"package org.example.domainmodel.jvmmodel"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:224
+msgid "import com.google.inject.Inject\n"
+"import org.example.domainmodel.domainmodel.Entity\n"
+"import org.example.domainmodel.domainmodel.Operation\n"
+"import org.example.domainmodel.domainmodel.Property\n"
+"import org.eclipse.xtext.naming.IQualifiedNameProvider\n"
+"import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer\n"
+"import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor\n"
+"import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:233
+msgid "class DomainmodelJvmModelInferrer extends AbstractModelInferrer {"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:235
+msgid "  /**\n"
+"   * a builder API to programmatically create Jvm elements \n"
+"   * in readable way.\n"
+"   */\n"
+"  @Inject extension JvmTypesBuilder"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:241
+msgid "  @Inject extension IQualifiedNameProvider"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:243
+msgid "  def dispatch void infer(Entity element,\n"
+"                IJvmDeclaredTypeAcceptor acceptor,\n"
+"                boolean isPrelinkingPhase) {\n"
+"    acceptor.accept(element.toClass( element.fullyQualifiedName )) [\n"
+"      documentation = element.documentation\n"
+"      if (element.superType !== null)\n"
+"        superTypes += element.superType.cloneWithProxies\n"
+"      for (feature : element.features) {\n"
+"        switch feature {"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:253
+msgid "          Property : {\n"
+"            members += feature.toField(feature.name, feature.type)\n"
+"            members += feature.toGetter(feature.name, feature.type)\n"
+"            members += feature.toSetter(feature.name, feature.type)\n"
+"          }"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:259
+msgid "          Operation : {\n"
+"            members += feature.toMethod(feature.name, feature.type) [\n"
+"              documentation = feature.documentation\n"
+"              for (p : feature.params) {\n"
+"                parameters += p.toParameter(p.name, p.parameterType)\n"
+"              }\n"
+"              body = feature.body\n"
+"            ]\n"
+"          }\n"
+"        }\n"
+"      }\n"
+"    ]\n"
+"  }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:275
+msgid "Let's go through the code to get an idea of what is going on. (Please also refer to the JavaDoc of the used API for details, especially the [JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java))."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:277
+msgid "1.  ```xtend\n"
+"    def dispatch void infer(Entity element,\n"
+"            IJvmDeclaredTypeAcceptor acceptor,\n"
+"            boolean isPrelinkingPhase) {\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:283
+msgid "    Using the dispatch keyword makes sure that the method is called for instances of type *Entity* only. Have a look at the Xtend documentation on [polymorphic dispatch](http://www.eclipse.org/xtend/documentation/202_xtend_classes_members.html#polymorphic-dispatch) to understand Xtend's dispatch functions. Extending [AbstractModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/AbstractModelInferrer.java) makes sure we don't have to walk the syntax model on our own.\n"
+"1.  ```xtend\n"
+"    acceptor.accept(element.toClass(element.fullyQualifiedName)) [\n"
+"        ...\n"
+"    ]\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:290
+msgid "    Every [JvmDeclaredType]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmDeclaredType.java) you create in the model inference needs to be passed to the *acceptor* in order to get recognized. The extension method *toClass* comes from the [JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java) class. This class provides a lot of convenient extension methods, which help making the code extremely readable and concise. It is important to understand that the creation and assignment of a qualified name is done in an early phase where the compiler collects all global symbols. You cannot resolve type references at this point.\n"
+"1.  The second argument to *accept* is a lambda block that contains further initialization of the created Java type. Only in this block you are allowed to do type reference resolution. This is also the place where you add members and put the XExpressions into context. Let's see what we do in the initialization block in detail:\n"
+"1.  ```xtend\n"
+"    documentation = element.documentation\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:296
+msgid "    Here we assign some JavaDoc to the newly created element. The assignment is translated to an invocation of the method *[JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java).setDocumentation([JvmIdentifiableElement]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmIdentifiableElement.java), String)*, and `element.documentation` is in fact calling the extension method *[JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java).getDocumentation([EObject]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EObject.java))*. Such extension methods are explained in detail in the [Xtend documentation](https://www.eclipse.org/xtend/documentation/202_xtend_classes_members.html#extension-methods).\n"
+"1.  ```xtend\n"
+"    if (element.superType !== null)\n"
+"        superTypes += entity.superType.cloneWithProxies\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:302
+msgid "    Set the *superType* on the inferred element. Note that we have to clone the type reference from the *element.superType*. If we did not do that, the type reference would be automatically removed from the *element*, as *superType* is an EMF containment reference.\n"
+"1.  ```xtend\n"
+"    for (feature : element.features) {\n"
+"        switch feature {\n"
+"            Property : {\n"
+"                // ...\n"
+"            }\n"
+"            Operation : {\n"
+"                // ...\n"
+"            }\n"
+"        }\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:316
+msgid "    When iterating over a list of heterogeneous types, the switch expression with its type guards comes in handy. If *feature* is of type *Property* the first block is executed. If it is an *Operation* the second block is executed. Note that the variable *feature* will be implicitly casted to the respective type within the blocks.\n"
+"1.  ```xtend\n"
+"    Property : {\n"
+"        members += feature.toField(feature.name, feature.type)\n"
+"        members += feature.toSetter(feature.name, feature.type)\n"
+"        members += feature.toGetter(feature.name, feature.type)\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:325
+msgid "    For each *Property* we create a field as well as a corresponding getter and setter.\n"
+"1.  ```xtend\n"
+"    Operation : {\n"
+"        members += feature.toMethod(feature.name, feature.type) [\n"
+"            documentation = feature.documentation\n"
+"            for (p : feature.params) {\n"
+"                parameters += p.toParameter(p.name, p.parameterType)\n"
+"            }\n"
+"            body = feature.body\n"
+"        ]\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:338
+msgid "    *Operations* are mapped to a corresponding Java method. The documentation is translated and the parameters are added within the initializer. The line `body = feature.body` registers the *Operation*'s expression as the body of the newly created Java method. This defines the scope of the expression. The framework deduces the visible fields and parameters as well as the expected return type from that information."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:340
+msgid "## Step Five : Try the Editor! {#domain-model-step5}"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:342
+msgid "We are now able to test the IDE integration by spawning a new Eclipse using our plug-ins: right-click the project `org.example.domainmodel` in the Package Explorer and select *Run As &rarr; Eclipse Application*."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:344
+msgid "In the new workbench, create a Java project (*File &rarr; New &rarr; Project... &rarr; Java Project*). Xbase relies on a small runtime library on the class path. To add this, right-click on the project and go to *Java Build Path &rarr; Libraries &rarr; Add Library* and choose *Xtend Library*. Then create a new file with the file extension you chose in the beginning (*\\*.dmodel*) in the source folder of the Java project. This will open the generated entity editor. Try it and discover the rich editor functionality it provides. You should also have a look at the preferences of your language to find out what can be individually configured to your users needs."
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:346
+msgid "Have fun!"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:348
+msgid "![](images/JvmTutorial_Editor.png)"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:350
+msgid "---"
+msgstr ""
+
+#: ../../../documentation/104_jvmdomainmodel.md:352
+msgid "**[Next Chapter: The Grammar Language](301_grammarlanguage.html)**"
+msgstr ""
+

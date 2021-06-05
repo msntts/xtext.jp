@@ -1,0 +1,2021 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-05 02:33-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../documentation/305_xbase.md:1
+msgid "---\n"
+"layout: documentation\n"
+"title: Integration with Java\n"
+"part: Reference Documentation\n"
+"---"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:7
+msgid "# {{page.title}} {#xbase}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:9
+msgid "The following chapter demonstrates how to integrate your own DSL with Java. We will do this in four stages: First, you will learn how to refer to existing Java elements from within your language. Then you will use Xbase to refer to generic types. In the third step, you will map your own DSL's concepts to Java concepts. Last but not least, you will use both Java types and your concepts within Xbase expressions and execute it."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:11
+msgid "Throughout this chapter, we will step by step improve the [domain model example from the tutorial](103_domainmodelnextsteps.html)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:13
+msgid "## Referring to Java Elements using JVM Types {#jvmtypes}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:15
+msgid "A common case when developing languages is the requirement to refer to existing concepts of other languages. Xtext makes this very easy for other self defined DSLs. However, it is often very useful to have access to the available types of the Java Virtual Machine as well. The [JVM types Ecore model]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore) enables clients to do exactly this. It is possible to create cross-references to classes, interfaces, and their fields and methods. Basically every information about the structural concepts of the Java type system is available via the JVM types. This includes annotations and their specific values and enumeration literals, too."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:17
+msgid "The implementation will be selected transparently depending on how the client code is executed. If the environment is a plain stand-alone Java or OSGi environment, the *java.lang.reflect* API will be used to deduce the necessary data. On the contrary, the type-model will be created from the live data of the JDT in an interactive Eclipse environment. All this happens transparently for the clients behind the scenes via different implementations that are bound to specific interfaces by means of Google Guice."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:19
+msgid "Using the JVM types model is very simple. First of all, the grammar has to import the *JavaVMTypes* Ecore model. Thanks to content assist this is easy to spot in the list of proposals."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:21
+msgid "```xtext\n"
+"grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.xbase.Xtype\n"
+"...\n"
+"import \"http://www.eclipse.org/xtext/common/JavaVMTypes\" as jvmTypes\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:27
+msgid "The next step is to actually refer to an imported concept. Let's define a mapping to available Java types for the simple data types in the domain model language. This can be done with a simple cross-reference:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:29
+msgid "```xtext\n"
+"// simple cross reference to a Java type\n"
+"DataType:\n"
+"  'datatype' name=ID \n"
+"  'mapped-to' javaType=[jvmTypes::JvmType|QualifiedName];\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:36
+msgid "After regenerating your language, it will be allowed to define a type `Date` that maps to the [Date]({{site.javadoc.java}}/java/util/Date.html) like this:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:38
+msgid "```javatypesexample\n"
+"  datatype Date mapped-to java.util.Date\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:42
+msgid "These two steps will provide a nice integration into the Eclipse JDT. There is *Find References* on Java methods, fields and types that will reveal results in your language files. *Go To Declaration* works as expected and content assist will propose the list of available types. Even the *import* statements will also apply for Java types."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:44
+msgid "### Customization Points"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:46
+msgid "There are several customization hooks in the runtime layer of the JVM types and on the editor side as well:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:48
+msgid "The [AbstractTypeScopeProvider]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/src/org/eclipse/xtext/common/types/xtext/AbstractTypeScopeProvider.java) can be used to create scopes for members with respect to the override semantics of the Java language. Of course it is possible to use this implementation to create scopes for types as well."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:50
+msgid "As the Java VM types expose a lot of information about visibility, parameter types and return types, generics, available annotations or enumeration literals, it is very easy to define constraints for the referred types."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:52
+msgid "The [ITypesProposalProvider]({{site.src.xtext_eclipse}}/org.eclipse.xtext.common.types.ui/src/org/eclipse/xtext/common/types/xtext/ui/ITypesProposalProvider.java) can be used to provide optimized proposals based on various filter criteria. The most common selector can be used directly via `createSubTypeProposals(..)`. The implementation is optimized and uses the JDT Index directly to minimize the effort for object instantiation. The class [TypeMatchFilters]({{site.src.xtext_eclipse}}/org.eclipse.xtext.common.types.ui/src/org/eclipse/xtext/common/types/xtext/ui/TypeMatchFilters.java) provides a comprehensive set of reusable filters that can be easily combined to reduce the list of proposals to a smaller number of valid entries."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:54
+msgid "## Referring to Java Types Using Xbase {#xbase-java-references}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:56
+msgid "While the JVM types approach from the previous chapter allows to refer to any Java element, it is quite limited when it comes to generics. Usually, a type reference in Java can have type arguments which can also include wildcards, upper and lower bounds etc. A simple cross-reference using a qualified name is not enough to express neither the syntax nor the structure of such a type reference."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:58
+msgid "Xbase offers a parser rule *JvmTypeReference* which supports the full syntax of a Java type reference and instantiates a JVM element of type [JvmTypeReference]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmTypeReference.java). So let us start by inheriting from Xbase:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:60
+msgid "```xtext\n"
+"grammar org.eclipse.xtext.example.Domainmodel\n"
+"   with org.eclipse.xtext.xbase.Xbase\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:65
+msgid "Because we can express all kinds of Java type references directly now, an indirection for *DataTypes* as in the previous section is no longer necessary. If we start from the [domain model example in the tutorial](103_domainmodelnextsteps.html) again, we have to replace all cross-references to *Types* by calls to the production rule *JvmTypeReference*. The rules *DataType*, *Type*, and *QualifiedName* become obsolete (the latter is already defined in Xbase). As we now have all kinds of generic Java collections at hand, *Feature.many* is obsolete, too. The whole grammar now reads concisely:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:67
+msgid "```xtext\n"
+"grammar org.eclipse.xtext.example.Domainmodel with\n"
+"                                      org.eclipse.xtext.xbase.Xbase"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:71
+msgid "generate domainmodel \"http://www.eclipse.org/xtext/example/Domainmodel\""
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:73
+msgid "Domainmodel:\n"
+"  importSection=XImportSection?\n"
+"  (elements += AbstractElement)*\n"
+";"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:78
+msgid "PackageDeclaration:\n"
+"  'package' name = QualifiedName '{'\n"
+"    (elements += AbstractElement)*\n"
+"  '}'\n"
+";"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:84
+msgid "AbstractElement:\n"
+"  PackageDeclaration | Entity\n"
+";"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:88
+msgid "Entity:\n"
+"  'entity' name = ID \n"
+"              ('extends' superType = JvmTypeReference)?\n"
+"  '{'\n"
+"    (features += Feature)*\n"
+"  '}'\n"
+";"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:96
+msgid "Feature:\n"
+"  name = ID ':' type = JvmTypeReference\n"
+"; \n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:101
+msgid "As we changed the grammar, we have to regenerate the language now."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:103
+msgid "Being able to parse a Java type reference is already nice, but we also have to write them back to their string representation when we generate Java code. Unfortunately, a generic type reference with fully qualified class names can become a bit bulky. Therefore, the [ImportManager]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/ImportManager.java) shortens fully qualified names, keeps track of imported namespaces, avoids name collisions, and helps to serialize [JvmTypeReferences]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmTypeReference.java) by means of the [TypeReferenceSerializer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/TypeReferenceSerializer.java). This utility encapsulates how type references may be serialized depending on the concrete context in the output."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:105
+msgid "The following snippet shows our code generator using an [ImportManager]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/ImportManager.java) in conjunction with a [TypeReferenceSerializer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/TypeReferenceSerializer.java). We create a new instance and pass it through the generation functions, collecting types on the way. As the import section in a Java file precedes the class body, we create the body into a String variable and assemble the whole file's content in a second step."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:107
+msgid "```xtend\n"
+"class DomainmodelGenerator implements IGenerator {"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:110
+msgid "  @Inject extension IQualifiedNameProvider\n"
+"  @Inject extension TypeReferenceSerializer"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:113
+msgid "  override void doGenerate(Resource resource, IFileSystemAccess fsa) {\n"
+"    for(e: resource.allContents.toIterable.filter(typeof(Entity))) {\n"
+"      fsa.generateFile(\n"
+"        e.fullyQualifiedName.toString(\"/\") + \".java\",\n"
+"        e.compile)\n"
+"    }\n"
+"  }"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:121
+msgid "  def compile(Entity it) '''\n"
+"    «val importManager = new ImportManager(true)» \n"
+"    «val body = body(importManager)»\n"
+"    «IF eContainer != null»\n"
+"      package «eContainer.fullyQualifiedName»;\n"
+"    «ENDIF»"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:128
+msgid "    «FOR i:importManager.imports»\n"
+"      import «i»;\n"
+"    «ENDFOR»"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:132
+msgid "    «body»\n"
+"  '''"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:135
+msgid "  def body(Entity it, ImportManager importManager) '''\n"
+"    public class «name» «IF superType != null»\n"
+"      extends «superType.shortName(importManager)» «ENDIF»{\n"
+"      «FOR f : features»\n"
+"        «f.compile(importManager)»\n"
+"      «ENDFOR»\n"
+"    }\n"
+"  '''"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:144
+msgid "  def compile(Feature it, ImportManager importManager) '''\n"
+"    private «type.shortName(importManager)» «name»;"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:147
+msgid "    public «type.shortName(importManager)» \n"
+"      get«name.toFirstUpper»() {\n"
+"      return «name»;\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:152
+msgid "    public void set«name.toFirstUpper»(\n"
+"      «type.shortName(importManager)» «name») {\n"
+"      this.«name» = «name»;\n"
+"    }\n"
+"  '''"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:158
+msgid "  def shortName(JvmTypeReference ref, \n"
+"          ImportManager importManager) {\n"
+"    val result = new StringBuilderBasedAppendable(importManager)\n"
+"    ref.serialize(ref.eContainer, result);\n"
+"    result.toString\n"
+"  }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:167
+msgid "Please note that when *org.eclipse.xtext.xbase.Xbase* is used the default binding for the interface [IGenerator]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/generator/IGenerator.java) is [JvmModelGenerator]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/JvmModelGenerator.xtend). To use a custom one we have to bind our own implementation in *org.example.domainmodel.DomainmodelRuntimeModule* like this:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:169
+msgid "```java\n"
+"public class DomainmodelRuntimeModule extends org.example.domainmodel.AbstractDomainmodelRuntimeModule {\n"
+"	public Class<? extends org.eclipse.xtext.generator.IGenerator> bindIGenerator() {\n"
+"		return org.example.domainmodel.generator.DomainmodelGenerator.class;\n"
+"	}\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:177
+msgid "## Inferring a JVM Model {#xbase-inferred-type}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:179
+msgid "In many cases, you will want your DSLs concepts to be usable as Java elements, e.g. an *Entity* will become a Java class and should be usable as such. In the domain model example, you can write"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:181
+msgid "```domainexample\n"
+"entity Employee extends Person {\n"
+"  boss: Person\n"
+"..."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:186
+msgid "entity Person {\n"
+"  friends: List<Person>\n"
+"...\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:191
+msgid "You can use entities instead of Java types or even mix Java types as [List]({{site.javadoc.java}}/java/util/List.html) with entities such as *Person*. One way to achieve this is to let your concepts inherit from a corresponding JVM type, e.g. let *Entity* inherit from [JvmGenericType]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmGenericType.java). But this would result in a lot of accidentally inherited properties in your domain model. In Xbase there is an alternative: You can simply define how to derive a JVM model from your model. This *inferred JVM model* is the representation of your concepts in the type system of Xbase."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:193
+msgid "The main component for the inferred JVM model is the [IJvmModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelInferrer.java). It has a single method that takes the root model element as an argument and produces a number of [JvmDeclaredTypes]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmDeclaredType.java). As Xbase cannot guess how you would like to map your concepts to JVM elements, you have to implement this component yourself. This usually boils down to using an injected [JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java) to create a hierarchy of JVM elements. The [builder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java) helps to initialize the produced types with sensible defaults and encapsulates the logic that associates the source elements with the derived JVM concepts. As this kind of transformation can be elegantly implemented using polymorphic dispatch functions and extension methods, it is a good choice to write the [IJvmModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelInferrer.java) in Xtend. It becomes even simpler if you inherit from the [AbstractModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/AbstractModelInferrer.java) which traverses the input model and dispatches to its contents until you decide which elements to handle."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:195
+msgid "The inference runs in two phases: In the first phase all the types are created with empty bodies. This way you make sure all types exist when you might lookup types during initializing the members in the second phase. Use `acceptor.accept(JvmDeclaredType, Procedure1<JvmDeclaredType>)` and pass in the created Java type as the first argument and the initialization block as the second. For our domain model example, we implement a polymorphic dispatch function *infer* for *Entities* to transform them into [JvmGenericTypes]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmGenericType.java) in the first phase. In the second phase, we add a [JvmField]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmField.java) and corresponding accessors for each *Property*. The final *DomainmodelJvmModelInferrer* looks like this:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:197
+msgid "```xtend\n"
+"class DomainmodelJvmModelInferrer extends AbstractModelInferrer {"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:200
+msgid "  @Inject extension JvmTypesBuilder"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:202
+msgid "  @Inject extension IQualifiedNameProvider"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:204
+msgid "  def dispatch void infer(Entity element, \n"
+"                IJvmDeclaredTypeAcceptor acceptor, \n"
+"                boolean isPrelinkingPhase) {"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:208
+msgid "    acceptor.accept(element.toClass(element.fullyQualifiedName)) [\n"
+"      documentation = element.documentation\n"
+"      for (feature : element.features) {\n"
+"        members += feature.toField(feature.name, feature.type)\n"
+"        members += feature.toSetter(feature.name, feature.type)\n"
+"        members += feature.toGetter(feature.name, feature.type)\n"
+"      }\n"
+"    ]\n"
+"  }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:220
+msgid "Out of the inferred model the corresponding Java class gets generated. To ensure that this will work make sure that the binding in the rumtime module for [IGenerator]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/generator/IGenerator.java) is pointing to [JvmModelGenerator]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/JvmModelGenerator.xtend). This is the default case, but as we dealt with a custom implementation in the last section this may lead to problems."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:222
+msgid "### Linking and Indexing"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:224
+msgid "As Java elements and your concepts are now represented as JVM model elements, other models can now transparently link to Java or your DSL. In other words, you can use a mapped element of your DSL in the same places as the corresponding Java type."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:226
+msgid "The Xbase framework will automatically switch between the JVM element or the DSL element when needed, e.g. when following hyperlinks. The component allowing to navigate between the source model and the JVM model is called [IJvmModelAssociations]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelAssociations.java), the read-only antagonist of the [IJvmModelAssociator]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelAssociator.java) that is used by the [JvmTypesBuilder]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/JvmTypesBuilder.java)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:228
+msgid "By default, the inferred model is [indexed](303_runtime_concepts.html#global-scopes), so it can be cross referenced from other models."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:230
+msgid "## Using Xbase Expressions {#xbase-expressions}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:232
+msgid "Xbase is an expression language that can be embedded into Xtext languages. Its syntax is close to Java, but it additionally offers type inference, lambda expressions, a powerful switch expression and a lot more. For details on this expression language, please consult the [reference documentation](#xbase-language-ref-introduction) and the Xbase tutorial *(File &rarr; New &rarr; Example &rarr; Xtext Examples &rarr; Xbase Tutorial)*."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:234
+msgid "Xbase ships with an interpreter and a compiler that produces Java code. Thus, it is easy to add behavior to your DSLs and make them executable. As Xbase integrates tightly with Java, there is usually no additional code needed to run your DSL as part of a Java application."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:236
+msgid "### Making Your Grammar Refer To Xbase"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:238
+msgid "To use Xbase expressions let your grammar extend the Xbase grammar."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:240
+msgid "```xtext\n"
+"grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.xbase.Xbase\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:244
+msgid "If you want to refer to [EClassifiers]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClassifier.java) from the Xbase model, you need to import Xbase first:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:246
+msgid "```xtext\n"
+"import \"http://www.eclipse.org/xtext/xbase/Xbase\" as xbase\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:250
+msgid "Now identify the location in your grammar where you want references to Java types and Xbase expressions to appear and call the appropriate rules of the super grammar. Adding Xbase expression to the domainmodel example leads to the additional concept *Operation*: An *Operation*'s parameters are *FullJvmFormalParameters*. The production rule for *FullJvmFormalParameters* expects both the name and the type here. That is reasonable since the type of parameters should not be inferred. The operation's return type is a *JvmTypeReference* and its *body* is an *XBlockExpression*. The final parser rule reads as:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:252
+msgid "```xtext\n"
+"Operation:\n"
+"  'op' name=ValidID '(' \n"
+"  (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')'\n"
+"  ':' type=JvmTypeReference \n"
+"    body=XBlockExpression;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:260
+msgid "If you are unsure which entry point to choose for your expressions, consider the *XBlockExpression*."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:262
+msgid "To integrate *Operations* in our models, we have to call this rule. We copy the previous *Feature* to a new rule *Property* and let *Feature* become the super type of *Property* and *Operation*:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:264
+msgid "```xtext\n"
+"Feature:\n"
+"  Property | Operation\n"
+";"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:269
+msgid "Property:\n"
+"  name = ID ':' type = JvmTypeReference\n"
+";\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:274
+msgid "Note: You will have to adapt the [IJvmModelInferrer]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/jvmmodel/IJvmModelInferrer.java) to these changes, i.e. rename *Feature* to *Property* and create a [JvmOperation]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmOperation.java) for each *Operation*. We leave that as an exercise :-)"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:276
+msgid "If you are done with that, everything will work out of the box. Since each expression is now logically contained in an [operation]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmOperation.java), all the scoping rules and visibility constraints are implied from that context. The framework will take care that the operation's parameters are visible inside the operation's body and that the declared return types are validated against the actual expression types."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:278
+msgid "There is yet another aspect of the JVM model that can be explored. Since all the coarse grained concepts such as [types]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmType.java) and [operations]({{site.src.xtext_extras}}/org.eclipse.xtext.common.types/emf-gen/org/eclipse/xtext/common/types/JvmOperation.java) were already derived from the model, a generator can be used to serialize that information to Java code. There is no need to write a code generator on top of that. The [JvmModelGenerator]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/compiler/JvmModelGenerator.xtend) knows how to generate operation bodies properly."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:280
+msgid "### Using the Xbase Interpreter"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:282
+msgid "Sometimes it is more convenient to interpret a model that uses Xbase than to generate code from it. Xbase ships with the [XbaseInterpreter]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/interpreter/impl/XbaseInterpreter.java) which makes this rather easy."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:284
+msgid "An interpreter is essentially an external visitor, that recursively processes a model based on the model element's types. In the [XbaseInterpreter]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/interpreter/impl/XbaseInterpreter.java), the method *doEvaluate(XExpression, IEvaluationContext, CancelIndicator)* delegates to more specialised implementations e.g."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:286
+msgid "```java\n"
+"protected Object _doEvaluate(XBlockExpression literal,\n"
+"                             IEvaluationContext context,\n"
+"                             CancelIndicator indicator)\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:292
+msgid "The [IEvaluationContext]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/interpreter/IEvaluationContext.java) keeps the state of the running application, i.e. the local variables and their values. Additionally, it can be *fork*ed, thus allowing to shadow the elements of the original context. Here is an example code snippet how to call the [XbaseInterpreter]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase/src/org/eclipse/xtext/xbase/interpreter/impl/XbaseInterpreter.java):"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:294
+msgid "```java\n"
+"@Inject private XbaseInterpreter xbaseInterpreter;"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:297
+msgid "@Inject private Provider<IEvaluationContext> contextProvider;"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:299
+msgid "...\n"
+"public Object evaluate(XExpression expression, Object thisElement) {\n"
+"  IEvaluationContext evaluationContext = contextProvider.get();\n"
+"  // provide initial context and implicit variables\n"
+"  evaluationContext.newValue(XbaseScopeProvider.THIS, thisElement);"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:305
+msgid "  IEvaluationResult result = xbaseInterpreter.evaluate(expression,\n"
+"    evaluationContext, CancelIndicator.NullImpl);\n"
+"  if (result.getException() != null) {\n"
+"    // handle exception\n"
+"  } \n"
+"  return result.getResult();\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:314
+msgid "## Xbase Language Reference {#xbase-language-ref-introduction}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:316
+msgid "This document describes the expression language library Xbase. Xbase is a partial programming language implemented in Xtext and is meant to be embedded and extended within other programming languages and domain-specific languages (DSL) written in Xtext. Xtext is a highly extendible language development framework covering all aspects of language infrastructure such as parsers, linkers, compilers, interpreters and even full-blown IDE support based on Eclipse."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:318
+msgid "Developing DSLs has become incredibly easy with Xtext. Structural languages which introduce new coarse-grained concepts, such as services, entities, value objects or state-machines can be developed in minutes. However, software systems do not consist of structures solely. At some point a system needs to have some behavior, which is usually specified using so called *expressions*. Expressions are the heart of every programming language and are not easy to get right. On the other hand, expressions are well understood and many programming languages share a common set and understanding of expressions."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:320
+msgid "That is why most people do not add support for expressions in their DSL but try to solve this differently. The most often used workaround is to define only the structural information in the DSL and add behavior by modifying or extending the generated code. It is not only unpleasant to write, read and maintain information which closely belongs together in two different places, abstraction levels and languages. Also, modifying the generated source code comes with a lot of additional problems. This has long time been the preferred solution since adding support for expressions (and a corresponding execution environment) for your language has been hard - even with Xtext."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:322
+msgid "Xbase serves as a language library providing a common expression language bound to the Java platform (i.e. Java Virtual Machine). It consists of an Xtext grammar, as well as reusable and adaptable implementations for the different aspects of a language infrastructure such as an AST structure, a compiler, an interpreter, a linker, and a static analyzer. In addition it comes with implementations to integrate the expression language within an Xtext-based Eclipse IDE. Default implementations for aspects like content assistance, syntax coloring, hovering, folding and navigation can be easily integrated and reused within any Xtext based language."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:324
+msgid "Conceptually and syntactically, Xbase is very close to Java statements and expressions, but with a few differences:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:326
+msgid "*   No checked exceptions\n"
+"*   Everything is an expression, there are no statements\n"
+"*   Lambda expressions\n"
+"*   Type inference\n"
+"*   Properties\n"
+"*   Simple operator overloading\n"
+"*   Powerful switch expressions"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:334
+#: ../../../documentation/305_xbase.md:408
+#: ../../../documentation/305_xbase.md:478
+#: ../../../documentation/305_xbase.md:1219
+#: ../../../documentation/305_xbase.md:1292
+msgid "---"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:336
+msgid "### Lexical Syntax {#xbase-language-ref-syntax}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:338
+msgid "Xbase comes with a small set of terminal rules, which can be overridden and hence changed by users. However the default implementation is carefully chosen and it is recommended to stick with the lexical syntax described in the following."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:340
+msgid "#### Identifiers {#xbase-syntax-identifiers}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:342
+msgid "Identifiers are used to name all constructs, such as types, methods and variables. Xbase uses the default identifier-syntax from Xtext - compared to Java, they are slightly simplified to match the common cases while having less ambiguities. They start with a letter *a*-*z*, *A*-*Z* or an underscore/dollar symbol followed by more of these characters or any digit *0*-*9*."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:344
+msgid "##### Escaped Identifiers {#xbase-syntax-escaped-identifiers}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:346
+msgid "Identifiers must not have the same spelling as any reserved keyword. However, this limitation can be avoided by escaping identifiers with the prefix `^`. Escaped identifiers are used in cases when there is a conflict with a reserved keyword. Imagine you have introduced a keyword `service` in your language but want to call a Java property *service*. In such cases you can use the escaped identifier `^service` to reference the Java property."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:348
+msgid "##### Syntax"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:350
+msgid "```xtext\n"
+"terminal ID: \n"
+"  '^'? ('a'..'z'|'A'..'Z'|'_'|'$') ('a'..'z'|'A'..'Z'|'_'|'$'|'0'..'9')*\n"
+";\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:356
+#: ../../../documentation/305_xbase.md:420
+#: ../../../documentation/305_xbase.md:431
+#: ../../../documentation/305_xbase.md:456
+#: ../../../documentation/305_xbase.md:496
+#: ../../../documentation/305_xbase.md:568
+#: ../../../documentation/305_xbase.md:629
+#: ../../../documentation/305_xbase.md:771
+#: ../../../documentation/305_xbase.md:892
+#: ../../../documentation/305_xbase.md:930
+#: ../../../documentation/305_xbase.md:999
+#: ../../../documentation/305_xbase.md:1064
+#: ../../../documentation/305_xbase.md:1127
+#: ../../../documentation/305_xbase.md:1148
+msgid "##### Examples"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:358
+msgid "*   `Foo`\n"
+"*   `Foo42`\n"
+"*   `FOO`\n"
+"*   `_42`\n"
+"*   `_foo`\n"
+"*   `$$foo$$`\n"
+"*   `^extends`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:366
+msgid "#### Comments {#xbase-syntax-comments}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:368
+msgid "Xbase comes with two different kinds of comments: Single-line comments and multi-line comments. The syntax is the same as the one known from Java (see [§ 3.7 Comments](http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.7))."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:370
+msgid "#### White Space {#xbase-syntax-whitespace}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:372
+msgid "The white space characters `' '`, `'\\t'`, `'\\n'`, and `'\\r'` are allowed to occur anywhere between the other syntactic elements."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:374
+msgid "#### Reserved Keywords {#xbase-syntax-keywords}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:376
+msgid "The following list of words are reserved keywords, thus reducing the set of possible identifiers:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:378
+msgid "1.  `as`\n"
+"1.  `case`\n"
+"1.  `catch`\n"
+"1.  `default`\n"
+"1.  `do`\n"
+"1.  `else`\n"
+"1.  `extends`\n"
+"1.  `extension`\n"
+"1.  `false`\n"
+"1.  `finally`\n"
+"1.  `for`\n"
+"1.  `if`\n"
+"1.  `import`\n"
+"1.  `instanceof`\n"
+"1.  `new`\n"
+"1.  `null`\n"
+"1.  `return`\n"
+"1.  `static`\n"
+"1.  `super`\n"
+"1.  `switch`\n"
+"1.  `throw`\n"
+"1.  `true`\n"
+"1.  `try`\n"
+"1.  `typeof`\n"
+"1.  `val`\n"
+"1.  `var`\n"
+"1.  `while`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:406
+msgid "The four keywords `extends, static, import, extension` can be used when invoking operations. In case some of the other keywords have to be used as identifiers, the escape character for [identifiers](#xbase-syntax-escaped-identifiers) comes in handy."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:410
+msgid "### Types {#xbase-language-ref-types}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:412
+msgid "Basically all kinds of JVM types are available and referable."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:414
+msgid "#### Simple Type References {#xbase-types-type-references}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:416
+msgid "A simple type reference only consists of a *qualified name*. A qualified name is a name made up of identifiers which are separated by a dot (like in Java)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:418
+msgid "There is no parser rule for a simple type reference, as it is expressed as a parameterized type references without parameters."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:422
+msgid "*   `java.lang.String`\n"
+"*   `String`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:425
+msgid "#### Parameterized Type References {#xbase-types-parameterized-type-reference}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:427
+msgid "The general syntax for type references allows to take any number of type arguments. The semantics as well as the syntax is almost the same as in Java, so please refer to the third edition of the [Java Language Specification](http://docs.oracle.com/javase/specs/jls/se7/html/index.html)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:429
+msgid "The only difference is that in Xbase a type reference can also be a function type. In the following the full syntax of type references is shown, including function types and type arguments."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:433
+msgid "*   `String`\n"
+"*   `java.lang.String`\n"
+"*   `List<?>`\n"
+"*   `List<? extends Comparable<? extends FooBar>`\n"
+"*   `List<? super MyLowerBound>`\n"
+"*   `List<? extends =>Boolean>`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:440
+msgid "#### Primitives {#xbase-types-primitives}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:442
+msgid "Xbase supports all Java primitives. The conformance rules (e.g. boxing and unboxing) are also exactly like defined in the Java Language Specification."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:444
+msgid "#### Arrays {#xbase-types-arrays}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:446
+msgid "Arrays cannot be instantiated arbitrarily, but there are a couple of useful library functions that allow to create arrays with a fixed length or an initial value set. Besides this restriction, they can be passed around and they are transparently converted to a List of the component type on demand."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:448
+msgid "In other words, the return type of a Java method that returns an array of ints (`int[]`) can be directly assigned to a variable of type [List\\<Integer\\>]({{site.javadoc.java}}/java/util/List.html). Due to type inference this conversion happens implicitly. The conversion is bi-directional: Any method that takes an array as argument can be invoked with an argument that has the type `List<ComponentType>` instead."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:450
+msgid "#### Function Types {#xbase-types-function-types}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:452
+msgid "Xbase introduces *lambda expressions*, and therefore an additional function type signature. On the JVM-Level a lambda expression (or more generally any function object) is just an instance of one of the types in [Functions]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Functions.java), depending on the number of arguments. However, as lambda expressions are a very important language feature, a special sugared syntax for function types has been introduced. So instead of writing `Function1<String, Boolean>` one can write `(String)=>boolean`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:454
+msgid "For more information on lambda expressions see [the corresponding section](#xbase-expressions-lambda)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:458
+msgid "*   `=>Boolean // predicate without parameters`\n"
+"*   `()=>String // provider of string`\n"
+"*   `(String)=>boolean // One argument predicate`\n"
+"*   `(Mutable)=>void // A procedure doing side effects only`\n"
+"*   `(List<String>, Integer)=>String`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:464
+msgid "#### Conformance and Conversion {#xbase-types-conformance-rules}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:466
+msgid "Type conformance rules are used in order to find out whether some expression can be used in a certain situation. For instance when assigning a value to a variable, the type of the right hand expression needs to conform to the type of the variable."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:468
+msgid "As Xbase implements the type system of Java it also fully supports the conformance rules defined in the [Java Language Specification](http://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:470
+msgid "Some types in Xbase can be used synonymously even if they do not conform to each other in Java. An example for this are arrays and lists or function types with compatible function parameters. Objects of these types are implicitly converted by Xbase on demand."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:472
+msgid "#### Common Super Type {#xbase-types-common-super-type}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:474
+msgid "Because of type inference Xbase sometimes needs to compute the most common super type of a given set of types."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:476
+msgid "For a set *\\[T1,T2,...Tn\\]* of types the common super type is computed by using the linear type inheritance sequence of *T1* and is iterated until one type conforms to each *T2,..,Tn*. The linear type inheritance sequence of *T1* is computed by ordering all types which are part in the type hierarchy of *T1* by their specificity. A type *T1* is considered more specific than *T2* if *T1* is a subtype of *T2*. Any types with equal specificity will be sorted by the maximal distance to the originating subtype. *CharSequence* has distance 2 to *StringBuilder* because the super type *AbstractStringBuilder* implements the interface, too. Even if *StringBuilder* implements *CharSequence* directly, the interface gets distance 2 in the ordering because it is not the most general class in the type hierarchy that implements the interface. If the distances for two classes are the same in the hierarchy, their qualified name is used as the compare-key to ensure deterministic results."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:480
+msgid "### Expressions {#xbase-language-ref-expressions}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:482
+msgid "Expressions are the main language constructs which are used to express behavior and compute values. The concept of statements is not supported, but instead powerful expressions are used to handle situations in which the imperative nature of statements would be helpful. An expression always results in a value (it might be the value `null` or of type `void` though). In addition, every resolved expression is of a static type."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:484
+msgid "#### Literals {#xbase-expressions-literals}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:486
+msgid "A literal denotes a fixed unchangeable value. Literals for strings, numbers, booleans, `null` and Java types are supported. Additionally, there exists a literal syntax for collections and arrays."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:488
+msgid "##### String Literals {#xbase-expressions-string-literal}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:490
+msgid "String literals can either use `'single quotes'` or `\"double quotes\"` as their enclosing characters. When using double quotes all literals allowed by Java string literals are supported. In addition new line characters are allowed, i.e. in Xbase string literals can span multiple lines. When using single quotes the only difference is that single quotes within the literal have to be escaped while double quotes do not."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:492
+msgid "See [§ 3.10.5 String Literals](http://docs.oracle.com/javase/specs/jls/se7/html/jls-3.html#jls-3.10.5)"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:494
+msgid "In contrast to Java, equal string literals within the same class do not necessarily refer to the same instance at runtime, especially in the interpreted mode."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:498
+msgid "*   `'Foo Bar Baz'`\n"
+"*   `\"Foo Bar Baz\"`\n"
+"*"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:502
+msgid "    ```xbase\n"
+"\"the quick brown fox\n"
+"    jumps over the lazy dog.\"\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:507
+msgid "*   `'Escapes : \\' '`\n"
+"*   `\"Escapes : \\\" \"`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:510
+msgid "##### Number Literals {#xbase-expressions-number-literal}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:512
+msgid "Xbase supports roughly the same number literals as Java with a few notable differences. As in Java 7, you can separate digits using `_` for better readability of large numbers. An integer literal represents an `int`, a `long` (suffix `L`) or even a [BigInteger]({{site.javadoc.java}}/java/math/BigInteger.html) (suffix `BI`). There are no octal number literals."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:514
+msgid "```xbase\n"
+"  42\n"
+"  1_234_567_890 \n"
+"  0xbeef    // hexadecimal\n"
+"  077       // decimal 77 (*NOT* octal)\n"
+"  42L\n"
+"  0xbeef#L // hexadecimal, mind the '#'\n"
+"  0xbeef_beef_beef_beef_beef#BI // BigInteger\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:524
+msgid "A floating-point literal creates a `double` (suffix `D` or omitted), a `float` (suffix `F`) or a [BigDecimal]({{site.javadoc.java}}/java/math/BigDecimal.html) (suffix `BD`). If you use a `.` sign you have to specify both, the integer and the fractional part of the mantissa. There are only decimal floating-point literals."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:526
+msgid "```xbase\n"
+"  42d     // double\n"
+"  0.42e2  // implicit double\n"
+"  0.42e2f // float\n"
+"  4.2f    // float\n"
+"  0.123_456_789_123_456_789_123_456_789e2000bd // BigDecimal\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:534
+msgid "##### Boolean Literals {#xbase-expressions-boolean-literal}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:536
+msgid "There are two boolean literals, `true` and `false` which correspond to their Java counterpart of type *boolean*."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:538
+msgid "*   `true`\n"
+"*   `false`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:541
+msgid "##### Null Literal {#xbase-expressions-null-literal}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:543
+msgid "The null literal is, as in Java, `null`. It is compatible to any reference type and therefore always of the null type."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:545
+msgid "*   `null`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:547
+msgid "##### Type Literals {#xbase-expressions-type-literal}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:549
+msgid "The syntax for type literals is generally the plain name of the type, e.g. the Xbase snippet `String` is equivalent to the Java code `String.class`. Nested types use the delimiter `'.'`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:551
+msgid "To disambiguate the expression, type literals may also be specified using the keyword `typeof`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:553
+msgid "*   `Map.Entry` is equivalent to `Map.Entry.class`\n"
+"*   `typeof(StringBuilder)` yields `StringBuilder.class`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:556
+msgid "Consequently it is possible to access the members of a type reflectively by using its plain name `String.getDeclaredFields`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:558
+msgid "Previous versions of Xbase used the dollar as the delimiter character for nested types:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:560
+msgid "*   `typeof(Map$Entry)` yields `Map.Entry.class`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:562
+msgid "#### Type Casts {#xbase-expressions-type-casts}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:564
+msgid "Type cast behave the same as in Java, but have a more readable syntax. Type casts bind stronger than any other operator but weaker than feature calls."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:566
+msgid "The conformance rules for casts are defined in the [Java Language Specification](http://docs.oracle.com/javase/specs/jls/se7/html/jls-5.html#jls-5.5)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:570
+msgid "*   `my.foo as MyType`\n"
+"*   `(1 + 3 * 5 * (- 23)) as BigInteger`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:573
+msgid "#### Infix Operators / Operator Overloading {#xbase-expressions-operators}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:575
+msgid "There are a couple of common predefined infix operators. In contrast to Java, the operators are not limited to operations on certain types. Instead an operator-to-method mapping allows users to redefine the operators for any type just by implementing the corresponding method signature. The following defines the operators and the corresponding Java method signatures / expressions."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:577
+msgid "|:---|:---|\n"
+"|`e1 += e2`|`e1.operator_add(e2)`|\n"
+"|`e1 -= e2`|`e1.operator_remove(e2)`|\n"
+"|||\n"
+"|`e1 || e2`|`e1.operator_or(e2)`|\n"
+"|||\n"
+"|`e1 && e2`|`e1.operator_and(e2)`|\n"
+"|||\n"
+"|`e1 == e2`|`e1.operator_equals(e2)`|\n"
+"|`e1 != e2`|`e1.operator_notEquals(e2)`|\n"
+"|`e1 === e2`|`e1.operator_tripleEquals(e2)`|\n"
+"|`e1 !== e2`|`e1.operator_tripleNotEquals(e2)`|\n"
+"|||\n"
+"|`e1 < e2`|`e1.operator_lessThan(e2)`|\n"
+"|`e1 > e2`|`e1.operator_greaterThan(e2)`|\n"
+"|`e1 <= e2`|`e1.operator_lessEqualsThan(e2)`|\n"
+"|`e1 >= e2`|`e1.operator_greaterEqualsThan(e2)`|\n"
+"|||\n"
+"|`e1 -> e2`|`e1.operator_mappedTo(e2)`|\n"
+"|`e1 .. e2`|`e1.operator_upTo(e2)`|\n"
+"|`e1 >.. e2`|`e1.operator_greaterThanDoubleDot(e2)`|\n"
+"|`e1 ..< e2`|`e1.operator_doubleDotLessThan(e2)`|\n"
+"|`e1 => e2`|`e1.operator_doubleArrow(e2)`|\n"
+"|`e1 << e2`|`e1.operator_doubleLessThan(e2)`|\n"
+"|`e1 >> e2`|`e1.operator_doubleGreaterThan(e2)`|\n"
+"|`e1 <<< e2`|`e1.operator_tripleLessThan(e2)`|\n"
+"|`e1 >>> e2`|`e1.operator_tripleGreaterThan(e2)`|\n"
+"|`e1 <> e2`|`e1.operator_diamond(e2)`|\n"
+"|`e1 ?: e2`|`e1.operator_elvis(e2)`|\n"
+"|`e1 <=> e2`|`e1.operator_spaceship(e2)`|\n"
+"|||\n"
+"|`e1 + e2`|`e1.operator_plus(e2)`|\n"
+"|`e1 - e2`|`e1.operator_minus(e2)`|\n"
+"|||\n"
+"|`e1 * e2`|`e1.operator_multiply(e2)`|\n"
+"|`e1 / e2`|`e1.operator_divide(e2)`|\n"
+"|`e1 % e2`|`e1.operator_modulo(e2)`|\n"
+"|`e1 ** e2`|`e1.operator_power(e2)`|\n"
+"|||\n"
+"|`! e1`|`e1.operator_not()`|\n"
+"|`- e1`|`e1.operator_minus()`|\n"
+"|`+ e1`|`e1.operator_plus()`|"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:620
+msgid "The table above also defines the operator precedence in ascending order. The blank lines separate precedence levels. The assignment operator `+=` is right-to-left associative in the same way as the plain assignment operator `=` is. Consequently, `a = b = c` is executed as `a = (b = c)`. All other operators are left-to-right associative. Parentheses can be used to adjust the default precedence and associativity."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:622
+msgid "##### Short-Circuit Boolean Operators"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:624
+msgid "If the operators `||` and `&&` are used in a context where the left hand operand is of type boolean, the operation is evaluated in short circuit mode, which means that the right hand operand is not evaluated at all in the following cases:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:626
+msgid "1.  in the case of `||` the operand on the right hand side is not evaluated if the left operand evaluates to `true`.\n"
+"1.  in the case of `&&` the operand on the right hand side is not evaluated if the left operand evaluates to `false`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:631
+msgid "*   `my.foo = 23`\n"
+"*   `myList += 23`\n"
+"*   `x > 23 && y < 23`\n"
+"*   `x && y || z`\n"
+"*   `1 + 3 * 5 * (- 23)`\n"
+"*   `!(x)`\n"
+"*   `my.foo = 23`\n"
+"*   `my.foo = 23`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:640
+msgid "##### Assignment Operators"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:642
+msgid "Compound assignment operators can be used as a shorthand for the assignment of a binary expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:644
+msgid "```xtend\n"
+"var BigDecimal bd = 45bd\n"
+"bd += 12bd // equivalent to bd = bd + 12bd\n"
+"bd -= 12bd // equivalent to bd = bd - 12bd\n"
+"bd /= 12bd // equivalent to bd = bd / 12bd\n"
+"bd *= 12bd // equivalent to bd = bd * 12bd\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:652
+msgid "Compound assignments work automatically if the binary operator is declared. The following compound assignment operators are supported:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:654
+msgid "|:---|:---|\n"
+"|`e1 += e2`|`+`|\n"
+"|`e1 -= e2`|`-`|\n"
+"|`e1 *= e2`|`*`|\n"
+"|`e1 /= e2`|`/`|\n"
+"|`e1 %= e2`|`%`|"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:661
+msgid "##### Postfix Operators"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:663
+msgid "The two postfix operators `++` and `--` use the following method mapping:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:665
+msgid "|:---|:---|\n"
+"|`e1++`|`e1.operator_plusPlus()`|\n"
+"|`e1--`|`e1.operator_minusMinus()`|"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:669
+msgid "##### With Operator"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:671
+msgid "The *with* operator `=>` executes the [lambda expression](#xbase-expressions-lambda) with a single parameter on the right-hand side with a given argument on its left-hand side. The result is the left operand after applying the lambda expression. In combination with the [implicit parameter](#xbase-expressions-implicit-parameter)`it` this allows very convenient initialization of newly created objects. Example:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:673
+msgid "```xbase\n"
+"  val person = new Person => [\n"
+"    firstName = 'John'\n"
+"    lastName = 'Coltrane'\n"
+"  ]\n"
+"  // equivalent to\n"
+"  val person = new Person\n"
+"  person.firstName = 'John'\n"
+"  person.lastName = 'Coltrane'\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:684
+msgid "#### Assignments {#xbase-expressions-property-assignment}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:686
+msgid "[Local variables](#xbase-expressions-variable-declaration) can be reassigned using the `=` operator. Also properties can be set using that operator: Given the expression"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:688
+msgid "```xbase\n"
+"  myObj.myProperty = \"foo\"\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:692
+msgid "The compiler first looks for an accessible Java Field called `myProperty` on the declared or inferred type of `myObj`. If such a field can be found, the expressions translates to the following Java code:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:694
+msgid "```java\n"
+"  myObj.myProperty = \"foo\";\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:698
+msgid "Remember, in Xbase everything is an expression and has to return something. In the case of simple assignments the return value is the value returned from the corresponding Java expression, which is the assigned value."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:700
+msgid "If there is no accessible field on the left operand's type, a method called `setMyProperty(OneArg)` (JavaBeans setter method) is looked up. It has to take one argument of the type (or a super type) of the right hand operand. The return value of the assignment will be the return value of the setter method (which is usually of type `void` and therefore the value `null`). As a result the compiler translates to:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:702
+msgid "```java\n"
+"  myObj.setMyProperty(\"foo\")\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:706
+msgid "#### Feature Calls {#xbase-expressions-feature-calls}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:708
+msgid "A feature call is used to access members of objects, such as fields and methods, but it can also refer to local variables and parameters, which are made available by the current expression's scope."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:710
+msgid "##### Property Access {#xbase-expressions-property-access}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:712
+msgid "Feature calls are directly translated to their Java equivalent with the exception, that access to properties follows similar rules as described in [the previous section](#xbase-expressions-property-assignment). That is, for the expression"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:714
+msgid "```xbase\n"
+"  myObj.myProperty\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:718
+msgid "the compiler first looks for an accessible field `myProperty` in the type of `myObj`. If no such field exists it tries to find a method called `myProperty()` before it looks for the getter methods `getMyProperty()`. If none of these members can be found, the expression is unbound and a compilation error is indicated."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:720
+msgid "##### Null-Safe Feature Call {#xbase-expressions-null-safe-feature-calls}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:722
+msgid "Checking for null references can make code very unreadable. In many situations it is ok for an expression to return `null` if a receiver was `null`. Xbase supports the safe navigation operator `?.` to make such code more readable."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:724
+msgid "Instead of writing"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:726
+msgid "```java\n"
+"  if ( myRef != null ) myRef.doStuff()\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:730
+msgid "one can write"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:732
+msgid "```xbase\n"
+"  myRef?.doStuff()\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:736
+msgid "##### Static Feature Calls {#xbase-expressions-static-feature-calls}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:738
+msgid "Static feature calls use the same notation as in Java, e.g. it is possible to write `Collections.emptyList()` in Xbase. To make the static invocation more explicit, the double colon can be used as the delimiter. The following snippets are fully equivalent:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:740
+msgid "```xbase\n"
+"   java.util.Collections::emptyList\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:744
+msgid "```xbase\n"
+"   java.util.Collections.emptyList\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:748
+msgid "#### Implicit variables 'this' and 'it' {#xbase-expressions-implicit-this}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:750
+msgid "If the current scope contains a variable named `this` or `it`, the compiler will make all its members available implicitly. That is if one of"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:752
+msgid "```xbase\n"
+"  it.myProperty\n"
+"  this.myProperty\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:757
+msgid "is a valid expression"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:759
+msgid "```xbase\n"
+"  myProperty\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:763
+msgid "is valid as well. It resolves to the same feature as long as there is no local variable `myProperty` declared, which would have higher precedence."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:765
+msgid "As `this` is bound to the surrounding object in Java, `it` can be used in finer-grained constructs such as function parameters. That is why `it.myProperty` has higher precedence than `this.myProperty`. `it` is also the [default parameter name in lambda expressions](#xbase-expressions-implicit-parameter)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:767
+msgid "#### Constructor Call {#xbase-expressions-constructor-call}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:769
+msgid "Construction of objects is done by invoking Java constructors. The syntax is exactly as in Java."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:773
+#: ../../../documentation/305_xbase.md:779
+#: ../../../documentation/305_xbase.md:1001
+#: ../../../documentation/305_xbase.md:1011
+#: ../../../documentation/305_xbase.md:1090
+#: ../../../documentation/305_xbase.md:1098
+#: ../../../documentation/305_xbase.md:1129
+#: ../../../documentation/305_xbase.md:1137
+#: ../../../documentation/305_xbase.md:1150
+#: ../../../documentation/305_xbase.md:1158
+msgid "*"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:775
+msgid "    ```xbase\n"
+"      new String()\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:781
+msgid "    ```xbase\n"
+"      new java.util.ArrayList<java.math.BigDecimal>()\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:785
+msgid "#### Lambda Expressions {#xbase-expressions-lambda}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:787
+msgid "A lambda expression is a literal that defines an anonymous function. Xbase' lambda expressions are allowed to access variables of the declarator. Any final variables and parameters visible at construction time can be referred to in the lambda expression's body. These expressions are also known as closures."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:789
+msgid "Lambda expressions are surrounded by square brackets (\\`[]`):"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:791
+msgid "```xbase\n"
+"  myList.findFirst([ e | e.name==null ])\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:795
+msgid "When a function object is expected to be the last parameter of a feature call, you may declare the lambda expression after the parentheses:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:797
+msgid "```xbase\n"
+"  myList.findFirst() [ e | e.name==null ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:801
+msgid "Since in Xbase parentheses are optional for method calls, the same can be written as:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:803
+msgid "```xbase\n"
+"  myList.findFirst[ e | e.name==null ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:807
+msgid "This example can be further simplified since the lambda's parameter is available as the implicit variable `it`, if the parameter is not declared explicitly:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:809
+msgid "```xbase\n"
+"  myList.findFirst[ it.name==null ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:813
+msgid "Since `it` is implicit, this is the same as:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:815
+msgid "```xbase\n"
+"  myList.findFirst[ name==null ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:819
+msgid "Another use case for lambda expressions is to store function objects in variables:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:821
+msgid "```xbase\n"
+"  val func = [ String s | s.length>3 ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:825
+msgid "##### Typing {#xbase-expressions-lambda-type-inference}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:827
+msgid "Lambda expressions produce function objects. The type is a [function type](#xbase-types-function-types), parameterized with the types of the lambda's parameters as well as the return type. The return type is never specified explicitly but is always inferred from the expression. The parameter types can be inferred if the lambda expression is used in a context where this is possible."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:829
+msgid "For instance, given the following Java method signature:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:831
+msgid "```java\n"
+"  public T <T>getFirst(List<T> list, Function0<T,Boolean> predicate)\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:835
+msgid "the type of the parameter can be inferred. Which allows users to write:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:837
+msgid "```xbase\n"
+"  newArrayList( \"Foo\", \"Bar\" ).findFirst[ e | e == \"Bar\" ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:841
+msgid "instead of"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:843
+msgid "```xbase\n"
+"  newArrayList( \"Foo\", \"Bar\" ).findFirst[ String e | e == \"Bar\" ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:847
+msgid "##### Function Mapping {#xbase-expressions-function-mapping}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:849
+msgid "An Xbase lambda expression is a Java object of one of the *Function* interfaces that are part of the runtime library of Xbase. There is an interface for each number of parameters (up to six parameters). The names of the interfaces are"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:851
+msgid "*   [Function0\\<ReturnType\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Functions.java) for zero parameters,\n"
+"*   [Function1\\<Param1Type, ReturnType\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Functions.java) for one parameters,\n"
+"*   [Function2\\<Param1Type, Param2Type, ReturnType\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Functions.java) for two parameters,\n"
+"*   ... \n"
+"*   [Function6\\<Param1Type, Param2Type, Param3Type, Param4Type, Param5Type, Param6Type, ReturnType\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Functions.java) for six parameters,"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:857
+msgid "or"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:859
+msgid "*   [Procedure0]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Procedures.java) for zero parameters,\n"
+"*   [Procedure1\\<Param1Type\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Procedures.java) for one parameters,\n"
+"*   [Procedure2\\<Param1Type, Param2Type\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Procedures.java) for two parameters,\n"
+"*   ... \n"
+"*   [Procedure6\\<Param1Type, Param2Type, Param3Type, Param4Type, Param5Type, Param6Type\\>]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/Procedures.java) for six parameters,"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:865
+msgid "if the return type is `void`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:867
+msgid "In order to allow seamless integration with existing Java libraries such as the JDK or Google Guava (formerly known as Google Collect) lambda expressions are auto coerced to expected types if those types declare only one abstract method (methods from `java.lang.Object` don't count)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:869
+msgid "As a result given the method [Collections.sort(List\\<T\\>, Comparator\\<? super T\\>)]({{site.javadoc.java}}/java/util/Collections.html) is available as an extension method, it can be invoked like this"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:871
+msgid "```xbase\n"
+"newArrayList( 'aaa', 'bb', 'c' ).sort [\n"
+"  e1, e2 | if ( e1.length > e2.length ) {\n"
+"        -1 \n"
+"       } else if ( e1.length < e2.length ) { \n"
+"        1\n"
+"       } else { \n"
+"        0\n"
+"       }\n"
+"]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:883
+msgid "##### Implicit Parameter *it* {#xbase-expressions-implicit-parameter}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:885
+msgid "If a lambda expression has a single parameter whose type can be inferred, the declaration of the parameter can be omitted. Use `it` to refer to the parameter inside the lambda expression's body."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:887
+msgid "```xbase\n"
+"val (String s)=>String function = [ toUpperCase ]\n"
+"  // equivalent to [it | it.toUpperCase]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:894
+msgid "*   `[ | \"foo\" ]   // lambda expression without parameters`\n"
+"*   `[ String s | s.toUpperCase() ] // explicit argument type`\n"
+"*   `[ a, b, c | a+b+c ] // inferred argument types`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:898
+msgid "##### Refering the current function {#xbase-lambda-self}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:900
+msgid "If a lambda expression implements an abstract SAM type that offers additional methods, those can be accessed on the receiver `self`:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:902
+msgid "```xbase\n"
+"val AbstractIterator<String> emptyIterator = [\n"
+"	return self.endOfData\n"
+"]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:908
+msgid "#### If Expression {#xbase-expressions-if-expression}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:910
+msgid "An if expression is used to choose two different values based on a predicate. While it has the syntax of Java's if statement it behaves like Java's ternary operator (`predicate ? thenPart : elsePart`), i.e. it is an expression that returns a value. Consequently, you can use if expressions deeply nested within other expressions."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:912
+msgid "An expression `if (p) e1 else e2` results in either the value `e1` or `e2` depending on whether the predicate `p` evaluates to `true` or `false`. The else part is optional which is a shorthand for a default value, e.g `else null` if the type of the `if` expression is a reference type. If the type is a primitive type, its default value is assumed accordingly, e.g. `else false` for `boolean` or `else 1` for numbers."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:914
+msgid "That means"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:916
+msgid "```xbase\n"
+"  if (foo) x\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:920
+msgid "is the a short hand for"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:922
+msgid "```xbase\n"
+"  if (foo) x else null\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:926
+msgid "##### Typing {#xbase-expressions-if-type-inference}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:928
+msgid "The type of an `if` expression is calculated from the types `T1` and `T2` of the two expressions `e1` and `e2`. It uses the rules defined in the [common super types](#xbase-types-common-super-type) section, if an explicit `else` branch is given. If it is ommitted, the type of the `if` expression is the type `T` of the expression `e` of the form `if (b) e`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:932
+msgid "*   `if (isFoo) this else that`\n"
+"*   `if (isFoo) { this } else if (thatFoo) { that } else { other }`\n"
+"*   `if (isFoo) this`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:936
+msgid "#### Switch Expression {#xbase-expressions-switch-expression}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:938
+msgid "The switch expression is a bit different from Java's, as the use of switch is not limited to certain values but can be used for any object reference instead. For a switch expression"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:940
+msgid "```xbase\n"
+"switch e {\n"
+"  case e1 : er1\n"
+"  case e2 : er2\n"
+"  ...\n"
+"  case en : ern\n"
+"  default : er\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:950
+msgid "the main expression `e` is evaluated first and then each case sequentially. If the switch expression contains a variable declaration using the syntax known from [for loops](#xbase-expressions-for-loop), the value is bound to the given name. Expressions of type [Boolean]({{site.javadoc.java}}/java/lang/Boolean.html) or `boolean` are not allowed in a switch expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:952
+msgid "The guard of each case clause is evaluated until the switch value equals the result of the case's guard expression or if the case's guard expression evaluates to `true`. Then the right hand expression of the case evaluated and the result is returned."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:954
+msgid "If none of the guards matches the default expression is evaluated and returned. If no default expression is specified the expression evaluates to the default value of the common type of all available case expressions."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:956
+msgid "Example:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:958
+msgid "```xbase\n"
+"switch myString {\n"
+"  case myString.length>5 : 'a long string.'\n"
+"  case 'foo' : \"It's a foo.\"\n"
+"  default : \"It's a short non-foo string.\"\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:966
+msgid "##### Type guards"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:968
+msgid "In addition to the case guards one can add a so called *Type Guard* which is syntactically just a [type reference](#xbase-types-type-references) preceding the optional case keyword. The compiler will use that type for the switch expression in subsequent expressions. Example:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:970
+msgid "```xbase\n"
+"var Object x = ...;\n"
+"switch x {\n"
+"  String case x.length()>0 : x.length()\n"
+"  List<?> : x.size()\n"
+"  default : -1\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:979
+msgid "Only if the switch value passes a type guard, i.e. an `instanceof` test succeeds, the case's guard expression is executed using the same semantics as explained above. If the switch expression contains an explicit declaration of a local variable or the expression references a local variable, the type guard works like an automated cast. All subsequent references to the switch value will be of the type specified in the type guard, unless it is reassigned to a new value."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:981
+msgid "##### Fall Through"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:983
+msgid "One can have multiple *type guards* and *cases* separated with a comma, to have all of them share the same *then-expression*."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:985
+msgid "```xtend\n"
+"  def isMale(String salutation) {\n"
+"    switch salutation {\n"
+"      case \"Mr.\", \n"
+"      case \"Sir\" : true\n"
+"      default : false\n"
+"    }\n"
+"  }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:995
+#: ../../../documentation/305_xbase.md:1042
+msgid "##### Typing"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:997
+msgid "The type of a switch expression is computed using the rules defined in the section on [common super types](#xbase-types-common-super-type). The set of types from which the common super type is computed corresponds to the types of each case expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1003
+msgid "    ```xbase\n"
+"      switch foo {\n"
+"        Entity : foo.superType.name\n"
+"        Datatype : foo.name\n"
+"        default : throw new IllegalStateException\n"
+"      }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1013
+msgid "    ```xbase\n"
+"      switch x : foo.bar.complicated('hello', 42) {\n"
+"        case \"hello42\" : ...\n"
+"        case x.length<2 : ...\n"
+"        default : ...\n"
+"      }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1021
+msgid "#### Variable Declarations {#xbase-expressions-variable-declaration}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1023
+msgid "Variable declarations are only allowed within [blocks](#xbase-expressions-blocks). They are visible in any subsequent expressions in the block. Generally, overriding or shadowing variables from outer scopes is not allowed. However, it can be used to overload the [implicit variable](#xbase-expressions-implicit-this) `it`, in order to subsequently access an object's features in an unqualified manner."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1025
+msgid "A variable declaration starting with the keyword `val` denotes an unchangeable value, which is essentially a final variable. In rare cases, one needs to update the value of a reference. In such situations the variable needs to be declared with the keyword `var`, which stands for variable."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1027
+msgid "A typical example for using `var` is a counter in a loop."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1029
+msgid "```xbase\n"
+"{\n"
+"  val max = 100\n"
+"  var i = 0\n"
+"  while (i > max) {\n"
+"    println(\"Hi there!\")\n"
+"    i = i +1\n"
+"  }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1040
+msgid "Variables declared outside a lambda expression using the `var` keyword are not accessible from the lambda expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1044
+msgid "The type of a variable declaration expression is always `void`. The type of the variable itself can either be explicitly declared or be inferred from the right hand side expression. Here is an example for an explicitly declared type:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1046
+msgid "```xbase\n"
+"  var List<String> strings = new ArrayList<String>(); \n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1050
+msgid "In such cases, the right hand expression's type must [conform](#xbase-types-conformance-rules) to the type on the left hand side."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1052
+msgid "Alternatively the type can be left out and will be inferred from the initialization expression:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1054
+msgid "```xbase\n"
+"  var strings = new ArrayList<String> // -> strings is of type ArrayList<String>\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1058
+msgid "#### Blocks {#xbase-expressions-blocks}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1060
+msgid "The block expression allows to have imperative code sequences. It consists of a sequence of expressions, and returns the value of the last expression. The type of a block is also the type of the last expression. Empty blocks return `null`. [Variable declarations](#xbase-expressions-variable-declaration) are only allowed within blocks and cannot be used as a block's last expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1062
+msgid "A block expression is surrounded by curly braces and contains at least one expression. It can optionally be terminated by a semicolon."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1066
+msgid "```xbase\n"
+"{\n"
+"  doSideEffect(\"foo\")\n"
+"  result\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1073
+msgid "```xbase\n"
+"{\n"
+"  var x = greeting();\n"
+"  if (x.equals(\"Hello \")) {\n"
+"    x+\"World!\"; \n"
+"  } else {\n"
+"    x;\n"
+"  }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1084
+msgid "#### For Loop {#xbase-expressions-for-loop}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1086
+msgid "The for loop `for (T1 variable : iterableOfT1) expression` is used to execute a certain expression for each element of an array of an instance of [Iterable]({{site.javadoc.java}}/java/lang/Iterable.html). The local `variable` is final, hence cannot be updated."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1088
+msgid "The type of a for loop is `void`. The type of the local variable can optionally be inferred from the type of the array or the element type of the [Iterable]({{site.javadoc.java}}/java/lang/Iterable.html) returned by the iterable expression."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1092
+msgid "    ```xbase\n"
+"      for (String s : myStrings) {\n"
+"        doSideEffect(s);\n"
+"      }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1100
+msgid "    ```xbase\n"
+"      for (s : myStrings)\n"
+"        doSideEffect(s)\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1105
+msgid "#### Basic For Loop {#xbase-expressions-basic-for-loop}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1107
+msgid "The traditional for loop is very similar to the one known from Java, or even C."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1109
+msgid "```xtend\n"
+"  for (<init-expression> ;  <predicate> ; <update-expression>) body-expression\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1113
+msgid "When executed, it first executes the `init-expression`, where local variables can be declared. Next the `predicate` is executed and if it evaluates to `true`, the `body-expression` is executed. On any subsequent iterations the `update-expression` is executed instead of the init-expression. This happens until the `predicate` returns `false`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1115
+msgid "The type of a for loop is `void`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1117
+msgid "```xtend\n"
+"  for (val i = 0 ; i < s.length ; i++) {\n"
+"    println(s.subString(0,i)\n"
+"  }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1123
+msgid "#### While Loop {#xbase-expressions-while-expression}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1125
+msgid "A while loop `while (predicate) expression` is used to execute a certain expression unless the predicate is evaluated to `false`. The type of a while loop is `void`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1131
+msgid "    ```xbase\n"
+"      while (true) {\n"
+"        doSideEffect(\"foo\");\n"
+"      }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1139
+msgid "    ```xbase\n"
+"      while ( ( i = i + 1 ) < max ) \n"
+"        doSideEffect( \"foo\" )\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1144
+msgid "#### Do-While Loop {#xbase-expressions-do-while-expression}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1146
+msgid "A do-while loop `do expression while (predicate)` is used to execute a certain expression until the predicate is evaluated to `false`. The difference to the [while loop](#xbase-expressions-while-expression) is that the execution starts by executing the block once before evaluating the predicate for the first time. The type of a do-while loop is `void`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1152
+msgid "    ```xbase\n"
+"      do {\n"
+"        doSideEffect(\"foo\");\n"
+"      } while (true)\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1160
+msgid "    ```xbase\n"
+"      do doSideEffect(\"foo\") while ((i=i+1)<max)\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1164
+msgid "#### Return Expression {#xbase-expressions-return}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1166
+msgid "Although an explicit return is often not necessary, it is supported. In a lambda expression for instance a return expression is always implied if the expression itself is not of type `void`. Anyway you can make it explicit:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1168
+msgid "```xbase\n"
+"  listOfStrings.map [ e |\n"
+"    if (e==null) \n"
+"      return \"NULL\"\n"
+"    e.toUpperCase\n"
+"  ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1176
+msgid "#### Throwing Exceptions {#xbase-expressions-throw}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1178
+msgid "It is possible to throw [Throwable]({{site.javadoc.java}}/java/lang/Throwable.html). The syntax is exactly the same as in Java."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1180
+msgid "```xbase\n"
+"{\n"
+"  ...\n"
+"  if (myList.isEmpty)\n"
+"    throw new IllegalArgumentException(\"the list must not be empty\")\n"
+"  ...\n"
+"}   \n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1189
+msgid "#### Try, Catch, Finally {#xbase-expressions-try-catch}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1191
+msgid "The try-catch-finally expression is used to handle exceptional situations. You are not forced to declare checked exceptions. If you don't catch checked exceptions, they are thrown in a way the compiler does not complain about a missing throws clause, using the sneaky-throw technique introduced by [Lombok](http://projectlombok.org/features/SneakyThrows.html)."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1193
+msgid "```xbase\n"
+"  try {\n"
+"    throw new RuntimeException()\n"
+"  } catch (NullPointerException e) {\n"
+"    // handle e\n"
+"  } finally {\n"
+"    // do stuff\n"
+"  }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1203
+msgid "#### Synchronized {#xbase-expressions-synchronized}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1205
+msgid "The synchonized expression does the same as it does in Java (see [Java Language Specification](http://docs.oracle.com/javase/specs/jls/se7/html/jls-14.html#jls-14.19)). The only difference is that in Xbase it is an expression and can therefore be used at more places."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1207
+msgid "```xtend\n"
+"  synchronized(lock) {\n"
+"    println(\"Hello\")\n"
+"  }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1213
+msgid "```xtend\n"
+"  val name = synchronized(lock) { \n"
+"    doStuff() \n"
+"  }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1221
+msgid "### Extension Methods {#xbase-language-ref-library-extension}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1223
+msgid "Languages extending Xbase might want to contribute to the feature scope. Besides that, one can of course change the whole implementation as it seems fit. There is a special hook, which can be used to add so-called extension methods to existing types."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1225
+msgid "Xbase itself comes with a standard library of such extension methods adding support for various operators for the common types, such as [String]({{site.javadoc.java}}/java/lang/String.html), [List]({{site.javadoc.java}}/java/util/List.html), etc."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1227
+msgid "These extension methods are declared in separate Java classes. There are various ways how extension methods can be added. In the simplest case the language designer predefines which extension methods are available. Language users cannot add additional library functions using this mechanism."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1229
+msgid "Another alternative is to have them looked up by a certain naming convention. Also for more general languages it is possible to let users add extension methods using imports or similar mechanisms. This approach can be seen in the language [Xtend](https://www.eclipse.org/xtend/), where extension methods are lexically imported through static imports or dependency injection."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1231
+msgid "The precedence of extension methods is always lower than real member methods, i.e. you cannot override member features. Also the extension methods are not invoked polymorphic. If you have two extension methods on the scope (`foo(Object)` and `foo(String)`) the expression `(foo as Object).foo` would bind and invoke `foo(Object)`."
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1233
+msgid "#### Examples"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1235
+msgid "*   `foo`\n"
+"*   `my.foo`\n"
+"*   `my.foo(x)`\n"
+"*   `oh.my.foo(bar)`"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1240
+msgid "#### Builder Syntax {#xbase-language-ref-builder-syntax}"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1242
+msgid "If the last argument of a method call is a lambda expression, it can be appended to the method call. Thus,"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1244
+msgid "```xbase\n"
+"foo(42) [ String s | s.toUpperCase ]\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1248
+msgid "will call a Java method with the signature"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1250
+msgid "```java\n"
+"void foo(int, Function1<String, String>)\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1254
+msgid "Used in combination with the [implicit parameter name in lambda expressions](#xbase-expressions-implicit-parameter) you can write [extension libraries](#xbase-language-ref-library-extension) to create and initialize graphs of objects in a concise builder syntax like in Groovy. Consider you have a set of library methods"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1256
+msgid "```java\n"
+"HtmlNode html(Function1<HtmlNode, Void> initializer)\n"
+"HeadNode head(HtmlNode parent, Function1<HeadNode, Void> initializer)\n"
+"...\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1262
+msgid "that create DOM elements for HTML pages inside their respective parent elements. You can then create a DOM using the following Xbase code:"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1264
+msgid "```xbase\n"
+"html([ html |\n"
+"  head(html, [ \n"
+"    // initialize head\n"
+"  ]) \n"
+"] )\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1272
+msgid "Appending the lambda expression parameters and prepending the parent parameters using extension syntax yields"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1274
+msgid "```xbase\n"
+"html() [ html |\n"
+"  html.head() [ \n"
+"    // initialize head\n"
+"  ]  \n"
+"] \n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1282
+msgid "Using implicit parameter `it` and skipping empty parentheses you can simplify this to"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1284
+msgid "```xbase\n"
+"html [ \n"
+"  head [ \n"
+"    // initialize head\n"
+"  ]  \n"
+"] \n"
+"```"
+msgstr ""
+
+#: ../../../documentation/305_xbase.md:1294
+msgid "**[Next Chapter: Typical Language Configurations](307_special_languages.html)**"
+msgstr ""
+

@@ -1,0 +1,561 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-05 02:33-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../documentation/103_domainmodelnextsteps.md:1
+msgid "---\n"
+"layout: documentation\n"
+"title: 15 Minutes Tutorial - Extended\n"
+"part: Getting Started\n"
+"---"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:7
+msgid "# {{page.title}} {#domainmodel-next-steps}"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:9
+msgid "After you have developed your first own DSL, the question arises how the behavior and the semantics of the language can be customized. Here you find a few mini-tutorials that illustrate common use cases when crafting your own DSL. These lessons are independent from each other. Each of them will be based on the language that was built in the previous [domainmodel tutorial](102_domainmodelwalkthrough.html)."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:11
+msgid "## Writing a Code Generator With Xtend {#tutorial-code-generation}"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:13
+msgid "As soon as you generate the Xtext artifacts from the grammar, a code generator stub is put into the runtime project of your language. Let's dive into [Xtend](https://www.eclipse.org/xtend/) and see how you can integrate your own code generator with Eclipse."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:15
+msgid "In this lesson you will generate Java Beans for entities that are defined in the domainmodel DSL. For each *Entity*, a Java class is generated and each *Feature* will lead to a private field in that class including public getters and setters. For the sake of simplicity, we will use fully qualified names all over the generated code."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:17
+msgid "```java\n"
+"package my.company.blog;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:20
+msgid "public class HasAuthor {\n"
+"    private java.lang.String author;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:23
+msgid "    public java.lang.String getAuthor() {\n"
+"        return author;\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:27
+msgid "    public void setAuthor(java.lang.String author) {\n"
+"        this.author = author;\n"
+"    }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:33
+msgid "First of all, locate the file *DomainmodelGenerator.xtend* in the package *org.example.domainmodel.generator*. This Xtend class is used to generate code for your models in the standalone scenario and in the interactive Eclipse environment. Let's make the implementation more meaningful and start writing the code generator. The strategy is to find all entities within a resource and trigger code generation for each one."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:35
+msgid "1.  First of all, you will have to filter the contents of the resource down to the defined entities. Therefore we need to iterate a resource with all its deeply nested elements. This can be achieved with the method `getAllContents()`. To use the resulting [TreeIterator]({{site.src.emf}}/plugins/org.eclipse.emf.common/src/org/eclipse/emf/common/util/TreeIterator.java) in a `for` loop, we use the extension method `toIterable()` from the built-in library class [IteratorExtensions]({{site.src.xtext_lib}}/org.eclipse.xtext.xbase.lib/src/org/eclipse/xtext/xbase/lib/IteratorExtensions.java)."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:37
+msgid "    ```xtend\n"
+"    class DomainmodelGenerator extends AbstractGenerator {"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:40
+msgid "        override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {\n"
+"            for (e : resource.allContents.toIterable.filter(Entity)) {"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:43
+msgid "            }\n"
+"        }\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:48
+msgid "1.  Now let's answer the question how we determine the file name of the Java class that each *Entity* should yield. This information should be derived from the qualified name of the *Entity* since Java enforces this pattern. The qualified name itself has to be obtained from a special service that is available for each language. Fortunately, Xtend allows to reuse that one easily. We simply inject the [IQualifiedNameProvider]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/naming/IQualifiedNameProvider.java) into the generator."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:50
+msgid "    ```xtend\n"
+"      @Inject extension IQualifiedNameProvider\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:54
+msgid "    This allows to ask for the name of an entity. It is straightforward to convert the name into a file name:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:56
+msgid "    ```xtend\n"
+"    override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {\n"
+"        for (e : resource.allContents.toIterable.filter(Entity)) {\n"
+"            fsa.generateFile(\n"
+"                e.fullyQualifiedName.toString(\"/\") + \".java\",\n"
+"                e.compile)\n"
+"        }\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:66
+msgid "1.  The next step is to write the actual template code for an entity. For now, the function `Entity.compile` does not exist, but it is easy to create it:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:68
+msgid "    ```xtend\n"
+"    private def compile(Entity e) '''\n"
+"        package «e.eContainer.fullyQualifiedName»;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:72
+#: ../../../documentation/103_domainmodelnextsteps.md:85
+msgid "        public class «e.name» {\n"
+"        }\n"
+"    '''\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:77
+msgid "1.  This small template is basically the first shot at a Java-Beans generator. However, it is currently rather incomplete and will fail if the *Entity* is not contained in a package. A small modification fixes this. The `package` declaration has to be wrapped in an `IF` expression:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:79
+#: ../../../documentation/103_domainmodelnextsteps.md:92
+#: ../../../documentation/103_domainmodelnextsteps.md:122
+msgid "    ```xtend\n"
+"    private def compile(Entity e) '''\n"
+"        «IF e.eContainer.fullyQualifiedName !== null»\n"
+"            package «e.eContainer.fullyQualifiedName»;\n"
+"        «ENDIF»"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:90
+msgid "    Let's handle the *superType* of an *Entity* gracefully, too, by using another `IF` expression:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:98
+msgid "        public class «e.name» «IF e.superType !== null\n"
+"                »extends «e.superType.fullyQualifiedName» «ENDIF»{\n"
+"        }\n"
+"    '''\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:104
+msgid "1.  Even though the template will compile the *Entities* without any complaints, it still lacks support for the Java properties that each of the declared features should yield. For that purpose, you have to create another Xtend function that compiles a single feature to the respective Java code."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:106
+msgid "    ```xtend\n"
+"    private def compile(Feature f) '''\n"
+"        private «f.type.fullyQualifiedName» «f.name»;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:110
+#: ../../../documentation/103_domainmodelnextsteps.md:179
+msgid "        public «f.type.fullyQualifiedName» get«f.name.toFirstUpper»() {\n"
+"            return «f.name»;\n"
+"        }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:114
+msgid "        public void set«f.name.toFirstUpper»(«f.type.fullyQualifiedName» «f.name») {\n"
+"            this.«f.name» = «f.name»;\n"
+"        }\n"
+"    '''\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:120
+msgid "    As you can see, there is nothing fancy about this one. Last but not least, we have to make sure that the function is actually used."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:128
+msgid "        public class «e.name» «IF e.superType !== null\n"
+"                »extends «e.superType.fullyQualifiedName» «ENDIF»{\n"
+"            «FOR f : e.features»\n"
+"                «f.compile»\n"
+"            «ENDFOR»\n"
+"        }\n"
+"    '''\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:137
+msgid "The final code generator is listed below. Now you can give it a try! Launch a new Eclipse Application (*Run As &rarr; Eclipse Application* on the Xtext project) and create a *dmodel* file in a Java Project. Eclipse will ask you to turn the Java project into an Xtext project then. Simply agree and create a new source folder *src-gen* in that project. Then you can see how the compiler will pick up your sample *Entities* and generate Java code for them."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:139
+msgid "```xtend\n"
+"package org.example.domainmodel.generator"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:142
+msgid "import com.google.inject.Inject\n"
+"import org.eclipse.emf.ecore.resource.Resource\n"
+"import org.eclipse.xtext.generator.AbstractGenerator\n"
+"import org.eclipse.xtext.generator.IFileSystemAccess2\n"
+"import org.eclipse.xtext.generator.IGeneratorContext\n"
+"import org.eclipse.xtext.naming.IQualifiedNameProvider\n"
+"import org.example.domainmodel.domainmodel.Entity\n"
+"import org.example.domainmodel.domainmodel.Feature"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:151
+msgid "class DomainmodelGenerator extends AbstractGenerator {"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:153
+msgid "    @Inject extension IQualifiedNameProvider"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:155
+msgid "    override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {\n"
+"        for (e : resource.allContents.toIterable.filter(Entity)) {\n"
+"            fsa.generateFile(\n"
+"                e.fullyQualifiedName.toString(\"/\") + \".java\",\n"
+"                e.compile)\n"
+"        }\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:163
+msgid "    private def compile(Entity e) '''\n"
+"        «IF e.eContainer.fullyQualifiedName !== null»\n"
+"            package «e.eContainer.fullyQualifiedName»;\n"
+"        «ENDIF»"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:168
+msgid "        public class «e.name» «IF e.superType !== null\n"
+"                »extends «e.superType.fullyQualifiedName» «ENDIF»{\n"
+"            «FOR f : e.features»\n"
+"                «f.compile»\n"
+"            «ENDFOR»\n"
+"        }\n"
+"    '''"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:176
+msgid "    private def compile(Feature f) '''\n"
+"        private «f.type.fullyQualifiedName» «f.name»;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:183
+msgid "        public void set«f.name.toFirstUpper»(«f.type.fullyQualifiedName» «f.name») {\n"
+"            this.«f.name» = «f.name»;\n"
+"        }\n"
+"    '''\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:190
+msgid "If you want to play around with Xtend, you can try to use the Xtend tutorial which can be materialized into your workspace. Simply choose *New &rarr; Example &rarr; Xtend Examples &rarr; Xtend Introductory Examples* and have a look at the features of Xtend. As a small exercise, you could implement support for the *many* attribute of a *Feature* or enforce naming conventions, e.g. generated field names should start with an underscore."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:192
+msgid "## Creating Custom Validation Rules {#tutorial-validation}"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:194
+msgid "One of the main advantages of DSLs is the possibility to statically validate domain-specific constraints. Because this is a common use case, Xtext provides a dedicated hook for this kind of validation rules. In this lesson, we want to ensure that the name of an *Entity* starts with an upper-case letter and that all features have distinct names across the inheritance relationship of an *Entity*."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:196
+msgid "Locate the class *DomainmodelValidator* in the package *org.example.domainmodel.validation* of the language project. Defining the constraint itself is only a matter of a few lines of code:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:198
+msgid "```java\n"
+"public static final String INVALID_NAME = \"invalidName\";"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:201
+msgid "@Check\n"
+"public void checkNameStartsWithCapital(Entity entity) {\n"
+"    if (!Character.isUpperCase(entity.getName().charAt(0))) {\n"
+"        warning(\"Name should start with a capital\",\n"
+"            DomainmodelPackage.Literals.TYPE__NAME,\n"
+"            INVALID_NAME);\n"
+"    }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:211
+msgid "Any name for the method will do. The important thing is the [Check]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/validation/Check.java) annotation that advises the Xtext framework to use the method as a validation rule. If the name starts with a lower case letter, a warning will be attached to the name of the *Entity*."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:213
+msgid "The second validation rule is straight-forward, too. We traverse the inheritance hierarchy of the *Entity* and look for features with equal names."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:215
+msgid "```java\n"
+"@Check\n"
+"public void checkFeatureNameIsUnique(Feature feature) {\n"
+"    Entity superEntity = ((Entity) feature.eContainer()).getSuperType();\n"
+"    while (superEntity != null) {\n"
+"        for (Feature other : superEntity.getFeatures()) {\n"
+"            if (Objects.equal(feature.getName(), other.getName())) {\n"
+"                error(\"Feature names have to be unique\", DomainmodelPackage.Literals.FEATURE__NAME);\n"
+"                return;\n"
+"            }\n"
+"        }\n"
+"        superEntity = superEntity.getSuperType();\n"
+"    }\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:231
+msgid "The sibling features that are defined in the same entity are automatically validated by the Xtext framework, thus they do not have to be checked twice. Note that this implementation is not optimal in terms of execution time because the iteration over the features is done for all features of each entity."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:233
+msgid "You can determine when the `@Check`-annotated methods will be executed with the help of the [CheckType]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/validation/CheckType.java) enum. The default value is `FAST`, i.e. the checks will be executed on editing, saving/building or on request; also available are `NORMAL` (executed on build/save or on request) and `EXPENSIVE` (executed only on request)."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:235
+msgid "```java\n"
+"@Check(CheckType.NORMAL)\n"
+"public void checkFeatureNameIsUnique(Feature feature) {\n"
+"    ...\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:242
+msgid "## Unit Testing the Language {#tutorial-unit-tests}"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:244
+msgid "Automated tests are crucial for the maintainability and the quality of a software product. That is why it is strongly recommended to write unit tests for your language. The Xtext project wizard creates two test projects for that purpose. These simplify the setup procedure for testing the basic language features and the Eclipse UI integration."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:246
+msgid "This tutorial is about testing the parser, the linker, the validator and the generator of the *Domainmodel* language. It leverages Xtend to write the test cases."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:248
+msgid "1. The core of the test infrastructure is the [XtextRunner]({{site.src.xtext_core}}/org.eclipse.xtext.testing/src/org/eclipse/xtext/testing/XtextRunner.java) (for JUnit 4) and the language-specific [IInjectorProvider]({{site.src.xtext_core}}/org.eclipse.xtext.testing/src/org/eclipse/xtext/testing/IInjectorProvider.java). Both have to be provided by means of class annotations. An example test class should have already been generated by the Xtext code generator, named *org.example.domainmodel.tests.DomainmodelParsingTest*:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:250
+msgid "    ```xtend\n"
+"    @RunWith(XtextRunner)\n"
+"    @InjectWith(DomainmodelInjectorProvider)\n"
+"    class DomainmodelParsingTest {"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:255
+msgid "        @Inject\n"
+"        ParseHelper<Domainmodel> parseHelper"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:258
+msgid "        @Test \n"
+"        def void loadModel() {\n"
+"            val result = parseHelper.parse('''\n"
+"                Hello Xtext!\n"
+"            ''')\n"
+"            Assert.assertNotNull(result)\n"
+"            val errors = result.eResource.errors\n"
+"            Assert.assertTrue('''Unexpected errors: «errors.join(\", \")»''', errors.isEmpty)\n"
+"        }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:268
+msgid "    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:271
+msgid "    *Note*: When using JUnit 5 the [InjectionExtension]({{site.src.xtext_core}}/org.eclipse.xtext.testing/src/org/eclipse/xtext/testing/extensions/InjectionExtension.java) is used instead of the XtextRunner. The Xtext code generator generates the example slightly different, depending on which option you have chosen in the *New Xtext Project* wizard."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:273
+msgid "1. The utility class [ParseHelper]({{site.src.xtext_core}}/org.eclipse.xtext.testing/src/org/eclipse/xtext/testing/util/ParseHelper.java) allows to parse an arbitrary string into a *Domainmodel*. The model itself can be traversed and checked afterwards. A static import of [Assert]({{site.javadoc.junit}}/org/junit/Assert.html) leads to concise and readable test cases. You can rewrite the generated test case as follows:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:275
+msgid "    ```xtend\n"
+"    import static org.junit.Assert.*"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:278
+msgid "    ..."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:280
+msgid "        @Test \n"
+"        def void parseDomainmodel() {\n"
+"            val model = parseHelper.parse(\n"
+"                \"entity MyEntity {\n"
+"                    parent: MyEntity\n"
+"                }\")\n"
+"            val entity = model.elements.head as Entity\n"
+"            assertSame(entity, entity.features.head.type)\n"
+"        }\n"
+"    ```\n"
+"2. In addition, the utility class [ValidationTestHelper]({{site.src.xtext_core}}/org.eclipse.xtext.testing/src/org/eclipse/xtext/testing/validation/ValidationTestHelper.java) allows to test the custom validation rules written for the language. Both valid and invalid models can be tested."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:292
+msgid "    ```xtend\n"
+"    @Inject ParseHelper<Domainmodel> parseHelper"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:295
+msgid "    @Inject ValidationTestHelper validationTestHelper"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:297
+msgid "    @Test\n"
+"    def testValidModel() {\n"
+"        val entity = parseHelper.parse(\n"
+"            \"entity MyEntity {\n"
+"                parent: MyEntity\n"
+"            }\")\n"
+"        validationTestHelper.assertNoIssues(entity)\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:306
+msgid "    @Test\n"
+"    def testNameStartsWithCapitalWarning() {\n"
+"        val entity = parseHelper.parse(\n"
+"            \"entity myEntity {\n"
+"                parent: myEntity\n"
+"            }\")\n"
+"        validationTestHelper.assertWarning(entity,\n"
+"            DomainmodelPackage.Literals.ENTITY,\n"
+"            DomainmodelValidator.INVALID_NAME,\n"
+"            \"Name should start with a capital\"\n"
+"        )\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:320
+msgid "    You can further simplify the code by injecting `ParseHelper` and `ValidationTestHelper` as extensions. This feature of Xtend allows to add new methods to a given type without modifying it. You can read more about extension methods in the [Xtend documentation](https://www.eclipse.org/xtend/documentation/202_xtend_classes_members.html#extension-methods). You can rewrite the code as follows:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:322
+msgid "    ```xtend\n"
+"    @Inject extension ParseHelper<Domainmodel>"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:325
+msgid "    @Inject extension ValidationTestHelper"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:327
+msgid "    @Test\n"
+"    def testValidModel() {\n"
+"        \"entity MyEntity {\n"
+"        parent: MyEntity\n"
+"        }\".parse.assertNoIssues\n"
+"    }"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:334
+msgid "    @Test\n"
+"    def testNameStartsWithCapitalWarning() {\n"
+"        \"entity myEntity {\n"
+"            parent: myEntity\n"
+"        }\".parse.assertWarning(\n"
+"            DomainmodelPackage.Literals.ENTITY,\n"
+"            DomainmodelValidator.INVALID_NAME,\n"
+"            \"Name should start with a capital\"\n"
+"        )\n"
+"    }\n"
+"    ```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:346
+msgid "3. The [CompilationTestHelper]({{site.src.xtext_extras}}/org.eclipse.xtext.xbase.testing/src/org/eclipse/xtext/xbase/testing/CompilationTestHelper.java) utility class comes in handy while unit testing the custom generators:"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:348
+msgid "	```xtend\n"
+"	@Inject extension CompilationTestHelper"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:351
+msgid "	@Test def test() {\n"
+"		'''\n"
+"			datatype String"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:355
+msgid "			package my.company.blog {\n"
+"				entity Blog {\n"
+"					title: String\n"
+"				}\n"
+"			}\n"
+"		'''.assertCompilesTo('''\n"
+"			package my.company.blog;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:363
+msgid "			public class Blog {\n"
+"				private String title;"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:366
+msgid "				public String getTitle() {\n"
+"					return title;\n"
+"				}"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:370
+msgid "				public void setTitle(String title) {\n"
+"					this.title = title;\n"
+"				}\n"
+"			}\n"
+"		''')\n"
+"		}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:378
+msgid "4. After saving the Xtend file, it is time to run the tests. Select *Run As &rarr; JUnit Test* from the editor's context menu. All implemented test cases should succeed."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:380
+msgid "These tests serve only as a starting point and can be extended to cover the different features of the language. As a small exercise, you could implement e.g. test cases for the `checkFeatureNameIsUnique` validation rule. You can find more test cases in the example projects shipped with the Xtext Framework. Simply go to *File &rarr; New &rarr; Example &rarr; Xtext Examples* to instantiate them into your workspace."
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:382
+msgid "---"
+msgstr ""
+
+#: ../../../documentation/103_domainmodelnextsteps.md:384
+msgid "**[Next Chapter: Five simple steps to your JVM language](104_jvmdomainmodel.html)**"
+msgstr ""
+

@@ -2,8 +2,10 @@ source 'https://rubygems.org'
 
 gem 'therubyracer'
 gem 'execjs'
+gem 'rake'
 
 group :jekyll_plugins do
   gem 'jekyll-markdown-block'
+  gem 'jekyll-task-i18n'
   gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 end

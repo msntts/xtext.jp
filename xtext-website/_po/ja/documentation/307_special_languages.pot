@@ -1,0 +1,512 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-05 02:33-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../documentation/307_special_languages.md:1
+msgid "---\n"
+"layout: documentation\n"
+"title: Typical Language Configurations\n"
+"part: Reference Documentation\n"
+"---"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:7
+msgid "# {{page.title}} {#special-languages}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:9
+msgid "## Case Insensitive Languages {#case-insensitive-languages}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:11
+msgid "In some cases, e.g. if your *SHIFT* key is broken, you might want to design a case insensitive language. Xtext offers options on some of its [generator fragments](302_configuration.html#generator-fragment) for this purpose."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:13
+msgid "For case insensitive keywords, open your MWE workflow and enable the ignoreCase property:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:15
+msgid "```mwe2\n"
+" ... StandardLanguage {\n"
+"    ... other config"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:19
+msgid "    parserGenerator = {\n"
+"      options = {\n"
+"        ignoreCase = true\n"
+"      }\n"
+"    }\n"
+" }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:27
+msgid "For case insensitive element names, use the *ignoreCase* option in the scoping, too :"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:29
+msgid "```mwe2\n"
+"    scopeProvider = {\n"
+"      ignoreCase = true\n"
+"    }\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:35
+msgid "## Whitespace-Aware Languages {#whitespace-aware-languages}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:37
+msgid "Some language designers prefer to use indentation to structure code blocks instead of surrounding them with braces `{ ... }`, which are really hard to type with certain kinds of keyboards. A well-known example of such a language is [Python](https://www.python.org). Another well-known example is the *Home Automation* language shipped with Xtext, available through *File &rarr; New &rarr; Example &rarr; Xtext Examples &rarr; Xtext Home Automation Example*."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:39
+msgid "```ruleengine\n"
+"Device Window can be open, closed"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:42
+msgid "Device Heater can be on, off, error"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:44
+msgid "Rule 'Save energy' when Window.open then\n"
+"    fire(Heater.off)\n"
+"    println('Another penny to the piggy bank!')\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:49
+msgid "The `'Save energy'` rule contains a code block with two operations, which is indicated by the equal indentation of these operations. Nested blocks are also possible:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:51
+msgid "```ruleengine\n"
+"Rule 'Report error' when Heater.error then\n"
+"    var String report\n"
+"    do\n"
+"        Thread.sleep(500)\n"
+"        report = HeaterDiagnostic.readError\n"
+"    while (report == null)\n"
+"    println(report)\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:61
+msgid "The first step for including whitespace-aware blocks in your language is to use  *synthetic tokens* in the grammar by writing terminals of the form `'synthetic:<terminal name>'`:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:63
+msgid "```xtext\n"
+"terminal BEGIN: 'synthetic:BEGIN';\n"
+"terminal END: 'synthetic:END';\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:68
+msgid "These terminals can be used to mark the boundaries of code blocks. The Xtext Home Automation example inherits expressions from [Xbase](305_xbase.html) and redefines the syntax of block expressions:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:70
+msgid "```xtext\n"
+"@Override\n"
+"XBlockExpression returns xbase::XExpression:\n"
+"    {xbase::XBlockExpression}\n"
+"    BEGIN\n"
+"        (expressions+=XExpressionOrVarDeclaration ';'?)*\n"
+"    END;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:79
+msgid "After running the workflow, a stub implementation of `AbstractIndentationTokenSource` is generated in the `parser.antlr` subpackage, e.g. [RuleEngineTokenSource]({{site.src.xtext_eclipse}}/org.eclipse.xtext.xtext.ui.examples/projects/homeautomation/org.eclipse.xtext.example.homeautomation/src/org/eclipse/xtext/example/homeautomation/parser/antlr/RuleEngineTokenSource.java). Here you can specify which terminal rule should be applied to your synthetic tokens. For the Xtext Home Automation language the `WS` (whitespace) rule is selected, which brings the indentation awareness as seen above."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:81
+msgid "In case of a whitespace-aware language, the [formatter](303_runtime_concepts.html#formatting) must be either adapted to produce whitespace that correctly reflects the document structure, or it must be deactivated. Otherwise automatic formatting might produce code with different semantics or even syntax errors. See how we [customized the formatter]({{site.src.xtext_eclipse}}/org.eclipse.xtext.xtext.ui.examples/projects/homeautomation/org.eclipse.xtext.example.homeautomation/src/org/eclipse/xtext/example/homeautomation/formatting2/RuleEngineFormatter.xtend) in the Xtext Home Automation example."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:83
+msgid "## Languages Independent of JDT {#java-independent-languages}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:85
+msgid "The following section describes how you make your language independent of Eclipse's Java Development Toolkit (JDT)."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:87
+msgid "In the *UIModule* of your language you have to overwrite two bindings. First, remove the bindings to components with support for the *'classpath:'* URI protocol, i.e."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:89
+msgid "```java\n"
+"@Override\n"
+"public Class<? extends IResourceForEditorInputFactory>\n"
+"    bindIResourceForEditorInputFactory() {\n"
+"        return ResourceForIEditorInputFactory.class;\n"
+"}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:96
+msgid "@Override\n"
+"public Class<? extends IResourceSetProvider> bindIResourceSetProvider() {\n"
+"    return SimpleResourceSetProvider.class;\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:102
+msgid "Second, configure the global scope provider to scan project root folders instead of the class path of Java projects."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:104
+msgid "```java\n"
+"@Override\n"
+"public Provider<IAllContainersState> provideIAllContainersState() {\n"
+"  return org.eclipse.xtext.ui.shared.Access.getWorkspaceProjectsState();\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:111
+msgid "The remaining steps show you how to adapt the project wizard for your language, if you have generated one. The best way to do this is to create a new subclass of the generated *IProjectCreator* in the *src/* folder of the *ui* project and apply the necessary changes there. First, remove the JDT project configuration by overriding *configureProject* with an empty body."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:113
+msgid "The next thing is to redefine the project natures and builders that should be applied to your language projects."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:115
+msgid "In in this case just remove the JDT stuff in this way:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:117
+msgid "```java\n"
+"protected String[] getProjectNatures() {\n"
+"    return new String[] {\n"
+"        \"org.eclipse.pde.PluginNature\",\n"
+"        \"org.eclipse.xtext.ui.shared.xtextNature\"\n"
+"    };\n"
+"}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:125
+msgid "protected String[] getBuilders() {\n"
+"    return new String[] {\n"
+"        \"org.eclipse.pde.ManifestBuilder\", \n"
+"        \"org.eclipse.pde.SchemaBuilder\"\n"
+"    };\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:133
+msgid "After that you have to bind the new *IProjectCreator*"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:135
+msgid "```java\n"
+"@Override\n"
+"public Class<? extends IProjectCreator> bindIProjectCreator() {\n"
+"    return JDTFreeMyDslProjectCreator.class;\n"
+"}\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:142
+msgid "Now your language and its IDE should now no longer depend on JDT."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:144
+msgid "## Parsing Expressions with Xtext {#expressions}"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:146
+msgid "Parsing simple XML-like, structural languages with Xtext is a no-brainer. However, parsing nested expressions is often considered complicated. This is the perception due to their recursive nature and the properties of the parser technology used by Xtext. You have to avoid left recursive parser rules. As the underlying Antlr parser uses a top-down approach it would recurse endlessly if you had a left recursive grammar."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:148
+msgid "Let's have a look at parsing a simple arithmetic expression:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:150
+msgid "`2 + 20 * 2`"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:152
+msgid "If you know EBNF a bit and wouldn't think about avoiding left recursion, operator precedence or associativity, you'ld probably write a grammar like this:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:154
+msgid "```xtext\n"
+"Expression :\n"
+"  Expression '+' Expression |\n"
+"  Expression '*' Expression |\n"
+"  INT;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:161
+msgid "This grammar would be left recursive because the parser reads the grammar top down and left to right and would endlessly call the *Expression* rule without consuming any characters, i.e. altering the underlying state of the parser. While this kind of grammar can be written for bottom-up parsers, you would still have to deal with operator precedence in addition. That is define that a multiplication has higher precedence than an addition for example."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:163
+msgid "In Xtext you define the precedence implicitly when left-factoring such a grammar. Left-factoring means you get rid of left recursion by applying a certain idiom, which is described in the following."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:165
+msgid "Here is a left-factored grammar (not yet working with Xtext) for the expression language above:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:167
+#: ../../../documentation/307_special_languages.md:182
+msgid "```xtext\n"
+"Addition :\n"
+"  Multiplication ('+' Multiplication)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:171
+msgid "Multiplication:\n"
+"  NumberLiteral ('*' NumberLiteral)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:174
+#: ../../../documentation/307_special_languages.md:193
+#: ../../../documentation/307_special_languages.md:228
+msgid "NumberLiteral:\n"
+"  INT;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:178
+msgid "As you can see the main difference is that it uses three rules instead of one, and if you look a bit closer you see that there's a certain delegation pattern involved. The rule *Addition* doesn't call itself but calls *Multiplication* instead. The operator precedence is defined by the order of delegation. The later the rule is called the higher is its precedence. This is at least the case for the first two rules which are of a left recursive nature (but we've left-factored them now). The last rule is not left recursive which is why you can implement it without applying this pattern."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:180
+msgid "The next task is to allow users to explicitly adjust precedence by adding parentheses, e.g. write something like `(2 + 20) * 2`. So let's add support for that (note that the grammar is still not yet working with Xtext):"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:186
+msgid "Multiplication:\n"
+"  Primary ('*' Primary)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:189
+msgid "Primary :\n"
+"  NumberLiteral |\n"
+"  '(' Addition ')';"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:197
+msgid "Once again: if you have some construct that recurses on the left hand side, you need to put it into the delegation chain according to the operator precedence. The pattern is always the same: the thing that recurses delegates to the rule with the next higher precedence."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:199
+msgid "### Construction of an AST"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:201
+msgid "Now that left recursion is avoided, the parser should produce a proper syntax tree. In Xtext each rule returns a value. Production rules return AST nodes (i.e. instances of EObject), enum rules return enum literals and data type rules as well as terminal rules return simple values like strings. Xtext can automatically infer whether some rule is a production rule, i.e. constructs and returns an AST node, or if it is a data type rule that returns a value. The grammar above only consists of data type rules all of them returning plain strings. In order to construct an AST we need to add assignments and actions to the grammar."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:203
+msgid "The return type of a rule can be specified explicitly using the `returns` keyword but can be inferred if the type's name is the same as the rule's name. That is"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:205
+msgid "```xtext\n"
+"NumberLiteral : ... ;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:209
+msgid "is a short form of"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:211
+msgid "```xtext\n"
+"NumberLiteral returns NumberLiteral : ... ;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:215
+msgid "However in the case of the expression grammar above, all rules need to return the same type since they are recursive. In order to make the grammar valid, a common return type has to be added explicitly (but the grammar is still missing some bits):"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:217
+msgid "```xtext\n"
+"Addition returns Expression:\n"
+"  Multiplication ('+' Multiplication)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:221
+msgid "Multiplication returns Expression:\n"
+"  Primary ('*' Primary)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:224
+#: ../../../documentation/307_special_languages.md:241
+msgid "Primary returns Expression:\n"
+"  NumberLiteral |\n"
+"  '(' Addition ')';"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:232
+msgid "The AST type inference mechanism of Xtext will infer two types: *Expression* and *NumberLiteral*. Assignments and actions have to be added to store all the important information in the AST and to create reasonable subtypes for the additive and multiplicative expressions. The fully working Xtext grammar is:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:234
+msgid "```xtext\n"
+"Addition returns Expression:\n"
+"  Multiplication ({Addition.left=current} '+' right=Multiplication)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:238
+msgid "Multiplication returns Expression:\n"
+"  Primary ({Multiplication.left=current} '*' right=Primary)*;"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:245
+msgid "NumberLiteral:\n"
+"  value=INT;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:249
+msgid "This is how the parser processes the following expression:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:251
+msgid "```java\n"
+"(1 + 20) * 2\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:255
+msgid "It always starts with the first rule *Addition*. Therein the first element is an unassigned rule call to *Multiplication* which in turn calls *Primary*. *Primary* now has two alternatives. The first one is calling *NumberLiteral* which consists only of one assignment to a feature called 'value'. The type of 'value' has to be compatible to the return type of the *INT* rule."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:257
+msgid "But as the first token in the sample expression is an opening parenthesis '(', the parser will take the second alternative in *Primary*: it consumes the '(' and calls the rule *Addition*. Now the value '1' is the lookahead token and again *Addition* calls *Multiplication* and *Multiplication* calls *Primary*. This time the parser takes the first alternative because '1' was consumed by the *INT* rule."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:259
+msgid "As soon as the parser hits an assignment it checks whether an AST node for the current rule was already created. Otherwise it will create one based on the return type of the current rule, which is *NumberLiteral*. The Xtext generator created the EClass 'NumberLiteral' before which can now be instantiated. That type will also have a property called value of type int, which will get the value '1' set. This is what the Java equivalent looks like:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:261
+msgid "```java\n"
+"// value=INT\n"
+"if (current == null)\n"
+" current = new NumberLiteral();\n"
+"current.setValue(ruleINT());\n"
+"...\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:269
+msgid "Now that the rule has been completed the produced EObject is returned to the calling rule *Primary*, which in turn returns the object unchanged to its own caller. Within *Multiplication* the rule *Primary* has been successfully parsed and returned an instance of *NumberLiteral*. The remainder of the rule (everything within the parentheses) is a so called group. The asterisk behind the closing parenthesis states that this part can be consumed zero or more times. The first token to consume in this group is the multiplication operator '\\*'. Unfortunately in the current input the next token to accept is the plus sign '+', so the group is not consumed at all and the rule returns the *NumberLiteral* that was returned from the previous unassigned rule call."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:271
+msgid "In rule *Addition* there is a similar group but this time it expects the correct operator. The parser steps into the group. The first element in the group is an assigned action. It will create a new instance of type *Addition* and assigns what was the to-be-returned object to the feature 'left'. In Java this would have been something like:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:273
+msgid "```java\n"
+"// Multiplication rule call\n"
+"current = ruleMultiplication();\n"
+"// {Addition.left=current}\n"
+"Addition temp = new Addition();\n"
+"temp.setLeft(current);\n"
+"current = temp;\n"
+"...\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:283
+msgid "As a result the rule would now return an instance of *Addition* which has a *NumberLiteral* set to its property left. Next up the parser consumes the '+' operator. The operator itself is not stored in the AST because there is an explicit Addition type. It implicitly contains this information. The assignment `right=Multiplication` calls the rule *Multiplication* another time and assigns its result object (a NumberLiteral of value=20) to the property `right`. The closing parenthesis is matched afterwards, consumed and the parser stack is reduced once more."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:285
+msgid "The parser is now in the rule *Multiplication* and has the multiplication operator '\\*' on the lookahead. It steps into the group and applies the action. Finally it calls the *Primary* rule, produces another instance of *NumberLiteral* (value=2), assigns it as the 'right' operand of the *Multiplication* and returns the *Multiplication* to the rule *Addition* which in turn returns the very same object as there's nothing left to parse."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:287
+msgid "The resulting AST looks like this:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:289
+msgid "![](images/expression-ast.png)"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:291
+msgid "### Associativity"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:293
+msgid "There is still one topic worth to mention, which is associativity. There is left and right associativity as well as non-associativity. The example above implements left associativity. Associativity tells the parser how to construct the AST when there are two infix operations with the same precedence. The following example is taken from the corresponding wikipedia entry:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:295
+msgid "Consider the expression a ~ b ~ c. If the operator ~ has left associativity, this expression would be interpreted as (a ~ b) ~ c and evaluated left-to-right. If the operator has right associativity, the expression would be interpreted as a ~ (b ~ c) and evaluated right-to-left. If the operator is non-associative, the expression might be a syntax error, or it might have some special meaning. The most common variant is left associativity:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:297
+msgid "```xtext\n"
+"Addition returns Expression:\n"
+"  Multiplication ({Addition.left=current} '+' right=Multiplication)*;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:302
+msgid "Right associativity is done using a slightly modified pattern. Note the quantity operator and the call to the rule itself in the group:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:304
+msgid "```xtext\n"
+"Addition returns Expression:\n"
+"  Multiplication ({Addition.left=current} '+' right=Addition)?;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:309
+msgid "Non-associativity can be implemented in a similar way, but this time the final rule call is not immediately recursive but delegates to the next precedence level:"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:311
+msgid "```xtext\n"
+"Addition returns Expression:\n"
+"  Multiplication ({Addition.left=current} '+' right=Multiplication)?;\n"
+"```"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:316
+msgid "Sometimes it's more convenient to allow associativity on parser level, but forbid it later using validation. This allows more descriptive diagnostics. Also the whole parsing process won't rely on error recovery but the editor will generally be more forgiving."
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:318
+msgid "---"
+msgstr ""
+
+#: ../../../documentation/307_special_languages.md:320
+msgid "**[Next Chapter: Integration with EMF and Other EMF Editors](308_emf_integration.html)**"
+msgstr ""
+
