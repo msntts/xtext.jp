@@ -58,7 +58,7 @@ We will now walk through the five little steps needed to get this language fully
 
 Click on *Finish* to create the projects
 
-![](images/30min_wizard.png)
+![](../../documentation/images/30min_wizard.png)
 
 ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。
 
@@ -69,7 +69,7 @@ Click on *Finish* to create the projects
 |org.example.domainmodel.ui|The Eclipse editor and other workbench related functionality|
 |org.example.domainmodel.ui.tests|Unit tests for the Eclipse editor|
 
-![](images/30min_initialprojectlayout.png)
+![](../../documentation/images/30min_initialprojectlayout.png)
 
 ## Step Two: Write the Grammar {#domain-model-step2}
 

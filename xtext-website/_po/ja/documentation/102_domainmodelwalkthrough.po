@@ -116,7 +116,7 @@ msgid "Click on *Finish* to create the projects."
 msgstr "プロジェクトを作成するため *Finish* を押してください。"
 
 msgid "![](images/30min_wizard.png)"
-msgstr "![](images/30min_wizard.png)"
+msgstr "![](../../documentation/images/30min_wizard.png)"
 
 msgid ""
 "After you have successfully finished the wizard, you will find five new projec"
@@ -142,7 +142,7 @@ msgstr ""
 "|org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|"
 
 msgid "![](images/30min_initialprojectlayout.png)"
-msgstr "![](images/30min_initialprojectlayout.png)"
+msgstr "![](../../documentation/images/30min_initialprojectlayout.png)"
 
 msgid "## Write The Grammar"
 msgstr "## 文法を書く"
@@ -381,7 +381,7 @@ msgstr ""
 "きます。"
 
 msgid "![](images/30min_rungenerator.png)"
-msgstr "![](images/30min_rungenerator.png)"
+msgstr "![](../../documentation/images/30min_rungenerator.png)"
 
 msgid "## Run the Generated Eclipse Plug-in {#run-generated-plugin}"
 msgstr "## 生成されたEclipseプラグインの実行 {#run-generated-plugin}"
@@ -407,7 +407,7 @@ msgstr ""
 "イック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。"
 
 msgid "![](images/30min_editor.png)"
-msgstr "![](images/30min_editor.png)"
+msgstr "![](../../documentation/images/30min_editor.png)"
 
 msgid "## Second Iteration: Adding Packages and Imports {#add-imports}"
 msgstr "## 第2イテレーション: パッケージの追加とインポート {#add-imports}"
@@ -729,7 +729,7 @@ msgstr ""
 "、ファイルの境界を越えてクロスリファレンスすることも可能です。"
 
 msgid "![](images/30min_multipleeditors.png)"
-msgstr "![](images/30min_multipleeditors.png)"
+msgstr "![](../../documentation/images/30min_multipleeditors.png)"
 
 msgid "---"
 msgstr "---"

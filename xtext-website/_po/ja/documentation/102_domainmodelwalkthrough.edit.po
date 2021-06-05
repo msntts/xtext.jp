@@ -133,7 +133,7 @@ msgstr "プロジェクトを作成するため *Finish* を押してくださ�
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:51
 msgid "![](images/30min_wizard.png)"
-msgstr "![](images/30min_wizard.png)"
+msgstr "![](../../documentation/images/30min_wizard.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:53
 msgid "After you have successfully finished the wizard, you will find five new projects in your workspace."
@@ -157,7 +157,7 @@ msgstr ""
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:62
 msgid "![](images/30min_initialprojectlayout.png)"
-msgstr "![](images/30min_initialprojectlayout.png)"
+msgstr "![](../../documentation/images/30min_initialprojectlayout.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:64
 msgid "## Write The Grammar"
@@ -371,7 +371,7 @@ msgstr "この操作によって、パーサ、テキストエディタといく
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:160
 msgid "![](images/30min_rungenerator.png)"
-msgstr "![](images/30min_rungenerator.png)"
+msgstr "![](../../documentation/images/30min_rungenerator.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:162
 msgid "## Run the Generated Eclipse Plug-in {#run-generated-plugin}"
@@ -383,7 +383,7 @@ msgstr "Eclipse IDE統合の準備ができました。パッケージエクス�
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:166
 msgid "![](images/30min_editor.png)"
-msgstr "![](images/30min_editor.png)"
+msgstr "![](../../documentation/images/30min_editor.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:168
 msgid "## Second Iteration: Adding Packages and Imports {#add-imports}"
@@ -707,7 +707,7 @@ msgstr "上記の変更をエディタに反映させるためには、前のセ
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:313
 msgid "![](images/30min_multipleeditors.png)"
-msgstr "![](images/30min_multipleeditors.png)"
+msgstr "![](../../documentation/images/30min_multipleeditors.png)"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:315
 msgid "---"

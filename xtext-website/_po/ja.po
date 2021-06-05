@@ -1896,19 +1896,19 @@ msgid "![The data model of Xtext's index](images/index_datamodel.png)"
 msgstr ""
 
 msgid "![](images/30min_editor.png)"
-msgstr "![](images/30min_editor.png)"
+msgstr "![](../../documentation/images/30min_editor.png)"
 
 msgid "![](images/30min_initialprojectlayout.png)"
-msgstr "![](images/30min_initialprojectlayout.png)"
+msgstr "![](../../documentation/images/30min_initialprojectlayout.png)"
 
 msgid "![](images/30min_multipleeditors.png)"
-msgstr "![](images/30min_multipleeditors.png)"
+msgstr "![](../../documentation/images/30min_multipleeditors.png)"
 
 msgid "![](images/30min_rungenerator.png)"
-msgstr "![](images/30min_rungenerator.png)"
+msgstr "![](../../documentation/images/30min_rungenerator.png)"
 
 msgid "![](images/30min_wizard.png)"
-msgstr "![](images/30min_wizard.png)"
+msgstr "![](../../documentation/images/30min_wizard.png)"
 
 msgid "![](images/JvmTutorial_Editor.png)"
 msgstr ""

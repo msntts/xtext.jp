@@ -48,7 +48,7 @@ entity Comment extends HasAuthor {
 
 プロジェクトを作成するため *Finish* を押してください。
 
-![](images/30min_wizard.png)
+![](../../documentation/images/30min_wizard.png)
 
 ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。
 
@@ -59,7 +59,7 @@ entity Comment extends HasAuthor {
 |org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|
 |org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|
 
-![](images/30min_initialprojectlayout.png)
+![](../../documentation/images/30min_initialprojectlayout.png)
 
 ## 文法を書く
 
@@ -157,13 +157,13 @@ Feature:
 
 この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
-![](images/30min_rungenerator.png)
+![](../../documentation/images/30min_rungenerator.png)
 
 ## 生成されたEclipseプラグインの実行 {#run-generated-plugin}
 
 Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディタが開きます。では、コード補間、シンタックスハイライティング、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。
 
-![](images/30min_editor.png)
+![](../../documentation/images/30min_editor.png)
 
 ## 第2イテレーション: パッケージの追加とインポート {#add-imports}
 
@@ -308,7 +308,7 @@ Feature:
 
 上記の変更をエディタに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。
 
-![](images/30min_multipleeditors.png)
+![](../../documentation/images/30min_multipleeditors.png)
 
 ---
 
