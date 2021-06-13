@@ -607,7 +607,7 @@ msgid ""
 msgstr ""
 "    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Pa"
 "ckage*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。1."
-"  ImportsはXtextによってとても簡単に定義することができます。パーサルールで`importedNamespace`という名前を用いると、フレーム"
+"  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレーム"
 "ワークはimportとして処理します。これはワイルドカードもサポートしています。"
 
 msgid ""
@@ -4304,7 +4304,8 @@ msgid ""
 "A keyword can have any length, e.g. `'entity'`, and contain arbitrary characte"
 "rs. The following standard Java notations for special characters are allowed: "
 "`\n"
-"`, ``, `\t`, `\\b`, `\\f` and the quoted unicode character notation, such as `\\u"
+"`, `
+`, `\t`, `\\b`, `\\f` and the quoted unicode character notation, such as `\\u"
 "123`."
 msgstr ""
 
@@ -7551,7 +7552,8 @@ msgstr ""
 
 msgid ""
 "That is a WS can be made of one or more white space characters (including `' '"
-", '\t', '', '\n"
+", '\t', '
+', '\n"
 "'`)."
 msgstr ""
 
@@ -9104,7 +9106,8 @@ msgstr ""
 
 msgid ""
 "The white space characters `' '`, `'\t'`, `'\n"
-"'`, and `''` are allowed to occur anywhere between the other syntactic elemen"
+"'`, and `'
+'` are allowed to occur anywhere between the other syntactic elemen"
 "ts."
 msgstr ""
 
@@ -9291,7 +9294,7 @@ msgid ""
 "This action generates the parser and text editor and some additional infrastru"
 "cture code. You will see its logging messages in the Console View."
 msgstr ""
-"この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することがで"
+"この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することがで"
 "きます。"
 
 msgid ""
@@ -12939,7 +12942,8 @@ msgstr ""
 msgid ""
 "```xtext\n"
 "terminal WS:\n"
-"    (' '|'\t'|''|'\n"
+"    (' '|'\t'|'
+'|'\n"
 "')+;\n"
 "```"
 msgstr ""
@@ -13304,7 +13308,9 @@ msgstr ""
 msgid ""
 "terminal SL_COMMENT:\n"
 "    '//' !('\n"
-"'|'')* (''? '\n"
+"'|'
+')* ('
+'? '\n"
 "')?;"
 msgstr ""
 
@@ -13316,7 +13322,8 @@ msgstr ""
 
 msgid ""
 "terminal WS:\n"
-"    (' '|'\t'|''|'\n"
+"    (' '|'\t'|'
+'|'\n"
 "')+;"
 msgstr ""
 
@@ -13636,7 +13643,7 @@ msgid ""
 "|org.example.domainmodel.ui.tests|UI tests for the Eclipse editor|"
 msgstr ""
 "|:---|:---|\n"
-"|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサ、字句解析器、リンカー、バリデーションなど)|\n"
+"|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサー、字句解析器、リンカー、バリデーションなど)|\n"
 "|org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|\n"
 "|org.example.domainmodel.tests| 言語のユニットテスト|\n"
 "|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|\n"

@@ -204,7 +204,7 @@ Some parts of this grammar are equal to the one in the [15 Minutes Tutorial](102
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
+この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](images/JvmTutorial_RunGenerator.png)
 

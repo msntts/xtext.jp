@@ -53,7 +53,7 @@ entity Comment extends HasAuthor {
 ウィザードを正常に終了した後、ワークスペースには5つの新しいプロジェクトが作成されます。
 
 |:---|:---|
-|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサ、字句解析器、リンカー、バリデーションなど)|
+|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサー、字句解析器、リンカー、バリデーションなど)|
 |org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|
 |org.example.domainmodel.tests| 言語のユニットテスト|
 |org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|
@@ -155,7 +155,7 @@ Feature:
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
+この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](../../documentation/images/30min_rungenerator.png)
 
@@ -239,7 +239,7 @@ package my.company.blog {
         ID ('.' ID)*;
     ```
 
-    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。1.  ImportsはXtextによってとても簡単に定義することができます。パーサルールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。
+    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。1.  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。
 
     ```xtext
     Import:

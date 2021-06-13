@@ -149,7 +149,7 @@ msgid ""
 "|org.example.domainmodel.ui.tests|UI tests for the Eclipse editor|"
 msgstr ""
 "|:---|:---|\n"
-"|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサ、字句解析器、リンカー、バリデーションなど)|\n"
+"|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサー、字句解析器、リンカー、バリデーションなど)|\n"
 "|org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|\n"
 "|org.example.domainmodel.tests| 言語のユニットテスト|\n"
 "|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|\n"
@@ -367,7 +367,7 @@ msgstr "*Run As &rarr; Generate Xtext Artifacts*."
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:158
 msgid "This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View."
-msgstr "この操作によって、パーサ、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。"
+msgstr "この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:160
 msgid "![](images/30min_rungenerator.png)"
@@ -565,7 +565,7 @@ msgid ""
 "1.  Imports can be defined in a very convenient way with Xtext. If you use the name `importedNamespace` in a parser rule, the framework will treat the value as an import. It even supports wildcards and handles them as expected:"
 msgstr ""
 "    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。"
-"1.  ImportsはXtextによってとても簡単に定義することができます。パーサルールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。"
+"1.  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:245
 msgid ""
