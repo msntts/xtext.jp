@@ -1,81 +1,81 @@
 ---
 layout: documentation
-title: The Grammar Language
-part: Reference Documentation
+title: 文法言語
+part: リファレンスドキュメント
 ---
 
 # {{page.title}} {#grammarLanguage}
 
-The [grammar language]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/Xtext.xtext) is the corner stone of Xtext. It is a domain-specific language, carefully designed for the description of textual languages. The main idea is to describe the concrete syntax and how it is mapped to an in-memory representation &ndash; the semantic model. This model will be created by the parser on-the-fly when it consumes an input file. Of course the Xtext grammar language itself is implemented with Xtext, so you will find parts of its syntax described with its own means in this documentation.
+[文法言語]({{site.src.xtext_core}}/org.eclipse.xtext/src/org/eclipse/xtext/Xtext.xtext)はXtextの基礎であり、テキスト言語の記述のために注意深く設計されたドメイン固有言語です。主な目的は、具象的な構文とメモリ内表現(つまり意味モデル)がどのようにマッピングされるかを記述することです。このモデルはファイル入力を受けると即座にパーサーによって生成されます。もちろん、Xtext文法言語そのものがXtextによって実装されているので、このドキュメント内に構文の説明を見つけることができます。
 
 An example grammar is shown in the [15 Minutes Tutorial](102_domainmodelwalkthrough.html#write-your-own-grammar).
 
-## The Syntax {#syntax}
+## 構文 {#syntax}
 
-In the following the different concepts and syntactical constructs of the grammar language are explained.
+以下に、複数の概念と文法言語の構文構造を説明します。
 
-### Language Declaration
+### 言語宣言
 
-Each Xtext grammar starts with a header that defines some properties of the grammar.
+各Xtext文法は文法の特徴を定義したヘッダーから開始します。
 
 ```xtext
 grammar org.example.domainmodel.Domainmodel
         with org.eclipse.xtext.common.Terminals
 ```
 
-The first line declares the name of the language. Xtext leverages Java's class path mechanism. This means that the name can be any valid Java qualifier. The grammar file name needs to correspond to the language name and have the file extension `.xtext`. This means that the name has to be e.g. *Domainmodel.xtext* and must be placed in a package *org.example.domainmodel* on your project's class path. In other words, your `.xtext` file has to reside in a Java source folder to be valid.
+最初の行は言語の名前を宣言しています。XtextはJavaのクラスパスメカニズムを利用しています。これは、名前にJavaの有効な修飾子を利用できるということを意味しています。文法ファイル名は言語名と拡張子`.xtext`がそれぞれ必要です。例えば、ファイル *Domainmodel.xtext* は、プロジェクトクラスパス内のパッケージ *org.example.domainmodel* に配置されるべきであることを意味しています。言い換えると、`.xtext`ファイルは、Javaソースフォルダとして有効な場所に存在すべきということです。
 
-The second aspect that can be deduced from the first line of the grammar is its relationship to other languages. An Xtext grammar can declare another existing grammar to be reused. The mechanism is called [grammar mixin](301_grammarlanguage.html#grammar-mixins).
+最初の行から推測できる2つ目の側面は、他の言語との関連です。Xtext文法は既存の文法を再利用するための宣言が可能であり、このメカニズムは [文法ミックスイン](301_grammarlanguage.html#grammar-mixins) と呼ばれています。
 
-### EPackage Declarations {#package-declarations}
+### EPackage 宣言 {#package-declarations}
 
-Xtext parsers create in-memory object graphs while consuming text. Such object-graphs are instances of [EMF](https://www.eclipse.org/modeling/emf/) Ecore models. An Ecore model basically consists of an EPackage containing EClasses, EDataTypes and EEnums (see the [section on EMF](308_emf_integration.html#model-metamodel) for more details) and describes the structure of the instantiated objects. Xtext can infer Ecore models from a grammar (see [Ecore model inference](301_grammarlanguage.html#metamodel-inference)) but it is also possible to import existing Ecore models. You can even mix both approaches and use multiple existing Ecore models and infer some others from a single grammar. This allows for easy reuse of existing abstractions while still having the advantage of short turnarounds with derived Ecore models.
+Xtextパーサーはテキストからメモリ内オブジェクトグラフを生成します。オブジェクトグラフは [EMF](https://www.eclipse.org/modeling/emf/) Ecoreモデルのインスタンスです。Ecoreモデルは基本的にEPckageに含まれるEClaases、EDataTypesとEEnums (詳細は [EMF節](308_emf_integration.html#model-metamodel)を参照) と、インスタンス化されたオブジェクトの構造を示しています。Xtextは文法([Ecoreモデル推論](301_grammarlanguage.html#metamodel-inference))からEcoreモデルを類推できるが、既存のEcoreモデルをインポートすることも可能です。我々は、複数の既存のEcoreモデルを使用するアプローチと単一文法から他を推論するアプローチの両方をとることができます。これにより、既存の抽象化の再利用を容易にすると同時に、派生したEcoreモデルを用いた短いターンアラウンドの利点を得ることができます。
 
-#### EPackage Generation
+#### EPackage 生成
 
-The easiest way to get started is to let Xtext infer the Ecore model from your grammar. The `generate` declaration in the grammar advises the framework to do so:
+最も簡単な開始方法は、あなたの文法からEcoreモデルをXtextに推論させることです。文法中の`生成`宣言はフレームワークに推論するよう通知します。
 
 ```xtext
 generate domainmodel "http://www.example.org/domainmodel/Domainmodel"
 ```
 
-That statement could actually be read as: generate an [EPackage]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EPackage.java) with the *name* `domainmodel` and the *nsURI* `"http://www.example.org/domainmodel/Domainmodel"`. Xtext will then add [EClasses]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClass.java) with [EAttributes]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EAttribute.java) and [EReferences]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EReference.java) for the different parser rules in your grammar, as described in [Ecore model inference](301_grammarlanguage.html#metamodel-inference).
+この命令文は実際には次のように解釈されます:　*名前* `domainmodel`、*nsURI*  `"http://www.example.org/domainmodel/Domainmodel"` で、[EPackage]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EPackage.java)を生成する。Xtextは[Ecore model inference](301_grammarlanguage.html#metamodel-inference)に記述されている文法内の複数のパーサールールに対して、[EClasses]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClass.java)と[EReferences]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EReference.java)を含む[EAttributes]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EAttribute.java)を追加します。
 
-#### EPackage Import {#epackage-import}
+#### EPackage インポート {#epackage-import}
 
-If you already have an existing EPackage, you can import it using its namespace URI:
+すでにEPackageを持っている場合、ネームスペースURIを用いることでインポートすることができます:
 
 ```xtext
 import "http://www.xtext.org/example/Domainmodel"
 ```
 
-A [URI]({{site.src.emf}}/plugins/org.eclipse.emf.common/src/org/eclipse/emf/common/util/URI.java) (Uniform Resource Identifier) provides a simple and extensible means for identifying an abstract or physical resource. It is also possible to import EPackages using resource URIs, but it is strongly recommended to use the namespace URI instead because it is independent from the concrete location in the file system, much more portable across different machines, easier to configure in the workflow, and works better with language mixins. The import via platform URIs or file URIs can be considered deprecated and is only supported for backwards compatibility.
+[URI]({{site.src.emf}}/plugins/org.eclipse.emf.common/src/org/eclipse/emf/common/util/URI.java) (Uniform Resource Identifier)は、抽象もしくは物理的なリソースを特定するための拡張可能かつシンプルな手段を提供します。リソースURIを用いてEPackageをインポートすることも可能だが、ネームスペースURIを用いることを強く進めます。なぜなら、ネームスペースURIはファイルシステムの具体的な位置から独立しているため、他のマシーンへの移植やワークフローの構築がやりやすく、そして言語のミックスインがよりよく動作します。プラットフォームURIもしくはファイルURI経由のインポートは非推奨とみなされ、下位互換性のためだけにサポートされます。
 
-Using package imports usually requires some [adaptations in the generator workflow](302_configuration.html#importing-metamodels).
+パッケージインポートは通常、いくらかの[生成ワークフローへの適応](302_configuration.html#importing-metamodels) が必要です。
 
-#### Ecore Model Aliases for EPackages
+#### EPackageのためのEcoreモデル エイリアス
 
-If you want to use multiple EPackages you need to specify aliases in the following way:
+もし複数のEPackageを使用するのであれば、次の方法でエイリアスを指定する必要があります:
 
 ```xtext
 import "http://www.xtext.org/example/Domainmodel" as dmodel
 import 'http://www.eclipse.org/anotherPackage' as another
-```
 
-When referring to a type somewhere in the grammar you need to qualify the reference using that alias (e.g. `another::SomeType`). Cases where such type references occur are explained below.
 
-It is also supported to put multiple EPackage imports into one alias. This is no problem as long as there are not any two [EClassifiers]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClassifier.java) with the same name. In that case none of them can be referenced. It is even possible to `import` multiple and `generate` one Ecore model and declare all of them with the same alias. If you do so, for a reference to an [EClassifier]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClassifier.java) first the imported [EPackages]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EPackage.java) are scanned before it is assumed that a type needs to be generated into the inferred package.
+文法内で型を参照する場合、エイリアスを使って参照を修飾する必要があります。(例`another::SomeType`)以下にこのような型の参照が起こる箇所を説明します。
 
-Note that using the same alias for multiple EPackages is not recommended, because it might cause problems that are hard to track down. For instance, a reference to `classA` could mistakenly be linked to a newly created EClass instead of an existing EClass `ClassA` because the latter is written with a capital letter.
+複数のEPckageインポートを1つのエイリアスに入れることもサポートされています。これは、[EClassifiers]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClassifier.java)に同じ名前のものが2つない限り問題ありません。同じ名前のものが存在する場合、どれも参照できません。複数のEcoreモデルを`import`し、1つのEcoreモデルを`generate`し、そしてそれら全てを同じエイリアスを用いて宣言することも可能です。その場合、[EClassifier]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClassifier.java)を参照するため、最初にインポートされた[EPackages]({{site.src.emf}}/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EPackage.java)がスキャンされ、その後、推測されたパッケージから型を生成する必要があるとみなされます。
 
-### Terminal Rules {#terminal-rules}
+複数のEPackageに対して同じエイリアスをつけることは追跡が困難である問題を引き起こすため非推奨です。例えば、`classA`への参照は既存のEClass `ClassA`が大文字で書かれているため、既存のEClass `ClassA`ではなく、新規に作成したEClassに誤ってリンクされることがあります。
 
-Basically parsing can be separated in the following phases:
+### 終端ルール {#terminal-rules}
 
-1.  Lexing
-1.  Parsing
-1.  Linking
-1.  Validation
+基本的に、パースは以下のフェーズに分割することができます:
+
+1.  字句解析
+1.  パース
+1.  リンク
+1.  検証
 
 In the first stage called *lexing*, a sequence of characters (the text input) is transformed into a sequence of so-called *tokens*. In this context, a token is a sort of a strongly typed part or region of the input sequence. It consists of one or more characters and is matched by a particular terminal rule or keyword and therefore represents an atomic symbol. Terminal rules are also referred to as *token rules* or *lexer rules*. There is an informal naming convention that names of terminal rules are all upper-case.
 
@@ -766,4 +766,4 @@ terminal ANY_OTHER:
 
 ---
 
-**[Next Chapter: Configuration](302_configuration.html)**
+**[次章: コンフィギュレーション](302_configuration.html)**

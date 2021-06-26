@@ -239,7 +239,8 @@ package my.company.blog {
         ID ('.' ID)*;
     ```
 
-    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。1.  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。
+    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。
+1.  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。
 
     ```xtext
     Import:
@@ -249,7 +250,8 @@ package my.company.blog {
         QualifiedName '.*'?;
     ```
 
-    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。1.  最後のステップでは、完全修飾名をクロスリファレンスでも使用できるようにします。これがないと、importを常に記載しないとエンティティの参照ができなくなります。
+    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。
+1.  最後のステップでは、完全修飾名をクロスリファレンスでも使用できるようにします。これがないと、importを常に記載しないとエンティティの参照ができなくなります。
 
     ```xtext
     Entity:

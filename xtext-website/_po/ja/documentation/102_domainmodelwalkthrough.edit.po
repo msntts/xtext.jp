@@ -1,21 +1,12 @@
-# Japanese translations for PACKAGE package.
-# Copyright (C) 2021 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# msntts <terzonome-github@yahoo.co.jp>, 2021.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-05 02:33-0500\n"
-"PO-Revision-Date: 2021-06-05 02:33-0500\n"
-"Last-Translator: msntts <terzonome-github@yahoo.co.jp>\n"
-"Language-Team: Japanese\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"PO-Revision-Date: 2021-06-26 03:53-0500\n"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:1
 msgid ""
@@ -564,7 +555,7 @@ msgid ""
 "    The `QualifiedName` is a little special. It does not contain any assignments. Therefore it serves as a data type rule that returns a String. Hence the feature `name` of a *Package* is still of type [String]({{site.javadoc.java}}/java/lang/String.html).\n"
 "1.  Imports can be defined in a very convenient way with Xtext. If you use the name `importedNamespace` in a parser rule, the framework will treat the value as an import. It even supports wildcards and handles them as expected:"
 msgstr ""
-"    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。"
+"    `QualifiedName` は少し特殊で、割り当てが含まれません。したがって、これは文字列を返すデータタイプルールを提供します。よって、 *Package*の`name`特性は[String]({{site.javadoc.java}}/java/lang/String.html)型のままです。\n"
 "1.  ImportsはXtextによってとても簡単に定義することができます。パーサールールで`importedNamespace`という名前を用いると、フレームワークはimportとして処理します。これはワイルドカードもサポートしています。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:245
@@ -592,7 +583,7 @@ msgid ""
 "    Similar to the rule `QualifiedName`, `QualifiedNameWithWildcard` returns a plain string.\n"
 "1.  The last step is to allow fully qualified names in cross-references, too. Otherwise one could not refer to an entity without adding an import statement."
 msgstr ""
-"    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。"
+"    `QualifiedName`と同様に、`QualifiedNameWithWildcard`もまたもプレーン文字列を返します。\n"
 "1.  最後のステップでは、完全修飾名をクロスリファレンスでも使用できるようにします。これがないと、importを常に記載しないとエンティティの参照ができなくなります。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:256
