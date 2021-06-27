@@ -6,7 +6,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"PO-Revision-Date: 2021-06-26 03:53-0500\n"
+"PO-Revision-Date: 2021-06-27 02:29-0500\n"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:1
 msgid ""
@@ -143,8 +143,8 @@ msgstr ""
 "|org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサー、字句解析器、リンカー、バリデーションなど)|\n"
 "|org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|\n"
 "|org.example.domainmodel.tests| 言語のユニットテスト|\n"
-"|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|\n"
-"|org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|"
+"|org.example.domainmodel.ui| Eclipseエディターと、ワークベンチ関連機能|\n"
+"|org.example.domainmodel.ui.tests| Eclipseエディター用UIテスト|"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:62
 msgid "![](images/30min_initialprojectlayout.png)"
@@ -350,7 +350,7 @@ msgstr "## 言語アーティファクトの生成"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:154
 msgid "Now that we have the grammar in place we need to execute the code generator that will derive the various language components. To do so, right-click into the grammar editor and select"
-msgstr "文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。"
+msgstr "文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディター上で右クリックし以下を選択します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:156
 msgid "*Run As &rarr; Generate Xtext Artifacts*."
@@ -358,7 +358,7 @@ msgstr "*Run As &rarr; Generate Xtext Artifacts*."
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:158
 msgid "This action generates the parser and text editor and some additional infrastructure code. You will see its logging messages in the Console View."
-msgstr "この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。"
+msgstr "この操作によって、パーサー、テキストエディターといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:160
 msgid "![](images/30min_rungenerator.png)"
@@ -370,7 +370,7 @@ msgstr "## 生成されたEclipseプラグインの実行 {#run-generated-plugin
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:164
 msgid "We are now able to test the Eclipse IDE integration. If you right-click the project `org.example.domainmodel` in the Package Explorer and select *Run As &rarr; Eclipse Application*, a new run configuration is created and launched that starts a second instance of Eclipse including your new language plug-ins. In the new instance, create a new project of your choice, e.g. *File &rarr; New &rarr; Project... &rarr; Java Project* and therein a new file with the file extension you chose in the beginning (*\\*.dmodel*). This will open the generated entity editor. Try it and discover the default functionality for code completion, syntax highlighting, syntactic validation, linking errors, formatting, (quick) outline view, hyperlinking, find references, folding, rename refactoring etc."
-msgstr "Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディタが開きます。では、コード補間、シンタックスハイライティング、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。"
+msgstr "Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディターが開きます。では、コード補間、シンタックスハイライト、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:166
 msgid "![](images/30min_editor.png)"
@@ -382,7 +382,7 @@ msgstr "## 第2イテレーション: パッケージの追加とインポート
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:170
 msgid "After you have created your first DSL and had a look at the editor, the language should be refined and incrementally enhanced. The domainmodel language should support the notion of *Packages* in order to avoid name clashes and to better fit with the target environment Java. A *Package* may contain *Types* and other packages. In order to allow for names in references, we will also add a way to declare imports."
-msgstr "最初のDSLを生成しエディタの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。"
+msgstr "最初のDSLを生成しエディターの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:172
 msgid "In the end we want to be able to split the previously used model into distinct files:"
@@ -694,7 +694,7 @@ msgstr ""
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:311
 msgid "You should regenerate the language infrastructure as described in the previous section, and give the editor another try. You can even split up your model into smaller parts and have cross-references across file boundaries."
-msgstr "上記の変更をエディタに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。"
+msgstr "上記の変更をエディターに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。"
 
 #: ../../../documentation/102_domainmodelwalkthrough.md:313
 msgid "![](images/30min_multipleeditors.png)"

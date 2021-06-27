@@ -216,6 +216,7 @@ msgstr ""
 "```xtext\n"
 "import \"http://www.xtext.org/example/Domainmodel\" as dmodel\n"
 "import 'http://www.eclipse.org/anotherPackage' as another\n"
+"```"
 
 msgid ""
 "When referring to a type somewhere in the grammar you need to qualify the refe"

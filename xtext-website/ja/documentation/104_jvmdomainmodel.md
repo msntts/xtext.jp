@@ -200,11 +200,11 @@ Some parts of this grammar are equal to the one in the [15 Minutes Tutorial](102
 
 ## Step Three: Generate Language Artifacts {#domain-model-step3}
 
-文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。
+文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディター上で右クリックし以下を選択します。
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
+この操作によって、パーサー、テキストエディターといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](images/JvmTutorial_RunGenerator.png)
 

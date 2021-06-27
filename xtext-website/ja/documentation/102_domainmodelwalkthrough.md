@@ -56,8 +56,8 @@ entity Comment extends HasAuthor {
 |org.example.domainmodel| 文法定義と全ての言語固有コンポーネント(パーサー、字句解析器、リンカー、バリデーションなど)|
 |org.example.domainmodel.ide| プラットフォームに依存しないIDE機能 (例 コンテントアシスタントサービス)|
 |org.example.domainmodel.tests| 言語のユニットテスト|
-|org.example.domainmodel.ui| Eclipseエディタと、ワークベンチ関連機能|
-|org.example.domainmodel.ui.tests| Eclipseエディタ用UIテスト|
+|org.example.domainmodel.ui| Eclipseエディターと、ワークベンチ関連機能|
+|org.example.domainmodel.ui.tests| Eclipseエディター用UIテスト|
 
 ![](../../documentation/images/30min_initialprojectlayout.png)
 
@@ -151,23 +151,23 @@ Feature:
 
 ## 言語アーティファクトの生成
 
-文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディタ上で右クリックし以下を選択します。
+文法の準備が整ったので、様々な言語要素を得るためコード生成を実行する必要があります。コード生成のためには、文法エディター上で右クリックし以下を選択します。
 
 *Run As &rarr; Generate Xtext Artifacts*.
 
-この操作によって、パーサー、テキストエディタといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
+この操作によって、パーサー、テキストエディターといくつかの追加のインフラストラクチャコードが生成され、これはらコンソールビューのログメッセージで確認することができます。
 
 ![](../../documentation/images/30min_rungenerator.png)
 
 ## 生成されたEclipseプラグインの実行 {#run-generated-plugin}
 
-Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディタが開きます。では、コード補間、シンタックスハイライティング、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。
+Eclipse IDE統合の準備ができました。パッケージエクスプローラのプロジェクト `org.example.domainmodel` を右クリックし、*Run As &rarr; Eclipse Application*を選択すると、新規run configurationが生成され、新たな言語プラグインが組み込まれた2つ目のEclipseインスタンスが表示されます。表示されたEclipseインスタンスにて*File &rarr; New &rarr; Project... &rarr; Java Project*を実行し、新規プロジェクトを作成します。その後、拡張子が (*\*.dmodel*) から始まるファイルを作成すると、生成したエンティティエディターが開きます。では、コード補間、シンタックスハイライト、構文チェック、リンクエラー、フォーマッティング、(クイック)アウトラインビュー、ハイパーリンキング、参照の発見、折り畳み、リネームリファクタリングなどの標準機能を確認しましょう。
 
 ![](../../documentation/images/30min_editor.png)
 
 ## 第2イテレーション: パッケージの追加とインポート {#add-imports}
 
-最初のDSLを生成しエディタの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。
+最初のDSLを生成しエディターの表示を確認したので、言語の改良、機能追加をしていきましょう。domainmodel言語は名前の衝突を避けることとJavaとの親和性を高めるために*Packages*の概念をサポートする必要があります。*Package* は *Types* と他のパッケージを含みます。さらに名前による参照を実現するため、imports宣言も追加します。
 
 最後に、これまで使っていたモデルを異なるファイルに分割します。
 
@@ -308,7 +308,7 @@ Feature:
     (many?='many')? name=ID ':' type=[Type|QualifiedName];
 ```
 
-上記の変更をエディタに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。
+上記の変更をエディターに反映させるためには、前のセクションで紹介した言語インフラストラクチャの生成を再度行う必要があります。また、モデルを小さなパーツに分割し、ファイルの境界を越えてクロスリファレンスすることも可能です。
 
 ![](../../documentation/images/30min_multipleeditors.png)
 

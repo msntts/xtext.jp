@@ -60,7 +60,7 @@ import "http://www.xtext.org/example/Domainmodel"
 ```xtext
 import "http://www.xtext.org/example/Domainmodel" as dmodel
 import 'http://www.eclipse.org/anotherPackage' as another
-
+```
 
 文法内で型を参照する場合、エイリアスを使って参照を修飾する必要があります。(例`another::SomeType`)以下にこのような型の参照が起こる箇所を説明します。
 

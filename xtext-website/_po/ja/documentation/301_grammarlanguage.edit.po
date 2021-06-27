@@ -153,6 +153,7 @@ msgstr ""
 "```xtext\n"
 "import \"http://www.xtext.org/example/Domainmodel\" as dmodel\n"
 "import 'http://www.eclipse.org/anotherPackage' as another\n"
+"```"
 
 #: ../../../documentation/301_grammarlanguage.md:65
 msgid "When referring to a type somewhere in the grammar you need to qualify the reference using that alias (e.g. `another::SomeType`). Cases where such type references occur are explained below."

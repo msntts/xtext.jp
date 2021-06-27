@@ -72,7 +72,7 @@ Xtextは [Language Server Protocol (LSP)](https://microsoft.github.io/language-s
 	"uuid": "8383e49a-fa0d-4bb5-827b-10e8abb294ca"
 }
 ```
- 1. Genericエディタで `*.dmodel` ファイルを開き、シンタックスハイライト、コンテントアシスト、検証、コードレンス、クイックフィックス、フォーマット ... のような言語機能を調べます :
+ 1. Genericエディターで `*.dmodel` ファイルを開き、シンタックスハイライト、コンテントアシスト、検証、コードレンス、クイックフィックス、フォーマット ... のような言語機能を調べます :
 ![ドメインモデル言語機能](../../documentation/images/LSP_5_DomainmodelLanguageFeatures.png)
 
 **Step 4:** Atom、Eclipse Che、Eclipse Theia、IntelliJ IDEA、Monaco Editor、VS Code ... に基づき、LSPクライアントを思うままに実装してください。現在サポートされているLSPクライアントは[https://langserver.org/](https://langserver.org/)の`LSP Clinetns`節にて確認することができます。
@@ -182,7 +182,7 @@ Xtextは [Language Server Protocol (LSP)](https://microsoft.github.io/language-s
 			<td><div class="not-supported"></div></td>
 		</tr>
 		<tr>
-			<td><a href="https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_semanticTokens">セマンティックトークン</a> (aka セマンティックハイライティング)</td>
+			<td><a href="https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_semanticTokens">セマンティックトークン</a> (aka セマンティックハイライト)</td>
 			<td><div class="supported"></div></td>
 		</tr>
 		<tr>
