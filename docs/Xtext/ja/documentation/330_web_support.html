@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="UTF-8">
+	<title>Xtext - Webエディターサポート</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description"
+		content="The website of Eclipse Xtext, an open-source framework for development of programming languages and domain-specific languages">
+	<meta name="author" content="Sven Efftinge">
+	<meta name="author" content="Miro Spoenemann">
+	<!--  styles -->
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<!-- Le fav and touch icons -->
+	<link rel="shortcut icon" href="/Xtext/images/favicon.png">
+	
+	<link href="/Xtext/css/bootstrap.css" rel="stylesheet" type='text/css'>
+	<link href="/Xtext/css/bootstrap-responsive.css" rel="stylesheet" type='text/css'>
+	<link href="/Xtext/css/shield-responsive.css" rel="stylesheet" type='text/css'>
+	<link href='/Xtext/css/fonts.css' rel='stylesheet' type='text/css'>
+	<link href="/Xtext/css/prettyPhoto.css" rel="stylesheet" media="screen" type='text/css'>
+	<link href="/Xtext/css/prettify.css" type="text/css" rel="stylesheet"/>
+	<link href="/Xtext/css/style.css" rel="stylesheet" type='text/css'>
+	<!-- cover flow -->
+	<link href="/Xtext/css/coverflow.css" rel="stylesheet" type='text/css'>
+	<!--[if lt IE 9]>
+	  <link href="/css/iebugs.css" rel="stylesheet" type='text/css'>
+	<![endif]-->
+
+	<!-- BEGIN Cookie Consent
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+	<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+	<script>
+	window.addEventListener("load", function(){
+	window.cookieconsent.initialise({
+		"palette": {
+		"popup": {
+		  "background": "#000"
+		},
+		"button": {
+		  "background": "#f1d600"
+		}
+		},
+		"theme": "edgeless",
+		"type": "opt-in",
+		onInitialise: function (status) {
+		  var type = this.options.type;
+		  var didConsent = this.hasConsented();
+		  if (type == 'opt-in' && didConsent) {
+		    // TODO: enable cookies
+		  }
+		  if (type == 'opt-out' && !didConsent) {
+		    // TODO: disable cookies
+		  }
+		},
+		onStatusChange: function(status, chosenBefore) {
+		  var type = this.options.type;
+		  var didConsent = this.hasConsented();
+		  if (type == 'opt-in' && didConsent) {
+		    // TODO: enable cookies
+		  }
+		  if (type == 'opt-out' && !didConsent) {
+		    // TODO: disable cookies
+		  }
+		}, 
+		onRevokeChoice: function() {
+		  var type = this.options.type;
+		  if (type == 'opt-in') {
+		    // TODO: disable cookies
+		  }
+		  if (type == 'opt-out') {
+		    // TODO: enable cookies
+		  }
+		},
+		"content": {
+		"href": "http://www.eclipse.org/legal/privacy.php"
+		}
+	})});
+	</script>
+	END Cookie Consent -->
+</head>
+
+
+  <body>
+  
+    <header class="site-header">
+
+  <!-- Navbar -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse"
+          data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+          class="icon-bar"></span> <span class="icon-bar"></span>
+        </a> <a class="brand" href="/Xtext/index.html"></a>
+        <div class="nav-collapse collapse" style="height: 0px;">
+          <ul class="nav">
+            <!--li ><a href="/Xtext/news.html">News</a></li-->
+            <li ><a href="/Xtext/download.html">Download</a></li>
+            <li ><a href="/Xtext/documentation/index.html">Documentation</a></li>
+            <li ><a href="/Xtext/community.html">Community</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Support &amp; Trainings<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://www.itemis.com/en/xtext/support-and-team/" target="_blank">itemis</a></li>
+                <li><a href="https://typefox.io/trainings-2" target="_blank">TypeFox</a></li>
+              </ul>
+            </li>
+            <li ><a href="http://xtend-lang.org">Xtend</a></li>
+          </ul>
+          <!--div class="nav pull-right">
+            <li ><a><iframe src="https://ghbtns.com/github-btn.html?user=eclipse&repo=xtext&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe></a></li>
+          </div-->
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <!-- Navbar End -->
+
+</header>
+
+
+    <div class="page-content">
+  <script>
+    function startSearch(event) {
+        if (event.keyCode == 13) {
+            var q = 'site:eclipse.org/Xtext/documentation+' + event.target.value;
+            window.open('https://www.google.com/search?q=' + q, "_self");
+        }
+    }
+  </script>
+  <div class="wrapper">
+  	<div id="page">  
+      <div class="inner">
+        <div id="maincontainer" class="container">
+          <span class="edit-on-github pull-right">
+            <a href="https://github.com/eclipse/xtext/edit/website-published/xtext-website/ja/documentation/330_web_support.md">Edit on Github</a>
+          </span>
+          <div class="span3" style="margin-left: 0px;">
+            <div class="search-bar">
+              <img src="/Xtext/images/search-gray.png"/>
+              <input type="search" id="google-search" onkeyup="startSearch(event);"/>
+            </div>
+            <ul id="nav-outline" style="margin-left: 0px;">
+	<li class="nav-part">Getting Started</li>
+	<li><a href="102_domainmodelwalkthrough.html">15 Minutes Tutorial</a></li>
+	<li><a href="103_domainmodelnextsteps.html">15 Minutes Tutorial - Extended</a></li>
+	<li><a href="104_jvmdomainmodel.html">Five simple steps to your JVM language</a></li>
+		
+	<li class="nav-part">Reference Documentation</li>
+	<li><a href="301_grammarlanguage.html">The Grammar Language</a></li>
+	<li><a href="302_configuration.html">Configuration</a></li>
+	<li><a href="303_runtime_concepts.html">Language Implementation</a></li>
+	<li><a href="305_xbase.html">Integration with Java</a></li>
+	<li><a href="307_special_languages.html">Typical Language Configurations</a></li>
+	<li><a href="308_emf_integration.html">Integration with EMF</a></li>
+	<li><a href="310_eclipse_support.html">Eclipse Support</a></li>
+	<li><a href="330_web_support.html">Web Editor Support</a></li>
+	<li><a href="340_lsp_support.html">LSP Support</a></li>
+	<li><a href="350_continuous_integration.html">Continuous Integration</a></li>
+</ul>
+          </div>
+          <div class="span8 doc-contents">
+            <h1 id="web-integration">Webエディターサポート</h1>
+
+<p>バージョン2.9からXtextはWebアプリケーション内のテキストエディター統合のためのインターフェースを提供しています。テキストエディターはJavaScriptにより実装されており、コード補完のような言語関連サービスはサーバーサイドコンポーネントへのHTTPリクエストにより実現されています。</p>
+
+<h2 id="client">クライアント</h2>
+
+<p>Xtextは3つのJavaScriptテキストエディターライブラリーをサポートしています。</p>
+
+<ul>
+  <li><a href="http://eclipse.org/orion/">Orion</a></li>
+  <li><a href="http://ace.c9.io">Ace</a></li>
+  <li><a href="http://codemirror.net">CodeMirror</a></li>
+</ul>
+
+<p>下表に示すエディターライブラリーのどれを選ぶかによってサポートされる言語関連サービスが異なります。</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Orion</th>
+      <th>Ace</th>
+      <th>CodeMirror</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#content-assist">コンテンツアシスト</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="303_runtime_concepts.html#validation">検証</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="#syntax-highlighting">シンタックスハイライト</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="#semantic-highlighting">セマンティックハイライト</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="not-supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="#mark-occurrences">強調表示</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="#hover-info">ホバー</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="not-supported"></div></td>
+      <td><div class="not-supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="303_runtime_concepts.html#formatting">フォーマット</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="303_runtime_concepts.html#code-generation">コード生成</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+    <tr>
+      <td><a href="#persistence">永続化</a></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+      <td><div class="supported"></div></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>XtextのJavascript統合ではモジュールとその依存関係の管理のため<a href="http://requirejs.org">RequireJS</a>を使います。主なモジュールは使用するエディターにより異なり <code>xtext/xtext-orion</code>、 <code>xtext/xtext-ace</code>もしくは <code>xtext/xtext-codemirror</code>のどれかです。Xtextと一緒にこれらのライブラリーをロードする例は、<code>generateHtmlExample = true</code>とした<code>WebIntegrationFragment</code>によって生成できます。(<a href="302_configuration.html#generator">言語ジェネレーター</a>参照)<a href="https://www.webjars.org/">WebJars</a>に基づく最小の設定を以下に示します。</p>
+
+<h4 id="orion">Orion</h4>
+
+<pre><code class="language-javascript">require.config({
+    paths: {
+        "text": "webjars/requirejs-text/&lt;version&gt;/text",
+        "jquery": "webjars/jquery/&lt;version&gt;/jquery.min",
+        "xtext/xtext-orion": "xtext/&lt;version&gt;/xtext-orion"
+    }
+});
+require(["orion/code_edit/built-codeEdit-amd"], function() {
+    require(["xtext/xtext-orion"], function(xtext) {
+        xtext.createEditor();
+    });
+});
+</code></pre>
+<p>WebJarsではOrionが入手できないため、<a href="http://download.eclipse.org/orion/">download.eclipse.org</a>からダウンロードする必要があります。</p>
+
+<h4 id="ace">Ace</h4>
+
+<pre><code class="language-javascript">require.config({
+    paths: {
+        "jquery": "webjars/jquery/&lt;version&gt;/jquery.min",
+        "ace/ext/language_tools": "webjars/ace/&lt;version&gt;/src/ext-language_tools",
+        "xtext/xtext-ace": "xtext/&lt;version&gt;/xtext-ace"
+    }
+});
+require(["webjars/ace/&lt;version&gt;/src/ace"], function() {
+    require(["xtext/xtext-ace"], function(xtext) {
+        xtext.createEditor();
+    });
+});
+</code></pre>
+
+<h4 id="codemirror">CodeMirror</h4>
+
+<pre><code class="language-javascript">require.config({
+    paths: {
+        "jquery": "webjars/jquery/&lt;version&gt;/jquery.min",
+        "xtext/xtext-codemirror": "xtext/&lt;version&gt;/xtext-codemirror"
+    },
+    packages: [{
+        name: "codemirror",
+        location: "webjars/codemirror/&lt;version&gt;",
+        main: "lib/codemirror"
+    }]
+});
+require(["xtext/xtext-codemirror"], function(xtext) {
+    xtext.createEditor();
+});
+</code></pre>
+
+<h3 id="javascript-api">JavaScript API</h3>
+
+<h4 id="xtextcreateeditoroptions"><code>xtext.createEditor(options)</code></h4>
+
+<p>エディターインスタンスを1つかそれ以上作成し、それぞれに対してXtextサービスを初期化します。利用可能なオプションは以下で説明します。作成したエディターが1つの場合、戻り値は作成したエディターです。複数作成した場合、戻り値はエディターの配列です:</p>
+
+<pre><code class="language-javascript">var editor = xtext.createEditor();
+</code></pre>
+
+<p>Orionではエディターが直接戻り値になることはなく、_promise_を介して返されます:</p>
+
+<pre><code class="language-javascript">xtext.createEditor().done(function(editorViewer) {
+    ...
+});
+</code></pre>
+
+<p>エディターの親要素がオプションで指定されていない場合、この関数は<code>id="xtext-editor"</code>の要素を検索します。もし、<code>id="xtext-editor"</code>の要素がない場合、この関数は<code>class="xtext-editor"</code>の要素を検索します。</p>
+
+<h4 id="xtextcreateserviceseditor-options"><code>xtext.createServices(editor, options)</code></h4>
+
+<p>生成済みのエディターに対してXtextサービスを初期化します。エディターの生成を完全にコントロールしたい場合は、この変数を使ってください。</p>
+
+<h4 id="xtextremoveserviceseditor"><code>xtext.removeServices(editor)</code></h4>
+
+<p>エディターから全てのサービスと関連するリスナーを削除します。この操作はJavascriptによるシンタックスハイライトには効果がありません。</p>
+
+<h3 id="options">Options</h3>
+
+<p>オプションは <code>createEditor</code>もしくは<code>createServices</code>関数に渡されるオブジェクトを通じて指定することができます。</p>
+
+<pre><code class="language-javascript">xtext.createEditor({
+    resourceId: "example.statemachine",
+    syntaxDefinition: "xtext/ace-mode-statemachine"
+});
+</code></pre>
+
+<p>または <code>createEditor</code>を用いる場合、エディターが生成されたHTML要素内のアトリビュートにてオプションを設定することができます。アトリビュート名はJavaScriptオプション名をキャメルケースからハイフンセパレートに変換し接頭語<code>data-editor-</code>をつけてものが生成されます。例えば、<code>resourceId</code>は<code>data-edirot-resource-id</code>になります:</p>
+
+<pre><code class="language-html">&lt;div id="xtext-editor"
+    data-editor-resource-id="example.statemachine"
+    data-editor-syntax-definition="xtext/ace-mode-statemachine"&gt;&lt;/div&gt;
+</code></pre>
+
+<p><a href="#options-reference">利用可能なすべてのオプション</a>は、以下を参照してください。</p>
+
+<h3 id="getting-text-content">テキストコンテンツの取得</h3>
+
+<p>テキストコンテンツはXtextサーバーからロードされる、もしくはJavascriptにより提供されます。いずれにせよ、Xtextサーバーはリクエストを処理するために使用している言語を識別する必要があります。言語は通常ファイルの拡張子かコンテンツタイプにて識別されます。ファイル拡張子は<code>xtextLang</code>オプションにより指定可能です。一方、コンテンツタイプは<code>contentType</code>オプションで与えられます。</p>
+
+<h3 id="サーバーからテキストをロードする">サーバーからテキストをロードする</h3>
+
+<p><code>resourceId</code>オプションに値を指定した場合、言語はidに含まれるファイル拡張子から識別される。この場合、<code>xtextLang</code>オプションを提供する必要はありません。<code>resourceId</code>の使用によるもう1つの効果は、サーバーが永続化層からそれぞれのリソースのロードを試みることです。Xtextサーバーはデフォルトの永続化を定義していないので、この方法を用いるためには<a href="#persistence">Persistence</a>節に記載に従ってカスタマイズをする必要があります。</p>
+
+<p><code>resourceId</code>文字列はサーバー上でテキストコンテンツの識別に必要な情報を含んでいます。通常、 <a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">URI</a>構文が用いられますが、これは必須ではありません。</p>
+
+<h3 id="javascriptを通じたテキストの提供">JavaScriptを通じたテキストの提供</h3>
+
+<p>Xtextサーバーの永続化層は完全にオプションなので、コンテンツのフェッチに好きな方法を使うことができます。例えば、クライアントサイドで生成したり、自身のサービスを経由して要求します。エディターが生成されるDOM要素内にテキストすでに含まれている場合、このテキストは初期コンテンツとして使用されます。それ以外の場合、エディターの初期値は空白であり、選択したエディターフレームワークのAPIを使ってコンテンツを好きに変更することができます。</p>
+
+<p>もしXtext付属の永続化サービスを使用せずに<code>resourceId</code>を指定したい場合、<code>loadFromServer</code>オプションを<code>false</code>に設定してください。</p>
+
+<h3 id="オペレーションモード">オペレーションモード</h3>
+
+<p>XtextのWeb統合では以下に示す2つのオペレーションモードがあります。</p>
+
+<h3 id="ステートフルモード">ステートフルモード</h3>
+
+<p>このモードは <code>sendFullText</code>を<code>false</code>(デフォルト設定)に設定したときに有効となります。ステートフルモードでは、エディターのテキストコンテンツが変更されるたびに更新要求がサーバーに送信されます。このアプローチでは、テキストのコピーがサーバーのセッション状態に保持され、ASTパースや検証といったXtext関連のサービスがテキストのコピーとともにキャッシュされます。これは、サーバー上でサービスが非常に高速で実行され、そして多くの要求メッセージのサイズが非常に小さいことを意味します。サービス要求の応答時間を最適化するにはこのモードを使用します。</p>
+
+<h4 id="ステートレスモード">ステートレスモード</h4>
+
+<p>このモードは<code>sendFullText</code>を<code>true</code>に設定したとき有効になります。この場合、テキストコンテンツを変更しても更新リクエストを送る必要はありませんが、他の全てのサービス要求にフルテキストコンテンツが添付されます。これは、要求のたびにテキストをパースする必要があり、メッセージサイズもテキストコンテンツのサイズに比例して大きくなることを意味します。このモードはサーバーサイドセッションと各セッションidをcookieに保存するのを避けたい場合にのみ使用します。</p>
+
+<h3 id="syntax-highlighting">シンタックスハイライト</h3>
+
+<p><a href="#semantic-highlighting">セマンティックハイライト</a>と対照的に、シンタックスハイライトはサーバーへの接続要求なく純粋にJavascript内で計算できます。これは使っているエディターライブラリーのハイライト機能を用いて実現されます。3つの全てのライブラリーはハイライトルールを指定するためのJavaScript APIを提供しています。Xtext言語ジェネレーターの<code>WebIntegrationFragment</code>は、数値やコメントといった基礎的なトークンやキーワードを含むハイライト仕様を生成することができます。 (<a href="302_configuration.html#generator">言語ジェネレーター</a>参照)もし、Xtext言語ジェネレーターが生成したものが不十分であるならば、選択したエディターライブラリーのドキュメントに従い、自身で仕様を実装することができます。</p>
+
+<p>ハイライト仕様へのパスはXtextエディターの設定中に<code>syntaxDefinition</code>オプションで設定されます。もし、オプションに値を設定しなかった場合、 <code>'xtext-resources/{xtextLang}-syntax'</code> (Orion) もしくは <code>'xtext-resources/mode-{xtextLang}'</code> (Ace) 形式で<code>xtextLang</code>から構築されます。CodeMirrorシンタックスハイライトは_mode_の登録と<code>mode</code>オプションの設定により構成されます。(デフォルト名: <code>'xtext/{xtextLang}'</code>)</p>
+
+<h3 id="サービスの実行">サービスの実行</h3>
+
+<p><code>createEditor</code> と <code>createServices</code>関数は、エディターを使用している間ほとんどのサービスを自動的に実行するためのエディターイベントに対するリスナーを設定します。また、全てのサービスは各エディターインスタンスに割り当てている<code>xtextServices</code>オブジェクトを使用することでプログラムで実行することも可能です。以下のコードはid <code>save-button</code>のボタンがクリックされたときにエディターに関連付けられているリソースを保存する例です:</p>
+
+<pre><code class="language-javascript">var editor = xtext.createEditor();
+$("#save-button").click(function() {
+    editor.xtextServices.saveResource();
+});
+</code></pre>
+
+<p>採用したエディターライブラリーによって有効化そしてサポートされる各サービスは以下の関数によって提供されます。全ての関数は要求データを最終的に解決する_promise_を返します。さらに、全ての関数に<code>options</code>パラメータを与えることで、エディタービルド時に宣言したオプションの一部を上書きすることができます。</p>
+
+<ul>
+  <li><code>getContentAssist()</code><br />
+<a href="#content-assist">コンテンツアシスト</a>節で説明した形式でコンテンツアシスト案を返します。</li>
+  <li><code>validate()</code><br />
+検証結果を返します。戻り値のオブジェクトは<code>issues</code>プロパティを持っており、これは以下のプロパティのオブジェクト配列です:
+    <ul>
+      <li><code>description</code>: ユーザに表示する説明。</li>
+      <li><code>severity</code>: <code>'error'</code>、 <code>'warning'</code>、 or <code>'info'</code>のいずれか</li>
+      <li><code>line</code>: 問題が発生した行 (1から開始)</li>
+      <li><code>column</code>: 問題が発生した列 (1から開始)</li>
+      <li><code>offset</code>: ドキュメント内の文字オフセット (0から開始)</li>
+      <li><code>length</code>: 影響を受けるテキスト領域の長さ</li>
+    </ul>
+  </li>
+  <li><code>computeHighlighting()</code><br />
+セマンティックハイライト用のテキストスタイリングデータを返します。 (<a href="#semantic-highlighting">セマンティックハイライト</a>節を参照)。</li>
+  <li><code>getOccurrences()</code><br />
+現在のカーソル位置にあるエレメントを返します。 (<a href="#mark-occurrences">強調表示</a>節を参照)。</li>
+  <li><code>getHoverInfo()</code><br />
+現在のカーソル位置にあるホバーを返します。 (<a href="#hover-info">ホバー</a>節を参照)。</li>
+  <li><code>format()</code><br />
+Formats the current selection (or the whole document if the selection has zero length) and returns the formatted text.<br />
+現在の選択範囲をフォーマットし、フォーマット後のテキストを返します。 (選択範囲の長さが0の場合、全てのドキュメントをフォーマット対象とする)</li>
+  <li><code>generate()</code><br />
+関連付けられたリソースから生成されたドキュメントを返します。 1つ以上のドキュメントが生成された場合、 <code>documents</code>プロパティを持つオブジェクトが返されます。<code>documents</code>プロパティは<code>name</code>、<code>contentType</code>と<code>content</code>プロパティを持つオブジェクトの配列です。</li>
+  <li><code>loadResource()</code><br />
+関連付けられたリソースをロードし、<code>fullText</code>と<code>dirty</code>プロパティを持つオブジェクトを返します。現在のセッション中にリソースが変更された場合、ページがリロードされても変更後のバージョンが返されます。</li>
+  <li><code>saveResource()</code><br />
+現在のリソースが保存されます。</li>
+  <li><code>revertResource()</code><br />
+Reverts the resource to the last saved state and returns an object with properties <code>fullText</code> and <code>dirty</code>.<br />
+リソースを最終保存時のものに戻し、<code>fullText</code>と<code>dirty</code>プロパティを持つオブジェクトを返します。</li>
+  <li><code>update()</code><br />
+最後にサーバーにコミットしたバージョンのコンテンツと現在のエディター上のコンテンツとの差分を計算します。差分があった場合、サーバーの状態をリフレッシュするために更新要求を送信します。戻り値は更新されたサーバー状態の識別子である<code>stateId</code>のみを持つオブジェクトを返します。全ての要求は最後に取得したサーバー状態の識別子を含む必要があります。</li>
+</ul>
+
+<h3 id="options-reference">全てのオプション</h3>
+
+<ul>
+  <li><code>baseUrl</code><br />
+Xtextサービスがどこにあるかを表すパスセグメント。(デフォルト:<code>'/'</code>)<code>serverUrl</code>オプションを参照。</li>
+  <li><code>contentAssistCharTriggers</code><br />
+コンテンツアシストサービスを呼び出すためのキー。(Orionのみ)</li>
+  <li><code>contentAssistExcludedStyles</code><br />
+コンテンツアシストの呼び出しを除外するキー。 (Orionのみ)。</li>
+  <li><code>contentType</code><br />
+Xtextサーバーへの要求に含むコンテンツタイプ。もしコンテンツタイプが設定されていない場合、<code>resourceId</code>オプション内のファイル拡張子が言語を判断するために使用されます。</li>
+  <li><code>dirtyElement</code><br />
+エディターがダーティーとマーキングされたとき、ダーティー状態クラスが記載される要素。DOM要素もしくはDOM要素のidのどちらかを指定します。</li>
+  <li><code>dirtyStatusClass</code><br />
+エディターがダーティーとマーキングされたとき、ダーティー要素の中に記載されるCSSクラス名です。(デフォルト: <code>'dirty'</code>)</li>
+  <li><code>document</code><br />
+ドキュメント。もし指定されていない場合は、ドキュメント全体が使用されます。</li>
+  <li><code>enableContentAssistService</code><br />
+コンテンツアシストを有効にするかどうか。 (デフォルト: <code>true</code>).</li>
+  <li><code>enableCors</code><br />
+サービス要求にCORSを有効にするかどうか。 (default: <code>false</code>).</li>
+  <li><code>enableFormattingAction</code><br />
+標準のキーストロークにフォーマットアクションをバインドするかどうか。<kbd>Ctrl</kbd>+<kbd>⇧</kbd>+<kbd>F</kbd> (<kbd>Ctrl</kbd>+<kbd>⇧</kbd>+<kbd>S</kbd> CodeMirror上の場合) / <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>F</kbd> (デフォルト: <code>false</code>)</li>
+  <li><code>enableFormattingService</code><br />
+テキストフォーマットを有効にするかどうか。 (デフォルト: <code>true</code>).</li>
+  <li><code>enableGeneratorService</code><br />
+コード生成を有効にするかどうか。(デフォルト: <code>true</code>)ジェネレーターにデフォルトのキーストロークがバインドされていない場合、JavaScriptコードから実行する必要があります。</li>
+  <li><code>enableHoverService</code><br />
+マウスホバーを有効にするかどうか。(デフォルト: <code>true</code>)</li>
+  <li><code>enableHighlightingService</code><br />
+セマンティックハイライトを有効にするかどうか。 (デフォルト: <code>true</code>). <a href="#syntax-highlighting">シンタックスハイライト</a>と対照的に、 セマンティックハイライトはサーバー上で計算されます。</li>
+  <li><code>enableOccurrencesService</code><br />
+強調表示を有効にするかどうか。(デフォルト: <code>true</code>)</li>
+  <li><code>enableSaveAction</code><br />
+保存を標準キーストロークにバインドするかどうか。 <kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>⌘</kbd>+<kbd>S</kbd> (デフォルト: <code>false</code>)</li>
+  <li><code>enableValidationService</code><br />
+検証を有効にするかどうか。 (デフォルト: <code>true</code>)</li>
+  <li><code>loadFromServer</code><br />
+サーバーからエディターコンテンツをロードするかどうか。 デフォルトは <code>resourceId</code>が設定されている場合は<code>true</code>、それ以外は<code>false</code>です。</li>
+  <li><code>mouseHoverDelay</code><br />
+マウスオーバー後、ツールチップが表示されるまでの待ち時間(ミリ秒)(デフォルト: 500).</li>
+  <li><code>parent</code><br />
+親要素の中にエディタを生成するかどうか。DOM要素もしくはDOM要素のidのどちらかを指定することができます。(デフォルト: <code>'xtext-editor'</code>)</li>
+  <li><code>parentClass</code><br />
+<code>parent</code>オプションが設定されていない場合、このオプションは与えられたクラス名で要素を検索するために使用されます。 (デフォルト: <code>'xtext-editor'</code>)</li>
+  <li><code>resourceId</code><br />
+テキストエディタ内に表示されているリソースの識別子です。このオプションは、各リソースに関して必要な情報をサーバーとやり取りするために送信されます。</li>
+  <li><code>selectionUpdateDelay</code><br />
+選択が変更されてからXtextサービスが実行されるまでの待ち時間(ミリ秒)(デフォルト: 550)</li>
+  <li><code>sendFullText</code><br />
+リクエスト毎に全テキストを送信するかどうか。(デフォルト: <code>false</code>)これはサーバーをステートレスモードで動作させるときに使用してください。このオプションが無効の場合、サーバー状態は定期的に更新されます。</li>
+  <li><code>serviceUrl</code><br />
+XtextサーブレットのURL。オプションに値が設定されていない場合、<code>{location.protocol}//{location.host}{baseUrl}xtext-service</code>形式の<code>baseUrl</code>オプションを使用して構成されます。</li>
+  <li><code>showErrorDialogs</code><br />
+ポップアップダイアログでエラーを表示するかどうか。(デフォルト: <code>false</code>)</li>
+  <li><code>syntaxDefinition</code><br />
+構文定義を含むJSファイルのパス。このオプションを<code>'none'</code>に設定するとシンタックスハイライトを無効にできます。詳細は<a href="#syntax-highlighting">シンタックスハイライト</a>節を参照。</li>
+  <li><code>textUpdateDelay</code><br />
+テキストが変更されXtextサービスが実行されるまでの待ち時間(ミリ秒)(デフォルト: 500)</li>
+  <li><code>xtextLang</code><br />
+言語名。(通常は言語用に構成されたファイル拡張子)このオプションが設定されていない場合、<code>resourceId</code>と<code>syntaxDefinition</code>オプションが設定されていない場合、それらを指定するために使用されます。</li>
+</ul>
+
+<h2 id="server">サーバー</h2>
+
+<p>言語固有のリソースは<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web.servlet/src/main/java/org/eclipse/xtext/web/servlet/XtextServlet.java">XtextServlet</a>にて処理されるHTTPリクエストを通じて提供されます。このクラスは言語<a href="https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/Injector.html">インジェクター</a> のライフサイクルの管理も担当しています。(<a href="302_configuration.html#dependency-injection">依存性の注入</a>参照)標準的なアプローチはサーブレットを起動したとき、インジェクターを生成し、<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext/src/org/eclipse/xtext/resource/IResourceServiceProvider.java">IResourceServiceProvider.Registry</a>に登録する方法です。デフォルトのふるまいをオーバーライドするため、あなたの言語の<code>&lt;LanguageName&gt;WebModule</code>もしくは<code>&lt;LanguageName&gt;IdeModule</code>内のバインドを変更もしくは追加することができます。</p>
+
+<p>サーバーアプリケーション内にXtextサーブレットを含めるための標準的な方法は、<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web.servlet/src/main/java/org/eclipse/xtext/web/servlet/XtextServlet.java">XtextServlet</a>サブクラスを生成し、<code>init()</code>と<code>destroy()</code>を実行環境を管理するためオーバーライドし、そして <code>urlPatterns = "/xtext-service/*"</code>パラメータをつけた<a href="https://docs.oracle.com/javaee/7/api/javax/servlet/annotation/WebServlet.html">WebServlet</a>アノテーションを追加します。<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web.example.jetty/src/main/java/org/eclipse/xtext/web/example/jetty/MyXtextServlet.java">MyXtextServlet</a>の例を参照してください。</p>
+
+<p>Xtextサーブレットを用いずに言語固有サービスを提供するための独自の通信チャンネルを実装する場合、<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/XtextServiceDispatcher.java">XtextServiceDispatcher</a>インターフェースをインジェクトし、<code>getService(IServiceContext)</code>を呼び出すことで実現できます。引数である<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/IServiceContext.java">IServiceContext</a>は要求パラメータとクライアントセッションを提供するために実装しなければなりません。さらに、<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/XtextServiceDispatcher.java">XtextServiceDispatcher</a>をサブクラス化して、ドキュメントASTと関連する全てのXtext APIにアクセスするためのカスタムサービスを追加することもできます。</p>
+
+<p>以降にWebエディタの標準サービスのカスタマイズ方法を示します。</p>
+
+<h3 id="content-assist">コンテンツアシスト</h3>
+
+<p>クロスリファレンスのコンテンツアシスト提案は<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/IdeCrossrefProposalProvider.java">IdeCrossrefProposalProvider</a>によって生成され、その他の文法要素は<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/IdeContentProposalProvider.java">IdeContentProposalProvider</a> が使用されます。提案のカスタマイズのためには、これらのプロバイダーのサブクラスを作成し、IDEガイドモジュールにそれらを登録します。</p>
+
+<p><a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/IdeContentProposalProvider.java">IdeContentProposalProvider</a>は文法要素の各型に対するディスパッチメソッド<code>_createProposals(...)</code>を1つもっています。多くの場合、最良の選択は<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext/emf-gen/org/eclipse/xtext/Assignment.java">Assignments</a>のメソッドをオーバーライドし、生成された言語のGrammarAccessインスタンスと比較し、正しい割り当てをフィルターすることです。<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/ContentAssistEntry.java">ContentAssistEntry</a>のインスタンスを作成・構成し、与えられたアクセプターに引き渡すことで提案が提示されます。ContentAssistEntryクラスはWebブラウザーに提案を表示し、ドキュメントに反映するために必要な全ての情報を格納しています。通常クライアントへはJSONフォーマットで送信されます。</p>
+
+<p><a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/IdeCrossrefProposalProvider.java">IdeCrossrefProposalProvider</a>の典型的なカスタマイズポイントは、スコーププロバイダーによって検索された各エレメントに呼び出される<code>createProposal(...)</code>メソッドです。ここで<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/contentassist/ContentAssistEntry.java">ContentAssistEntry</a>に入力する情報を調整することができます。</p>
+
+<h3 id="semantic-highlighting">セマンティックハイライト</h3>
+
+<p>デフォルトのXtextエディタには、セマンティックハイライトはありません。(シンタックスハイライト、例えばキーワードと文字列は<a href="#syntax-highlighting">シンタックスハイライト</a>で示したようにクライアントサイドで処理される。)スタイルをテキストに追加する場合、<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/editor/syntaxcoloring/DefaultSemanticHighlightingCalculator.java">DefaultSemanticHighlightingCalculator</a>のサブクラスを作成し、 <code>highlightElement(...)</code>をオーバーライドします。ここで、アクセプターにテキストオフセット、長さそしてCSSクラス名を与えることで提示されるCSSを用いてテキスト範囲をマークすることができます。Xtextエディターを含むWebページに含まれるCSSファイルにより実際のテキストスタイルを設定することができます。</p>
+
+<h3 id="mark-occurrences">強調表示</h3>
+
+<p>選択された要素の強調表示サービスは<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/occurrences/OccurrencesService.java">OccurrencesService</a>によって処理されます。<code>filter(EObject)</code>をオーバーライドすることでこのサービスから一部の要素を除外することができます。実際にマークされるテキスト両機はモデル内のクロスリファレンスから自動的に計算されます。</p>
+
+<h3 id="hover-info">ホバー</h3>
+
+<p>マウスホバーポップアップはHTMLフォーマットで生成され、2つのパーツから構成されます: タイトルと説明。</p>
+
+<p>タイトルはテキストラベルと画像から構成されます。ラベルは<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/labels/INameLabelProvider.java">INameLabelProvider</a>によって計算され、要素の<code>name</code>プロパティが存在する場合はデフォルト値として使われます。画像は<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/labels/IImageDescriptionProvider.java">IImageDescriptionProvider</a>の実装によって決定されます。デフォルトのふるまいは、<code>&lt;class&gt;-icon</code>形式のCSSクラスをつけた<code>&lt;div&gt;</code>を生成します。このとき<code>&lt;class&gt;</code>は対応する要素のEClassの名前です。実際の画像はCSSファイル内のクラスにCSSプロパティの<code>background-image</code>を使用して割り当てられます。</p>
+
+<p>ホバーポップアップの説明部は<a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext/src/org/eclipse/xtext/documentation/IEObjectDocumentationProvider.java">IEObjectDocumentationProvider</a>にて決定されます。この部分のデフォルトコンテントはドキュメントのコメントから取得されます: もし、要素の定義の前に複数行のコメント(例 <code>/* ... */</code>)がある場合、コメントのコンテンツが説明部として使用されます。</p>
+
+<h3 id="persistence">永続化</h3>
+
+<p>対応しない限り、Xtextサーバは永続化機能を提供しません。<a href="#getting-text-content">テキストコンテントの取得</a>節で述べたように、Webエディタにテキストを入力する方法は複数あります。Xtextサーバーに永続化サービスを含めたい場合、<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/persistence/IServerResourceHandler.java">IServerResourceHandler</a>を実装する必要があります。インターフェースで宣言されている<code>get</code>と<code>put</code>命令は、接続したい永続化層に委任する必要があります。<a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/persistence/FileResourceHandler.java">FileResourceHandler</a>に簡単な例を示しています。</p>
+
+<hr />
+
+<p><strong><a href="340_lsp_support.html">次章: LSPサポート</a></strong></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    <footer class="site-footer">
+  <div id="extra">
+    <div class="inner">
+      <div class="container">
+        <div class="row">
+          <div class="span6">
+            <h3 class="footer-links-header">Quick Links</h3>
+            <ul class="footer-links clearfix">
+              <li><a href="http://www.eclipse.org/legal/privacy.php">Privacy Policy</a></li>
+              <li><a href="http://www.eclipse.org/legal/termsofuse.php">Terms of Use</a></li>
+              <li><a href="http://www.eclipse.org/legal/copyright.php">Copyright Agent</a></li>
+              <li><a href="http://www.eclipse.org/legal/">Legal</a></li>
+            </ul>
+            <ul class="footer-links clearfix">
+              <li><a href="http://www.eclipse.org">Eclipse Home</a></li>
+              <li><a href="http://marketplace.eclipse.org/">Market Place</a></li>
+              <li><a href="http://www.planeteclipse.org/">Eclipse Planet</a></li>
+              <li><a href="https://www.eclipse.org/forums/index.php/f/27/">Xtext Forum</a></li>
+            </ul>
+          </div>
+          <div class="span6">
+            <!-- Social Media Links -->
+            <h3 class="footer-links-header"">Social Media</h3>
+            <ul class="footer-links clearfix">
+              <li>
+                <a href="https://twitter.com/xtext"><img src="/Xtext/images/Twitter-bird-darkgray.png" class="img-responsive" style="margin-right: 5px;height: 1em;" alt="Twitter icon">@xtext on Twitter</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="scrollup fadeOutRight animated" style="display: none;">ScrollUp</a>
+  <!-- Le javascript
+      ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  
+  <script src="/Xtext/js/jquery-1.11.3.min.js"></script>
+  <script src="/Xtext/js/bootstrap.min.js"></script>
+  <script src="/Xtext/js/jquery.easing.1.3.js" type="text/javascript"></script>
+  <script src="/Xtext/js/jquery.prettyPhoto.js" type="text/javascript"></script>
+  <script src="/Xtext/js/prettify.js" type="text/javascript"></script>
+  <script src="/Xtext/js/lang-xtend.js" type="text/javascript"></script>
+  <script src="/Xtext/js/lang-common.js" type="text/javascript"></script>
+  <script src="/Xtext/js/custom.js" type="text/javascript"></script>
+  <!--script src="https://apis.google.com/js/platform.js" async defer></script-->
+  <!--script type="text/javascript">
+    var _gaq = _gaq || [];  
+      _gaq.push([ '_setAccount', 'UA-2429174-3' ]);
+    _gaq.push([ '_trackPageview' ]);
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+          : 'http://www')
+          + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  </script-->
+  <script src="/Xtext/js/coverflow.min.js" type="text/javascript"></script>
+  <script>
+      $(function() {
+        $('#coverflow').coverflow({
+          active : 1,
+          visibleAside: 2,
+          overlap : 0.5,
+          scale : 0.9,
+          angle : 20,
+          trigger : {
+            "itemfocus" : true,
+            "swipe" : true,
+            "mousewheel" : false
+          }
+        });
+        $('#coverflow :hidden').toggle();
+        $(window).resize(function() {
+          $('#coverflow').coverflow();
+        });
+      });
+
+  </script>
+</footer>
+
+
+  </body>
+
+</html>
