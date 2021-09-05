@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Continuous Integration (with Maven)
+title: 継続的インテグレーション (with Maven)
 part: Reference Documentation
 upsite:
   eclipse: http://download.eclipse.org/
@@ -12,23 +12,23 @@ upsite:
 
 # {{page.title}} {#continuous-integration}
 
-There are two aspects to consider when it comes to continuous integration. Firstly you may want to have a continuous build of your language that runs all tests and creates an Eclipse update site and other needed artifacts, and secondly you may want to have your language and its corresponding code generator integrated in your application builds. We will discuss both cases in this section along with a set of example projects, which you can clone, inspect or download from [github.com/xtext/maven-xtext-example](https://github.com/xtext/maven-xtext-example).
+継続的インテグレーションを始めるときに考慮すべき2つの側面があります。1つめは、Eclipseのアップデートサイトや必要なアーティファクトの生成、全てのテストの実行を継続的にビルドをする場合、2つめは、言語とそれに対応するコード生成をあなたのアプリケーションビルドに統合する場合です。この節では、これらの両方のケースをサンプルプロジェクトに沿って議論します。このプロジェクトはクローン、検査、または [github.com/xtext/maven-xtext-example](https://github.com/xtext/maven-xtext-example)からダウンロードすることができます。
 
-To follow this section you need a basic understanding of how Maven works. Please read a tutorial on Maven if you don't know anything about it.
+以降の節では、Mavenがどのように動作するのかの基本的な知識が必要です。もし、Mavenについて知識がないのであればMavenのチュートリアルを読んでください。
 
-## An overview of the example projects
+## サンプルプロジェクトの概要
 
-If you have a look at the example, you'll find seven different projects of which six are for the various aspects of the language and its build. First we have the language's runtime project, UI project and test project. In addition we need a feature project, an update site project and a project where we put the parent pom. The seventh project is called `example-project` and is really a small application project that uses the built language and triggers the code generator through a dedicated maven plug-in. Let's first have a look at how to build the language.
+プロジェクトを見ると、7つのプロジェクトが存在しているのがわかります。そのうち6つは言語とそのビルドの様々な側面を表しています。まず、言語のランタイムプロジェクト、UIプロジェクトとテストプロジェクトがあります。さらに、アップデートサイトプロジェクト、フィーチャープロジェクトとそれらの親pomが格納されたプロジェクトを必要とします。この7つのプロジェクトを`example-project`とよび、これは非常に小さいアプリケーションプロジェクトであり専用のMavenプラグインを介して言語のビルドやコード生成のトリガーをかけます。ではさっそく、言語のビルド方法についてみていきましょう。
 
-## Building an Xtext language with Maven and Tycho {#tycho-build}
+## MavenとTychoを使ったXtext言語のビルド {#tycho-build}
 
-Although the runtime aspects of an Xtext language is not dependent on Eclipse or its OSGi container, an Xtext language is developed in the form of OSGi bundles. For this kind of builds most people rely on [Tycho](http://eclipse.org/tycho/), which is an OSGi/P2 adapter plug-in for Maven builds. Tycho obtains much information from the OSGi bundle's manifest. Additionally needed information is configured through the pom.xml file which sits at the root of each project.
+Xtext言語の実行時の側面はEclipseやそのOSGIコンテナに依存していませんが、Xtext言語はOSGIバンドルの形式で開発されます。この手のビルドでは、多くの人がMavenビルド用のOSGI/P2アダプタープライグインである[Tycho](http://eclipse.org/tycho/)に頼ることになると思います。TychoはOSGIバンドルのマニュフェストから多くの情報を得ます。加えて、必要な情報は各プロジェクトのルートにあるpom.xmlファイルを介して構成されます。
 
-### The parent project (my.mavenized.herolanguage.parent)
+### 親プロジェクト (my.mavenized.herolanguage.parent)
 
-All of the projects are aggregated in a parent pom in the root directory. If you import the projects into Eclipse the imported project is called `my.mavenized.herolanguage.parent`. Information defined in the parent pom is automatically inherited by the aggregated child projects, so you don't need to reconfigure the same information over and over again. Here we have configured two additional plug-ins:
+全てのプロジェクトはルートディレクトリにある親pomにて集約されます。もし、プロジェクトをEclipseにインポートする場合、インポートしたプロジェクトは`my.mavenized.herolanguage.parent`と呼ばれます。親pomに定義された情報は自動的に集約された子プロジェクトに継承されるので、子プロジェクトで同じ情報を何度も構築する必要はありません。ここでは、2つのプラグインを構築します:
 
-*   The Xtend compiler plug-in will generate the Java source code for any Xtend files during the 'generate-sources' phase
+*   Xtendコンパイラプラグインは'generate-sources'にて任意のXtendファイルに対するJavaソースコードを生成する
     
     ```xml
     <pluginManagement>
@@ -60,7 +60,7 @@ All of the projects are aggregated in a parent pom in the root directory. If you
     </pluginManagement>
     ```
 
-*   The Tycho plug-in will pick up and use Eclipse plug-in specific configuration data from the projects in order to build Eclipse conformant OSGi bundles, features and an update site.
+*   TychoプラグインはEclipseに適合するOSGIバンドル、フィーチャーとアップデートサイトをビルドするために、プロジェクトからEclipseプラグイン固有の構成情報をピックアップし、使用します。
     
     ```xml
     <plugins>
@@ -73,19 +73,19 @@ All of the projects are aggregated in a parent pom in the root directory. If you
     </plugins>
     ```
 
-To build the entire project you have to run your maven build with this pom file.
+全てのプロジェクトをビルドするためには、このpomファイルを用いてmaven buildを実行する必要があります。
 
-### The update site project (my.mavenized.herolanguage.updatesite)
+### アップデートサイトプロジェクト (my.mavenized.herolanguage.updatesite)
 
-The project `my.mavenized.herolanguage.updatesite` denotes the updatesite project and only contains a pom.xml and a file called category.xml. The latter includes information about which features are contained in the update site. As you can see, the `category.xml` file points to the single feature, which is defined in the project `my.mavenized.herolanguage.sdk`.
+`my.mavenized.herolanguage.updatesite`プロジェクトはアップデートサイトプロジェクトであり、pom.xmlファイルとcategory.xmlファイルのみを含みます。後者はアップデートサイトにどのフィーチャーが含まれているのかを情報を含んでいます。`category.xml`が `my.mavenized.herolanguage.sdk`プロジェクトで定義している1つのフィーチャーを指し示しているのがわかると思います。
 
-### The feature project (my.mavenized.herolanguage.sdk)
+### フィーチャープロジェクト (my.mavenized.herolanguage.sdk)
 
-This is another project made up on configuration data solely. It contains the `feature.xml` file which points to the Eclipse plug-ins (bundles) included in this feature.
+このプロジェクトは構成データのみで構成されています。このプロジェクトの中にある`feature.xml`ファイルはこのフィーチャーを含むEclipseプラグイン(バンドル)を指し示しています。
 
-### The core language project (my.mavenized.herolanguage)
+### コア言語プロジェクト (my.mavenized.herolanguage)
 
-The `pom.xml` for the language project contains information about how Maven should run the Xtext's code generator. The first plug-in invokes the MWE2 file through a standard Java process:
+言語プロジェクトに対する`pom.xml`は、Xtextのコード生成に関してMavenが実行すべき情報を含んでいます。最初のプラグインは標準的なJavaプロセスを介してMWE2ファイルを呼び出します。
 
 ```xml
 <plugin>
@@ -142,7 +142,7 @@ The `pom.xml` for the language project contains information about how Maven shou
 </plugin>
 ```
 
-The second used plug-in cleans the directories containing generated resources during the clean phase:
+2つめに使用されるプラグインは、クリーンフェーズ中に生成されたリソースを含むディレクトリーを削除します。
 
 ```xml
 <plugin>
@@ -189,18 +189,18 @@ The second used plug-in cleans the directories containing generated resources du
 </plugin>
 ```
 
-### The ui language project (my.mavenized.herolanguage.ui)
+### UI言語プロジェクト (my.mavenized.herolanguage.ui)
 
-Here all code that is specific to Eclipse is located. All the additions that you place for the UI of the language, all editors, wizards and preferences, are to be placed inside this project. Regarding the maven build the `pom.xml` is not very special.
+Eclipse固有の全てのコードはここに配置されます。追加する言語、すべてのエディタ、ウィザードそして設定のUIはこのプロジェクトの中に配置されます。Mavenのビルドに関しては`pom.xml`は特別なものではありません。
 
-### The tests language project (my.mavenized.herolanguage.tests)
+### 言語プロジェクトのテスト (my.mavenized.herolanguage.tests)
 
-To separate the testing code from the application you should place all your unit tests into this project. The `pom.xml` includes the `tycho-surefire-plugin` for the testing but nothing special apart.
+テストコードをアプリケーションから分離するため、全てのユニットテストをこのプロジェクトの中に配置します。 `pom.xml`はテストのために`tycho-surefire-plugin`を含みますが、特別なことは何もありません。
 
 
-## Integration in Standard Maven Builds {#standalone-build}
+## 標準的なMavenビルドへの統合 {#standalone-build}
 
-Now that we can build our language we need to be able to integrate our language compiler in the integration build of application projects. For this purpose a dedicated maven-plugin is available in Maven central. We now refer to the project `example-project`, which is a standard Java-project that shouldn't contain any Eclipse plug-in specific information, nor should it be built with Tycho. Let's have a look at the pom.xml and therein the Xtext plug-in.
+ここまでで言語をビルドできるようになったので、アプリケーションプロジェクトのビルドに言語コンパイラーを統合していきます。これにはMavenセントラルから利用可能な専用のMavenプラグインが利用可能です。ここで、参照する `example-project`プロジェクトは標準的なJavaプロジェクトであり、Eclipseプラグイン固有の情報を含むべきでなくさらに、Tychoでビルドするべきでもないです。さっそくpom.xmlとその中のXtextプラグインを見ていきましょう。
 
 ```xml
 <plugin>
@@ -236,14 +236,13 @@ Now that we can build our language we need to be able to integrate our language 
 </plugin>
 ```
 
-You may add multiple languages in the languages section. A language will use the default outputConfiguration, but you can override the different properties just as you can do within Eclipse preferences.
+languageセクションに複数の言語を追加することができます。言語はデフォルトの出力構成を使用しますが、Eclipse設定するときと同様に設定を上書きすることができます。
 
-## Maven Tycho Hints
+### Maven Tychoヒント
 
-Tycho allows you to resolve project dependencies against existing p2 repositories. There are two ways to define target p2 repositories in a Tycho build. The first way is to define the repository URLs directly in the `pom.xml` using maven `<repositories>` section. The p2 repositories need to be marked with layout=p2.
-The second way is to use Eclipse [target platform files](https://wiki.eclipse.org/Tycho/Target_Platform#Target_files). This approach is much faster, because the target platform resolution is performed only once, while the repository look-ups have to be done for every module. Using the target platform will drastically reduce the build time, especially in bigger projects with a lot of modules.
+Tychoは既存のp2リポジトリに対するプロジェクトの依存性を解決します。Tychoビルドにてターゲットとなるp2リポジトリを定義する方法は2通りあります。1つめは`pom.xml`の`<repositories>`セクションに直接リポジトリのURLを定義することです。p2リポジトリはlayout=p2でマーキングされている必要があります。2つめはEclipse [target platform files](https://wiki.eclipse.org/Tycho/Target_Platform#Target_files)を使用する方法です。このアプローチは全てのモジュールの検索時に実行されるターゲットプラットフォームの解決を1度だけにできるため、とても高速に実行できます。ターゲットプラットフォームの使用はビルド時間を非常に短縮でき、特にたくさんのモジュールを使用する大きいプロジェクトでは効果が見込めます。
 
-To further speed up the p2 dependency resolution step, use the concrete build repository instead of a project's repository or the huge [eclipse common]({{page.upsite.eclipse}}releases/photon/) composite repository. In the table below you can find p2 repository URLs for Xtext releases and their dependencies. Versions in parentheses represent the minimal required versions.
+p2リポジトリ依存関係の解決をさらに速くするためには、巨大な[eclipse common]({{page.upsite.eclipse}}releases/photon/)リポジトリの代わりに明確にビルドリポジトリを指定することです。以下の表はp2リポジトリにて検索できるリリースしているXtextのリポジトリURLとその依存対象です。カッコ内のバージョンは、最小のサポートバージョンです。
 
 | Xtext         | EMF           | MWE2/MWE    | Xpand       | Eclipse     | All included in |
 | ------------- | ------------- | ----------- | ----------- | ----------- | ----------- |
@@ -268,7 +267,7 @@ To further speed up the p2 dependency resolution step, use the concrete build re
 | [2.8.3]({{page.upsite.xtext}}releases/2.8.3/), [2.8.2]({{page.upsite.xtext}}releases/2.8.2/), [2.8.1]({{page.upsite.xtext}}releases/2.8.1/) | [2.11.0]({{page.upsite.emf}}2.11/core/R201506010402/) (2.10.2)  	 | [2.8.0]({{page.upsite.mwe}}releases/2.8.0/) (2.7.1) | [2.1.0]({{page.upsite.xpand}}releases/R201505260349) (1.4)  | [4.5.0]({{page.upsite.eclipse}}eclipse/updates/4.5/R-4.5-201506032000/) (3.6) | [Mars R]({{page.upsite.eclipse}}releases/mars/201506241002/)|
 | [2.7.3]({{page.upsite.xtext}}releases/maintenance/R201411190455/) | [2.10.2]({{page.upsite.emf}}2.10.x/core/S201501230452/) (2.10) | [2.7.0]({{page.upsite.mwe}}releases/R201409021051/mwe2lang/) [1.3.4]({{page.upsite.mwe}}releases/R201409021027/mwe) (2.7.0/1.2)  | [2.0.0]({{page.upsite.xpand}}releases/R201406030414) (1.4) | [4.4.2]({{page.upsite.eclipse}}eclipse/updates/4.4/R-4.4.2-201502041700) (3.6) |[Luna SR2]({{page.upsite.eclipse}}releases/luna/201502271000/)|
 
-The following is an example target platform definition for Xtext 2.25.0 and Eclipse 4.19 alias 2021-03.
+Xtext 2.25.0 and Eclipse 4.19 alias 2021-03をターゲットプラットフォームとした場合の定義例は以下の通りです。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
