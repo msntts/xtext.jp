@@ -193,13 +193,13 @@ table tr:hover td {
   display: none;
   text-indent: -9999px;
   outline: hidden;
-  background: url('/Xtext/images/icon_top.png') no-repeat;
+  background: url('/xtext.jp/Xtext/images/icon_top.png') no-repeat;
 }
 
 /* table end */
 
 .btn_android {
-	background: url('/Xtext/images/btn-android.png') no-repeat;
+	background: url('/xtext.jp/Xtext/images/btn-android.png') no-repeat;
 	width: 178px;
 	height: 65px;
 	margin-top: 20px;
@@ -208,7 +208,7 @@ table tr:hover td {
 }
 
 .btn_appstore {
-	background: url('/Xtext/images/btn-appstore.png') no-repeat;
+	background: url('/xtext.jp/Xtext/images/btn-appstore.png') no-repeat;
 	width: 178px;
 	height: 65px;
 	margin-top: 20px;
@@ -216,7 +216,7 @@ table tr:hover td {
 }
 
 .btn_download {
-	background: url('/Xtext/images/download.png') no-repeat;
+	background: url('/xtext.jp/Xtext/images/download.png') no-repeat;
 	width: 225px;
 	height: 80px;
 /* 	margin-top: 20px; */
@@ -251,7 +251,7 @@ table tr:hover td {
 }
 
 .row_color {
-	background: url('/Xtext/images/div-grey-top.png') no-repeat center top #f8f8f8;
+	background: url('/xtext.jp/Xtext/images/div-grey-top.png') no-repeat center top #f8f8f8;
 	bspwidth: 100%;
 	border-bottom: 1px solid #e2e2e2;
 }
@@ -278,7 +278,7 @@ table tr:hover td {
 	min-height:60px;
 	margin-top: 40px;
 	margin-left: 0px;
-	background: url('/Xtext/images/header_background.jpg');
+	background: url('/xtext.jp/Xtext/images/header_background.jpg');
 	background-size:  cover;
 }
 
@@ -497,7 +497,7 @@ img.screenshot {
 }
 
 .thumb .zoom {
-	background: url('/Xtext/images/videoOverlay.png') 0 0 no-repeat transparent;
+	background: url('/xtext.jp/Xtext/images/videoOverlay.png') 0 0 no-repeat transparent;
 	width: 80px;
 	height: 80px;
 	position: absolute;
@@ -538,19 +538,19 @@ img.screenshot {
 }
 
 .supported {
-	background: url('/Xtext/images/bullet-checkmark.png');
+	background: url('/xtext.jp/Xtext/images/bullet-checkmark.png');
 	background-size: 15px;
 	height:15px;
     background-repeat: no-repeat;
 }
 .partly-supported {
-	background: url('/Xtext/images/bullet-checkmark-partly.png');
+	background: url('/xtext.jp/Xtext/images/bullet-checkmark-partly.png');
 	background-size: 15px;
 	height:15px;
     background-repeat: no-repeat;
 }
 .not-supported {
-	background: url('/Xtext/images/bullet-checkmark-not-supported.png');
+	background: url('/xtext.jp/Xtext/images/bullet-checkmark-not-supported.png');
 	background-size: 15px;
 	height:15px;
     background-repeat: no-repeat;
@@ -558,7 +558,7 @@ img.screenshot {
 
 
 .introduction .zoom {
-	background: url('/Xtext/images/videoOverlayBig.png') 0 0 no-repeat transparent;
+	background: url('/xtext.jp/Xtext/images/videoOverlayBig.png') 0 0 no-repeat transparent;
 	width: 140px;
 	height: 140px;
 	opacity: 0.4;
@@ -929,7 +929,7 @@ UNUSED.btn-the-bizzniss-4.active,UNUSED.btn-the-bizzniss-4:active {
 }
 
 #extra {
-	background: url('/Xtext/images/bg-footer.png') #444;
+	background: url('/xtext.jp/Xtext/images/bg-footer.png') #444;
 }
 
 #extra .inner {
@@ -1135,7 +1135,7 @@ img#fork-button {
 
 /*List Styles */
 ul.list1 li {
-	background: url('/Xtext/images/bullet-checkmark.png') no-repeat 0 4px;
+	background: url('/xtext.jp/Xtext/images/bullet-checkmark.png') no-repeat 0 4px;
 	padding-left: 20px;
 	margin-bottom: 10px;
 	display: block;
@@ -1143,7 +1143,7 @@ ul.list1 li {
 }
 
 ul.list2 li {
-	background: url('/Xtext/images/bullet-circles.png') no-repeat 0 4px;
+	background: url('/xtext.jp/Xtext/images/bullet-circles.png') no-repeat 0 4px;
 	padding-left: 22px;
 	margin-bottom: 10px;
 	display: block;
@@ -1151,7 +1151,7 @@ ul.list2 li {
 }
 
 ul.list3 li {
-	background: url('/Xtext/images/bullet-plus.png') no-repeat 0 4px;
+	background: url('/xtext.jp/Xtext/images/bullet-plus.png') no-repeat 0 4px;
 	padding-left: 22px;
 	margin-bottom: 10px;
 	display: block;
@@ -1171,13 +1171,13 @@ ul.list3 li {
 	font-weight: 600;
 	line-height: 600px;
 	color: #333;
-	background: url('/Xtext/images/logo.png') no-repeat 0 0px;
+	background: url('/xtext.jp/Xtext/images/logo.png') no-repeat 0 0px;
 	background-size: 90px;
 	background-position: center;
 }
 
 .intro-reference {
-	background: url('/Xtext/images/bg-footer.png');
+	background: url('/xtext.jp/Xtext/images/bg-footer.png');
 	padding-top: 10px;
 	color: #fff;
 	text-align: center;

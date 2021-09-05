@@ -17,17 +17,17 @@
 	<![endif]-->
 	
 	<!-- Le fav and touch icons -->
-	<link rel="shortcut icon" href="/Xtext/images/favicon.png">
+	<link rel="shortcut icon" href="/xtext.jp/Xtext/images/favicon.png">
 	
-	<link href="/Xtext/css/bootstrap.css" rel="stylesheet" type='text/css'>
-	<link href="/Xtext/css/bootstrap-responsive.css" rel="stylesheet" type='text/css'>
-	<link href="/Xtext/css/shield-responsive.css" rel="stylesheet" type='text/css'>
-	<link href='/Xtext/css/fonts.css' rel='stylesheet' type='text/css'>
-	<link href="/Xtext/css/prettyPhoto.css" rel="stylesheet" media="screen" type='text/css'>
-	<link href="/Xtext/css/prettify.css" type="text/css" rel="stylesheet"/>
-	<link href="/Xtext/css/style.css" rel="stylesheet" type='text/css'>
+	<link href="/xtext.jp/Xtext/css/bootstrap.css" rel="stylesheet" type='text/css'>
+	<link href="/xtext.jp/Xtext/css/bootstrap-responsive.css" rel="stylesheet" type='text/css'>
+	<link href="/xtext.jp/Xtext/css/shield-responsive.css" rel="stylesheet" type='text/css'>
+	<link href='/xtext.jp/Xtext/css/fonts.css' rel='stylesheet' type='text/css'>
+	<link href="/xtext.jp/Xtext/css/prettyPhoto.css" rel="stylesheet" media="screen" type='text/css'>
+	<link href="/xtext.jp/Xtext/css/prettify.css" type="text/css" rel="stylesheet"/>
+	<link href="/xtext.jp/Xtext/css/style.css" rel="stylesheet" type='text/css'>
 	<!-- cover flow -->
-	<link href="/Xtext/css/coverflow.css" rel="stylesheet" type='text/css'>
+	<link href="/xtext.jp/Xtext/css/coverflow.css" rel="stylesheet" type='text/css'>
 	<!--[if lt IE 9]>
 	  <link href="/css/iebugs.css" rel="stylesheet" type='text/css'>
 	<![endif]-->
@@ -97,13 +97,13 @@
         <a class="btn btn-navbar" data-toggle="collapse"
           data-target=".nav-collapse"> <span class="icon-bar"></span> <span
           class="icon-bar"></span> <span class="icon-bar"></span>
-        </a> <a class="brand" href="/Xtext/index.html"></a>
+        </a> <a class="brand" href="/xtext.jp/Xtext/index.html"></a>
         <div class="nav-collapse collapse" style="height: 0px;">
           <ul class="nav">
-            <!--li ><a href="/Xtext/news.html">News</a></li-->
-            <li ><a href="/Xtext/download.html">Download</a></li>
-            <li ><a href="/Xtext/documentation/index.html">Documentation</a></li>
-            <li ><a href="/Xtext/community.html">Community</a></li>
+            <!--li ><a href="/xtext.jp/Xtext/news.html">News</a></li-->
+            <li ><a href="/xtext.jp/Xtext/download.html">Download</a></li>
+            <li ><a href="/xtext.jp/Xtext/documentation/index.html">Documentation</a></li>
+            <li ><a href="/xtext.jp/Xtext/community.html">Community</a></li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Support &amp; Trainings<span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -144,7 +144,7 @@
 
 <ul>
   <li><a href="https://github.com/eclipse/xtext-core">xtext-core</a>: The core framework, <a href="https://github.com/Microsoft/vscode-languageserver-protocol">Language Server</a> support</li>
-  <li><a href="https://github.com/eclipse/xtext-lib">xtext-lib</a>: Libraries for <a href="/Xtext/documentation/305_xbase.html">Xbase</a> and <a href="http://www.xtend-lang.org">Xtend</a></li>
+  <li><a href="https://github.com/eclipse/xtext-lib">xtext-lib</a>: Libraries for <a href="/xtext.jp/Xtext/documentation/305_xbase.html">Xbase</a> and <a href="http://www.xtend-lang.org">Xtend</a></li>
   <li><a href="https://github.com/eclipse/xtext-extras">xtext-extras</a>: Additional editor-independent features, mostly Java support</li>
   <li><a href="https://github.com/eclipse/xtext-eclipse">xtext-eclipse</a>: Plug-ins for <a href="http://eclipse.org">Eclipse</a></li>
   <li><a href="https://github.com/eclipse/xtext-idea">xtext-idea</a>: Plug-ins for <a href="https://www.jetbrains.com/idea/">IntelliJ IDEA</a></li>
@@ -160,9 +160,9 @@
 
 <p>With 2.11 the Xtext project supports the <a href="https://github.com/Microsoft/language-server-protocol">language server protocol</a> (LSP), which will allow users to host their languages in many different editors. So far LSP support for <a href="https://code.visualstudio.com/">VS Code</a>, the Eclipse IDE, <a href="https://www.eclipse.org/che/">Eclipse Che</a>, <a href="https://orionhub.org">Eclipse Orion</a>, and Emacs exists. Furthermore Microsoft’s Monaco editor provides support and can be integrated in any JavaScript application.</p>
 
-<p>The LSP support in Xtext v2.11 is marked as provisional to leave open the possibility to further enhance the architecture and API. That said it is known to be used in commercial products already. Also in the long term the LSP support might replace the native <a href="/Xtext/documentation/330_web_support.html">web-editor support</a>.</p>
+<p>The LSP support in Xtext v2.11 is marked as provisional to leave open the possibility to further enhance the architecture and API. That said it is known to be used in commercial products already. Also in the long term the LSP support might replace the native <a href="/xtext.jp/Xtext/documentation/330_web_support.html">web-editor support</a>.</p>
 
-<p><img src="/Xtext/images/releasenotes/2_11_vscode_example.png" alt="" /></p>
+<p><img src="/xtext.jp/Xtext/images/releasenotes/2_11_vscode_example.png" alt="" /></p>
 
 <h2 id="idea-support">IDEA Support</h2>
 
@@ -180,7 +180,7 @@
 
 <h3 id="ide-guice-module">IDE Guice Module</h3>
 
-<p>Xtext uses <a href="/Xtext/documentation/302_configuration.html#dependency-injection">dependency injection with Guice</a> for language-specific configuration. There are separated hierarchies of Guice modules that aim at different integration platforms: <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext/src/org/eclipse/xtext/service/DefaultRuntimeModule.java">Runtime</a> (core services used by all language integrations), <a href="https://github.com/eclipse/xtext-eclipse/blob/master/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/DefaultUiModule.java">Eclipse</a>, <a href="/org.eclipse.xtext.idea/src/org/eclipse/xtext/idea/DefaultIdeaModule.xtend">IDEA</a>, and <a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/DefaultWebModule.xtend">Web</a>. The 2.11 release introduces a new <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/DefaultIdeModule.xtend">IDE</a> module hierarchy, which is used for generic editor and IDE features. This new module is employed by the <a href="/Xtext/documentation/330_web_support.html">web-editor support</a> and the LSP support, but not by the Eclipse and IDEA integrations.</p>
+<p>Xtext uses <a href="/xtext.jp/Xtext/documentation/302_configuration.html#dependency-injection">dependency injection with Guice</a> for language-specific configuration. There are separated hierarchies of Guice modules that aim at different integration platforms: <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext/src/org/eclipse/xtext/service/DefaultRuntimeModule.java">Runtime</a> (core services used by all language integrations), <a href="https://github.com/eclipse/xtext-eclipse/blob/master/org.eclipse.xtext.ui/src/org/eclipse/xtext/ui/DefaultUiModule.java">Eclipse</a>, <a href="/org.eclipse.xtext.idea/src/org/eclipse/xtext/idea/DefaultIdeaModule.xtend">IDEA</a>, and <a href="https://github.com/eclipse/xtext-web/blob/master/org.eclipse.xtext.web/src/main/java/org/eclipse/xtext/web/server/DefaultWebModule.xtend">Web</a>. The 2.11 release introduces a new <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.ide/src/org/eclipse/xtext/ide/DefaultIdeModule.xtend">IDE</a> module hierarchy, which is used for generic editor and IDE features. This new module is employed by the <a href="/xtext.jp/Xtext/documentation/330_web_support.html">web-editor support</a> and the LSP support, but not by the Eclipse and IDEA integrations.</p>
 
 <p>The new IDE module brings reusability of many language-specific services, but the price for this is some API breakage. If you are already using the web-editor support, you’ll need to make a few changes to your language configuration:</p>
 
@@ -198,7 +198,7 @@
 
 <p>For <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=501975">switch statements on Strings</a> an additional null guard is produced. This lead to NPEs when a null argument was passed to the switch statement.</p>
 
-<p><img src="/Xtext/images/releasenotes/2_11_xbase-switch-nullguard.png" alt="" /></p>
+<p><img src="/xtext.jp/Xtext/images/releasenotes/2_11_xbase-switch-nullguard.png" alt="" /></p>
 
 <p>A for-loop over an array resulted in uncompilable Java code. This has been <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=440006">fixed</a>.</p>
 
@@ -206,11 +206,11 @@
 
 <p>For comparison expressions with <code>null</code> as argument it is more efficient to use the triple (not) equals operator <code>===</code> and <code>!==</code> instead of <code>==</code> and <code>!=</code>. While the “normal” operators will result in a call of <code>Objects.equal</code>, the triple equals operator can perform a direct comparison.</p>
 
-<p><img src="/Xtext/images/releasenotes/2_11_xbase-compare-null-gen.png" alt="" /></p>
+<p><img src="/xtext.jp/Xtext/images/releasenotes/2_11_xbase-compare-null-gen.png" alt="" /></p>
 
 <p>For these situations <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=401012">a warning is produced</a> and <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=403018">a quickfix is offered</a>.</p>
 
-<p><img src="/Xtext/images/releasenotes/2_11_xbase-compare-null-quickfix.png" alt="" /></p>
+<p><img src="/xtext.jp/Xtext/images/releasenotes/2_11_xbase-compare-null-quickfix.png" alt="" /></p>
 
 <h2 id="xtext-project-wizard">Xtext Project Wizard</h2>
 
@@ -220,7 +220,7 @@
 
 <p>An usability test of the advanced configuration page revealed that especially less experienced users could had <a href="https://github.com/eclipse/xtext-eclipse/issues/119">issues with the dependencies between options</a>. From different proposals it turned out best from the user’s perspective if mandatory options are automatically selected and disable. Further an information message is presented to the user about this action. The ‘Generic IDE Support’ option gets an additional information hover.</p>
 
-<p><img src="/Xtext/images/releasenotes/2_11_project-wizard-autoselect.png" alt="" /></p>
+<p><img src="/xtext.jp/Xtext/images/releasenotes/2_11_project-wizard-autoselect.png" alt="" /></p>
 
 <p>The wizard’s text messages have been revised and <a href="https://github.com/eclipse/xtext-eclipse/pull/157">made consistent</a>.</p>
 
@@ -240,7 +240,7 @@
 
 <h3 id="old-xtext-generator">Old Xtext Generator</h3>
 
-<p>With Xtext 2.9 a <a href="/Xtext/releasenotes.html#/releasenotes/2015/11/16/version-2-9-0">new generator infrastructure was introduced</a>. In favor of this new generator <a href="https://github.com/eclipse/xtext-core/issues/58">the old generator has been deprecated</a>. Bugfixes will be done primarily for the new generator and most of them will not be backported, thus it is highly recommended to migrate your languages’ <code>.mwe2</code> workflows to use the new <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.xtext.generator/src/org/eclipse/xtext/xtext/generator/XtextGenerator.xtend"><code>org.eclipse.xtext.xtext.XtextGenerator</code></a> component.</p>
+<p>With Xtext 2.9 a <a href="/xtext.jp/Xtext/releasenotes.html#/releasenotes/2015/11/16/version-2-9-0">new generator infrastructure was introduced</a>. In favor of this new generator <a href="https://github.com/eclipse/xtext-core/issues/58">the old generator has been deprecated</a>. Bugfixes will be done primarily for the new generator and most of them will not be backported, thus it is highly recommended to migrate your languages’ <code>.mwe2</code> workflows to use the new <a href="https://github.com/eclipse/xtext-core/blob/master/org.eclipse.xtext.xtext.generator/src/org/eclipse/xtext/xtext/generator/XtextGenerator.xtend"><code>org.eclipse.xtext.xtext.XtextGenerator</code></a> component.</p>
 
 <h3 id="running-the-language-generator-from-maven">Running the Language Generator from Maven</h3>
 
@@ -306,7 +306,7 @@
             <h3 class="footer-links-header"">Social Media</h3>
             <ul class="footer-links clearfix">
               <li>
-                <a href="https://twitter.com/xtext"><img src="/Xtext/images/Twitter-bird-darkgray.png" class="img-responsive" style="margin-right: 5px;height: 1em;" alt="Twitter icon">@xtext on Twitter</a>
+                <a href="https://twitter.com/xtext"><img src="/xtext.jp/Xtext/images/Twitter-bird-darkgray.png" class="img-responsive" style="margin-right: 5px;height: 1em;" alt="Twitter icon">@xtext on Twitter</a>
               </li>
             </ul>
           </div>
@@ -319,14 +319,14 @@
       ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
   
-  <script src="/Xtext/js/jquery-1.11.3.min.js"></script>
-  <script src="/Xtext/js/bootstrap.min.js"></script>
-  <script src="/Xtext/js/jquery.easing.1.3.js" type="text/javascript"></script>
-  <script src="/Xtext/js/jquery.prettyPhoto.js" type="text/javascript"></script>
-  <script src="/Xtext/js/prettify.js" type="text/javascript"></script>
-  <script src="/Xtext/js/lang-xtend.js" type="text/javascript"></script>
-  <script src="/Xtext/js/lang-common.js" type="text/javascript"></script>
-  <script src="/Xtext/js/custom.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/jquery-1.11.3.min.js"></script>
+  <script src="/xtext.jp/Xtext/js/bootstrap.min.js"></script>
+  <script src="/xtext.jp/Xtext/js/jquery.easing.1.3.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/jquery.prettyPhoto.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/prettify.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/lang-xtend.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/lang-common.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/custom.js" type="text/javascript"></script>
   <!--script src="https://apis.google.com/js/platform.js" async defer></script-->
   <!--script type="text/javascript">
     var _gaq = _gaq || [];  
@@ -343,7 +343,7 @@
       s.parentNode.insertBefore(ga, s);
     })();
   </script-->
-  <script src="/Xtext/js/coverflow.min.js" type="text/javascript"></script>
+  <script src="/xtext.jp/Xtext/js/coverflow.min.js" type="text/javascript"></script>
   <script>
       $(function() {
         $('#coverflow').coverflow({

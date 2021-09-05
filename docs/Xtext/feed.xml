@@ -4,10 +4,10 @@
     <title>Xtext - Language Engineering Framework</title>
     <description>Xtext is a framework for development of programming languages and domain specific languages. It covers all  aspects of a complete language infrastructure, from parsers, over linker, compiler or interpreter to fully-blown  top-notch Eclipse IDE integration. It comes with great defaults for all these aspects which at the same time can  be easily tailored to your individual needs.
 </description>
-    <link>http://xtext.org/Xtext/</link>
-    <atom:link href="http://xtext.org/Xtext/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 04 Sep 2021 19:19:34 -0500</pubDate>
-    <lastBuildDate>Sat, 04 Sep 2021 19:19:34 -0500</lastBuildDate>
+    <link>https://msntts.github.io/xtext.jp/Xtext/</link>
+    <atom:link href="https://msntts.github.io/xtext.jp/Xtext/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 04 Sep 2021 21:01:21 -0500</pubDate>
+    <lastBuildDate>Sat, 04 Sep 2021 21:01:21 -0500</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -79,8 +79,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 02 Mar 2021 00:00:00 -0600</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2021/03/02/version-2-25-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2021/03/02/version-2-25-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2021/03/02/version-2-25-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2021/03/02/version-2-25-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -167,8 +167,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 01 Dec 2020 00:00:00 -0600</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2020/12/01/version-2-24-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2020/12/01/version-2-24-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/12/01/version-2-24-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/12/01/version-2-24-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -275,8 +275,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 01 Sep 2020 00:00:00 -0500</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2020/09/01/version-2-23-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2020/09/01/version-2-23-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/09/01/version-2-23-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/09/01/version-2-23-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -369,8 +369,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 02 Jun 2020 00:00:00 -0500</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2020/06/02/version-2-22-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2020/06/02/version-2-22-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/06/02/version-2-22-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/06/02/version-2-22-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -471,8 +471,8 @@ The list is not yet complete, so feel free to contact us if you are also interes
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 03 Mar 2020 00:00:00 -0600</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2020/03/03/version-2-21-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2020/03/03/version-2-21-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/03/03/version-2-21-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2020/03/03/version-2-21-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -558,8 +558,8 @@ register images that can be used in the template descriptions. All these wizard 
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 03 Dec 2019 00:00:00 -0600</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2019/12/03/version-2-20-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2019/12/03/version-2-20-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/12/03/version-2-20-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/12/03/version-2-20-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -667,8 +667,8 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 03 Sep 2019 00:00:00 -0500</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2019/09/03/version-2-19-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2019/09/03/version-2-19-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/09/03/version-2-19-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/09/03/version-2-19-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -685,7 +685,7 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 
 &lt;p&gt;The results of the &lt;em&gt;Search References&lt;/em&gt; action can now be copied to the clipboard. Further an action has been added to remove search results from the view. Both actions are available from the context menu and by common keyboard shortcuts.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/Xtext/images/releasenotes/2_18_SearchReferencesResultActions.png&quot; alt=&quot;Search References Result Page: New Context Actions&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/xtext.jp/Xtext/images/releasenotes/2_18_SearchReferencesResultActions.png&quot; alt=&quot;Search References Result Page: New Context Actions&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;new-quickfix-on-empty-keywords&quot;&gt;New Quickfix on Empty Keywords&lt;/h3&gt;
 
@@ -811,8 +811,8 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 04 Jun 2019 00:00:00 -0500</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2019/06/04/version-2-18-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2019/06/04/version-2-18-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/06/04/version-2-18-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/06/04/version-2-18-0.html</guid>
         
         
         <category>releasenotes</category>
@@ -830,8 +830,8 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Wed, 03 Apr 2019 00:00:00 -0500</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2019/04/03/version-2-17-1.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2019/04/03/version-2-17-1.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/04/03/version-2-17-1.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/04/03/version-2-17-1.html</guid>
         
         
         <category>releasenotes</category>
@@ -899,7 +899,7 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 
 &lt;p&gt;An Xtext grammar’s first rule must not start with a fragment rule. This is now checked by an additional validation rule. (&lt;a href=&quot;https://github.com/eclipse/xtext-core/pull/1041&quot;&gt;to issue&lt;/a&gt;)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/Xtext/images/releasenotes/2_17_Xtext_First-rule-not-a-fragment.gif&quot; alt=&quot;Validation: first rule not a fragment&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/xtext.jp/Xtext/images/releasenotes/2_17_Xtext_First-rule-not-a-fragment.gif&quot; alt=&quot;Validation: first rule not a fragment&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;testing&quot;&gt;Testing&lt;/h2&gt;
 
@@ -915,7 +915,7 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 
 &lt;p&gt;The &lt;em&gt;New Project Wizard&lt;/em&gt; selects JUnit 5 as default.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/Xtext/images/releasenotes/2_17_Xtext_JUnit5-default.png&quot; alt=&quot;JUnit 5 support as default&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/xtext.jp/Xtext/images/releasenotes/2_17_Xtext_JUnit5-default.png&quot; alt=&quot;JUnit 5 support as default&quot; height=&quot;50%&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;xtext-maven-plugin&quot;&gt;xtext-maven-plugin&lt;/h2&gt;
 
@@ -1008,8 +1008,8 @@ The MWE(2) version was updated to 2.11.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
         <pubDate>Tue, 05 Mar 2019 00:00:00 -0600</pubDate>
-        <link>http://xtext.org/Xtext/releasenotes/2019/03/05/version-2-17-0.html</link>
-        <guid isPermaLink="true">http://xtext.org/Xtext/releasenotes/2019/03/05/version-2-17-0.html</guid>
+        <link>https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/03/05/version-2-17-0.html</link>
+        <guid isPermaLink="true">https://msntts.github.io/xtext.jp/Xtext/releasenotes/2019/03/05/version-2-17-0.html</guid>
         
         
         <category>releasenotes</category>
